@@ -1,6 +1,6 @@
 {
   "name": "xm-magic-builder",
-  "displayName": "xm-magic-builder",
+  "displayName": "XMSeer's Magic Builder",
   "description": "An XMSeer's magic build tool",
   "version": "0.0.1",
   "engines": {
@@ -9,15 +9,156 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished",
+    "onWebviewView:xm-magic-builder.send-packet",
+    "onWebviewView:xm-magic-builder.delay",
+    "onWebviewView:xm-magic-builder.takeover-battle",
+    "onWebviewView:xm-magic-builder.pokemon-first",
+    "onWebviewView:xm-magic-builder.pokemon-switch",
+    "onWebviewView:xm-magic-builder.set-bag",
+    "onWebviewView:xm-magic-builder.use-skill",
+    "onWebviewView:xm-magic-builder.use-item",
+    "onWebviewView:xm-magic-builder.pre-battle",
+    "onWebviewView:xm-magic-builder.attack-loop",
+    "onWebviewView:xm-magic-builder.battle-loop",
+    "onWebviewView:xm-magic-builder.custom-attack",
+    "onWebviewView:xm-magic-builder.wild-pokemon",
+    "onWebviewView:xm-magic-builder.variable",
+    "onWebviewView:xm-magic-builder.if-loop",
+    "onWebviewView:xm-magic-builder.count-loop",
+    "onWebviewView:xm-magic-builder.output",
+    "onWebviewView:xm-magic-builder.magic-manage",
+    "onWebviewView:xm-magic-builder.custom-magic"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "xm-magic-builder.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "xm-magic-builder.openWorkbench",
+        "title": "Open Workbench"
       }
-    ]
+    ],
+    "languages": [
+      {
+        "id": "xm",
+        "extensions": [".xm"],
+        "aliases": ["XM Language"],
+        "configuration": "./language/language-configuration.json"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "xm-magic-builder-sidebar",
+          "title": "XM魔法编辑器",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "xm-magic-builder-sidebar": [
+        {
+          "id": "xm-magic-builder.send-packet",
+          "name": "发包",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.delay",
+          "name": "延时",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.takeover-battle",
+          "name": "接管对战",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.pokemon-first",
+          "name": "精灵首发",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.pokemon-switch",
+          "name": "精灵切换",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.set-bag",
+          "name": "设置背包",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.use-skill",
+          "name": "使用技能",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.use-item",
+          "name": "使用道具",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.pre-battle",
+          "name": "战前准备",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.attack-loop",
+          "name": "出招循环体",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.battle-loop",
+          "name": "对战循环体",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.custom-attack",
+          "name": "自定义出招",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.wild-pokemon",
+          "name": "野怪操作",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.variable",
+          "name": "变量",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.if-loop",
+          "name": "判断循环体",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.count-loop",
+          "name": "计次循环体",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.output",
+          "name": "信息输出",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.magic-manage",
+          "name": "魔法管理",
+          "type": "webview"
+        },
+        {
+          "id": "xm-magic-builder.custom-magic",
+          "name": "自定义魔法",
+          "type": "webview"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
