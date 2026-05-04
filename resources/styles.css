@@ -183,7 +183,8 @@ input[type="number"]::placeholder {
 }
 
 input[type="number"] {
-	-moz-appearance: textfield;
+	-moz-appearance: none;
+	appearance: none;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

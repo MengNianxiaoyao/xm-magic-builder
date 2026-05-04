@@ -98,8 +98,18 @@ export class MagicManageView extends BaseView {
 		
 		if (message.command === 'magic-manage') {
 			const output = `魔法管理={端口限制=${message.portLimit}|当前版本=${message.versionMajor}.${message.versionMinor}|接口参数=${message.apiParam}|接口类型=0|版本控制1=${message.versionCheck1}|版本控制2=${message.versionCheck2}|本地黑名单=${message.blacklist}|Appid=${message.appid}|赞助免费=${message.sponsorDays}}`;
+			
+			const firstLine = editor.document.lineAt(0);
+			const isFirstLineMagic = firstLine.text.trim().startsWith('魔法管理=');
+			
 			editor.edit((builder) => {
-				builder.insert(editor.selection.active, output + '\n');
+				if (isFirstLineMagic) {
+					const range = new vscode.Range(0, 0, 0, firstLine.text.length);
+					builder.replace(range, output);
+				} else {
+					const pos = new vscode.Position(0, 0);
+					builder.insert(pos, output + '\n');
+				}
 			});
 		}
 	}

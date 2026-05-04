@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { SendPacketView, PlaceholderView } from './views';
+import { SendPacketView } from './views';
 import { DelayView } from './views/delayView';
 import { TakeoverBattleView } from './views/takeoverBattleView';
 import { PokemonFirstView } from './views/pokemonFirstView';
@@ -14,6 +14,10 @@ import { CustomAttackView } from './views/customAttackView';
 import { WildPokemonView } from './views/wildPokemonView';
 import { OutputView } from './views/outputView';
 import { MagicManageView } from './views/magicManageView';
+import { VariableView } from './views/variableView';
+import { IfLoopView } from './views/ifLoopView';
+import { CountLoopView } from './views/countLoopView';
+import { CustomMagicView } from './views/customMagicView';
 
 export function registerSidebar(context: vscode.ExtensionContext) {
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.send-packet', new SendPacketView(context));
@@ -29,10 +33,10 @@ export function registerSidebar(context: vscode.ExtensionContext) {
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.battle-loop', new BattleLoopView(context));
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.custom-attack', new CustomAttackView(context));
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.wild-pokemon', new WildPokemonView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.variable', new PlaceholderView('变量', context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.if-loop', new PlaceholderView('判断循环体', context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.count-loop', new PlaceholderView('计次循环体', context));
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.variable', new VariableView(context));
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.if-loop', new IfLoopView(context));
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.count-loop', new CountLoopView(context));
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.output', new OutputView(context));
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.magic-manage', new MagicManageView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.custom-magic', new PlaceholderView('自定义魔法', context));
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.custom-magic', new CustomMagicView(context));
 }
