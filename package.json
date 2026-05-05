@@ -1,7 +1,17 @@
 {
+  "publisher": "MengNianxiaoyao",
   "name": "xm-magic-builder",
   "displayName": "XMSeer's Magic Builder",
   "description": "An XMSeer's magic build tool",
+  "author": "MengNianxiaoyao",
+  "homepage": "https://github.com/MengNianxiaoyao/xm-magic-builder#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MengNianxiaoyao/xm-magic-builder"
+  },
+  "bugs": {
+    "url": "https://github.com/MengNianxiaoyao/xm-magic-builder/issues"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.118.0"
@@ -10,28 +20,20 @@
     "Other"
   ],
   "activationEvents": [
-    "onStartupFinished",
-    "onWebviewView:xm-magic-builder.send-packet",
-    "onWebviewView:xm-magic-builder.delay",
-    "onWebviewView:xm-magic-builder.pokemon-operation",
-    "onWebviewView:xm-magic-builder.battle-operation",
-    "onWebviewView:xm-magic-builder.attack-loop",
-    "onWebviewView:xm-magic-builder.battle-loop",
-    "onWebviewView:xm-magic-builder.custom-attack",
-    "onWebviewView:xm-magic-builder.wild-pokemon",
-    "onWebviewView:xm-magic-builder.variable",
-    "onWebviewView:xm-magic-builder.if-loop",
-    "onWebviewView:xm-magic-builder.count-loop",
-    "onWebviewView:xm-magic-builder.output",
-    "onWebviewView:xm-magic-builder.magic-manage",
-    "onWebviewView:xm-magic-builder.custom-magic"
+    "onStartupFinished"
   ],
+  "icon": "resources/icon.png",
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "xm-magic-builder.autoIndent",
         "title": "XM: 自动缩进"
+      },
+      {
+        "command": "xm-magic-builder.refreshMagicManage",
+        "title": "刷新魔法管理",
+        "icon": "$(refresh)"
       }
     ],
     "languages": [
@@ -54,7 +56,7 @@
         {
           "id": "xm-magic-builder-sidebar",
           "title": "XM魔法编辑器",
-          "icon": "resources/icon.svg"
+          "icon": "resources/icon.png"
         }
       ]
     },
@@ -129,6 +131,15 @@
           "id": "xm-magic-builder.custom-magic",
           "name": "自定义魔法",
           "type": "webview"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "xm-magic-builder.refreshMagicManage",
+          "when": "view == xm-magic-builder.magic-manage",
+          "group": "navigation"
         }
       ]
     }

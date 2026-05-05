@@ -15,18 +15,39 @@ import { CountLoopView } from './views/countLoopView';
 import { CustomMagicView } from './views/customMagicView';
 
 export function registerSidebar(context: vscode.ExtensionContext) {
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.send-packet', new SendPacketView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.delay', new DelayView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.pokemon-operation', new PokemonOperationView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.battle-operation', new BattleOperationView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.attack-loop', new AttackLoopView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.battle-loop', new BattleLoopView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.custom-attack', new CustomAttackView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.wild-pokemon', new WildPokemonView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.variable', new VariableView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.if-loop', new IfLoopView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.count-loop', new CountLoopView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.output', new OutputView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.magic-manage', new MagicManageView(context));
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.custom-magic', new CustomMagicView(context));
+	const sendPacketView = new SendPacketView(context);
+	const delayView = new DelayView(context);
+	const pokemonOperationView = new PokemonOperationView(context);
+	const battleOperationView = new BattleOperationView(context);
+	const attackLoopView = new AttackLoopView(context);
+	const battleLoopView = new BattleLoopView(context);
+	const customAttackView = new CustomAttackView(context);
+	const wildPokemonView = new WildPokemonView(context);
+	const variableView = new VariableView(context);
+	const ifLoopView = new IfLoopView(context);
+	const countLoopView = new CountLoopView(context);
+	const outputView = new OutputView(context);
+	const magicManageView = new MagicManageView(context);
+	const customMagicView = new CustomMagicView(context);
+
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.send-packet', sendPacketView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.delay', delayView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.pokemon-operation', pokemonOperationView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.battle-operation', battleOperationView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.attack-loop', attackLoopView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.battle-loop', battleLoopView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.custom-attack', customAttackView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.wild-pokemon', wildPokemonView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.variable', variableView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.if-loop', ifLoopView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.count-loop', countLoopView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.output', outputView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.magic-manage', magicManageView);
+	vscode.window.registerWebviewViewProvider('xm-magic-builder.custom-magic', customMagicView);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('xm-magic-builder.refreshMagicManage', () => {
+			magicManageView.refresh();
+		})
+	);
 }

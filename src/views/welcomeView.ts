@@ -69,11 +69,8 @@ function getWelcomeHtml(): string {
 		<ul>
 			<li><strong>发包</strong> - 发送游戏数据包</li>
 			<li><strong>延时</strong> - 延时操作</li>
-			<li><strong>接管对战</strong> - 接管游戏对战</li>
-			<li><strong>精灵首发/切换</strong> - 精灵相关操作</li>
-			<li><strong>设置背包</strong> - 设置背包精灵</li>
-			<li><strong>使用技能/道具</strong> - 使用技能或道具</li>
-			<li><strong>战前准备</strong> - 战前准备工作</li>
+			<li><strong>对战操作</strong> - 对战相关操作</li>
+			<li><strong>精灵操作</strong> - 精灵相关操作</li>
 			<li><strong>循环体</strong> - 出招/对战/判断/计次循环</li>
 			<li><strong>变量</strong> - 定义变量</li>
 			<li><strong>魔法管理</strong> - 魔法全局设置</li>

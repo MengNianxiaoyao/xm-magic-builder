@@ -3,6 +3,15 @@ import { BaseView } from './baseView';
 import { createRadioGroup, createTextInput, createCheckboxGroup, checkXmFile, insertTextAtLine } from '../utils';
 
 export class MagicManageView extends BaseView {
+	public refresh(): void {
+		if (!this.webviewView) {return;}
+		const data = this.loadMagicManageFromCurrentFile();
+		this.webviewView.webview.postMessage({
+			command: 'magic-manage-loaded',
+			data
+		});
+	}
+
 	getContent(): string {
 		const portLimitHtml = createRadioGroup('port-limit', [
 			{ value: '0', label: '不限', checked: true },
