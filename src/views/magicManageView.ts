@@ -56,7 +56,7 @@ export class MagicManageView extends BaseView {
 			<input type="text" id="appid" />
 		</div>
 		<div class="input-group">
-			<span class="label">赞助免费</span>
+			<span class="label">赞助用户到设置天数前可免费使用</span>
 			<input type="number" id="sponsor-days" value="1" />
 		</div>
 		<button id="add-btn" class="btn-block">添加</button>

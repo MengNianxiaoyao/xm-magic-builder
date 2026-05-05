@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { SendPacketView } from './views';
+import { SendPacketView } from './views/sendPacket';
 import { DelayView } from './views/delayView';
 import { TakeoverBattleView } from './views/takeoverBattleView';
 import { PokemonFirstView } from './views/pokemonFirstView';
