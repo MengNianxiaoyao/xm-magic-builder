@@ -46,7 +46,7 @@ export class CountLoopView extends BaseView {
 		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'count-loop-head') {
-			insertText(`计次循环体=头部|${message.loopId}|[${message.value}]|[${message.init}]`);
+			insertText(`计次循环体=头部|${message.loopId}|${message.value}|${message.init}`);
 		} else if (message.command === 'count-loop-tail') {
 			insertText(`计次循环体=尾部|${message.loopId}`);
 		}

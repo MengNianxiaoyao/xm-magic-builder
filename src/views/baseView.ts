@@ -2,8 +2,11 @@ import * as vscode from 'vscode';
 
 export abstract class BaseView implements vscode.WebviewViewProvider {
 	constructor(protected context: vscode.ExtensionContext) {}
+	
+	public webviewView: vscode.WebviewView | undefined;
 
 	resolveWebviewView(webviewView: vscode.WebviewView): void {
+		this.webviewView = webviewView;
 		webviewView.webview.options = { enableScripts: true };
 		webviewView.webview.html = this.getHtml(webviewView);
 		

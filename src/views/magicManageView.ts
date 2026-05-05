@@ -60,6 +60,29 @@ export class MagicManageView extends BaseView {
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
+		
+		function loadFromFile() {
+			vscode.postMessage({ command: 'load-magic-manage' });
+		}
+		
+		function setFormValues(data) {
+			if (!data) {return;}
+			
+			const portRadios = document.querySelectorAll('input[name="port-limit"]');
+			portRadios.forEach(radio => {
+				radio.checked = radio.value === data.portLimit;
+			});
+			
+			document.getElementById('version-major').value = data.versionMajor;
+			document.getElementById('version-minor').value = data.versionMinor;
+			document.getElementById('api-param').value = data.apiParam || '';
+			document.getElementById('version-check1').checked = data.versionCheck1 === '1';
+			document.getElementById('version-check2').checked = data.versionCheck2 === '1';
+			document.getElementById('blacklist').value = data.blacklist || '';
+			document.getElementById('appid').value = data.appid || '';
+			document.getElementById('sponsor-days').value = data.sponsorDays || '1';
+		}
+		
 		document.getElementById('add-btn').addEventListener('click', () => {
 			const portLimit = document.querySelector('input[name="port-limit"]:checked').value;
 			const versionMajor = document.getElementById('version-major').value;
@@ -84,15 +107,88 @@ export class MagicManageView extends BaseView {
 				sponsorDays
 			});
 		});
+		
+		window.addEventListener('load', loadFromFile);
+		
+		window.addEventListener('message', (event) => {
+			if (event.data.command === 'magic-manage-loaded') {
+				setFormValues(event.data.data);
+			}
+		});
 	</script>`;
 	}
 
 	protected handleMessage(message: any): void {
+		if (message.command === 'load-magic-manage') {
+			const data = this.loadMagicManageFromCurrentFile();
+			this.webviewView?.webview.postMessage({
+				command: 'magic-manage-loaded',
+				data
+			});
+			return;
+		}
+		
 		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'magic-manage') {
 			const output = `魔法管理={端口限制=${message.portLimit}|当前版本=${message.versionMajor}.${message.versionMinor}|接口参数=${message.apiParam}|接口类型=0|版本控制1=${message.versionCheck1}|版本控制2=${message.versionCheck2}|本地黑名单=${message.blacklist}|Appid=${message.appid}|赞助免费=${message.sponsorDays}}`;
 			insertTextAtLine(output, 0);
 		}
+	}
+	
+	private loadMagicManageFromCurrentFile(): any {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor || !editor.document.fileName.endsWith('.xm')) {return null;}
+		
+		const firstLine = editor.document.lineAt(0).text.trim();
+		if (!firstLine.startsWith('魔法管理=')) {return null;}
+		
+		const match = firstLine.match(/^魔法管理=\{(.+)\}$/);
+		if (!match) {return null;}
+		
+		const pairs = match[1].split('|');
+		const data: any = {};
+		
+		for (const pair of pairs) {
+			const [key, value] = pair.split('=');
+			if (!key || value === undefined) {continue;}
+			data[key] = value;
+		}
+		
+		if (data['当前版本']) {
+			const [major, minor] = data['当前版本'].split('.');
+			data['versionMajor'] = major || '0';
+			data['versionMinor'] = minor || '1';
+		}
+		
+		if (data['端口限制']) {
+			data['portLimit'] = data['端口限制'];
+		}
+		
+		if (data['接口参数']) {
+			data['apiParam'] = data['接口参数'];
+		}
+		
+		if (data['版本控制1'] !== undefined) {
+			data['versionCheck1'] = data['版本控制1'];
+		}
+		
+		if (data['版本控制2'] !== undefined) {
+			data['versionCheck2'] = data['版本控制2'];
+		}
+		
+		if (data['本地黑名单']) {
+			data['blacklist'] = data['本地黑名单'];
+		}
+		
+		if (data['Appid']) {
+			data['appid'] = data['Appid'];
+		}
+		
+		if (data['赞助免费']) {
+			data['sponsorDays'] = data['赞助免费'];
+		}
+		
+		return data;
 	}
 }

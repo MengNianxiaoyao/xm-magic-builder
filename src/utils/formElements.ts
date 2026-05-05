@@ -9,17 +9,24 @@ export function createInputRow(inputs: { id: string; type: string; placeholder?:
 	</div>`;
 }
 
-export function createRadioGroup(name: string, options: { value: string; label: string; checked?: boolean }[], inline: boolean = false): string {
+export function createRadioGroup(name: string, options: { value: string; label: string; checked?: boolean }[], inline: boolean = false, columns: number = 0): string {
 	const optionsHtml = options.map(o => `
 		<label class="radio-label">
 			<input type="radio" name="${name}" value="${o.value}" ${o.checked ? 'checked' : ''} />
 			<span>${o.label}</span>
 		</label>`).join('');
 	
+	const style = columns > 0 ? `style="display: flex; flex-wrap: wrap; gap: 8px 16px;"` : '';
 	return `
-	<div class="radio-group ${inline ? 'inline' : ''}">
+	<div class="radio-group ${inline ? 'inline' : ''}" ${style}>
 		${optionsHtml}
 	</div>`;
+}
+
+export function createButtonRow(buttons: { id: string; text: string }[], columns: number = 0): string {
+	const buttonsHtml = buttons.map(b => `<button id="${b.id}">${b.text}</button>`).join('');
+	const style = columns > 0 ? `style="display: flex; flex-wrap: wrap; gap: 8px 16px;"` : '';
+	return `<div class="btn-row" ${style}>${buttonsHtml}</div>`;
 }
 
 export function createCheckboxGroup(checkboxes: { id: string; label: string; checked?: boolean }[]): string {
@@ -33,11 +40,6 @@ export function createCheckboxGroup(checkboxes: { id: string; label: string; che
 	<div class="checkbox-group">
 		${checkboxesHtml}
 	</div>`;
-}
-
-export function createButtonRow(buttons: { id: string; text: string }[]): string {
-	const buttonsHtml = buttons.map(b => `<button id="${b.id}">${b.text}</button>`).join('');
-	return `<div class="btn-row">${buttonsHtml}</div>`;
 }
 
 export function createTextInput(options: { id: string; placeholder?: string; value?: string; type?: string; readonly?: boolean }): string {

@@ -13,13 +13,8 @@
     "onStartupFinished",
     "onWebviewView:xm-magic-builder.send-packet",
     "onWebviewView:xm-magic-builder.delay",
-    "onWebviewView:xm-magic-builder.takeover-battle",
-    "onWebviewView:xm-magic-builder.pokemon-first",
-    "onWebviewView:xm-magic-builder.pokemon-switch",
-    "onWebviewView:xm-magic-builder.set-bag",
-    "onWebviewView:xm-magic-builder.use-skill",
-    "onWebviewView:xm-magic-builder.use-item",
-    "onWebviewView:xm-magic-builder.pre-battle",
+    "onWebviewView:xm-magic-builder.pokemon-operation",
+    "onWebviewView:xm-magic-builder.battle-operation",
     "onWebviewView:xm-magic-builder.attack-loop",
     "onWebviewView:xm-magic-builder.battle-loop",
     "onWebviewView:xm-magic-builder.custom-attack",
@@ -35,12 +30,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "xm-magic-builder.helloWorld",
-        "title": "Hello World"
-      },
-      {
-        "command": "xm-magic-builder.openWorkbench",
-        "title": "Open Workbench"
+        "command": "xm-magic-builder.autoIndent",
+        "title": "XM: 自动缩进"
       }
     ],
     "languages": [
@@ -49,6 +40,13 @@
         "extensions": [".xm"],
         "aliases": ["XM Language"],
         "configuration": "./language/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "xm",
+        "scopeName": "source.xm",
+        "path": "./language/syntaxes/xm.tmLanguage.json"
       }
     ],
     "viewsContainers": {
@@ -73,38 +71,13 @@
           "type": "webview"
         },
         {
-          "id": "xm-magic-builder.takeover-battle",
-          "name": "接管对战",
+          "id": "xm-magic-builder.pokemon-operation",
+          "name": "精灵操作",
           "type": "webview"
         },
         {
-          "id": "xm-magic-builder.pokemon-first",
-          "name": "精灵首发",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.pokemon-switch",
-          "name": "精灵切换",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.set-bag",
-          "name": "设置背包",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.use-skill",
-          "name": "使用技能",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.use-item",
-          "name": "使用道具",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.pre-battle",
-          "name": "战前准备",
+          "id": "xm-magic-builder.battle-operation",
+          "name": "对战操作",
           "type": "webview"
         },
         {
