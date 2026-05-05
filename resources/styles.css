@@ -1,12 +1,13 @@
 :root {
-	--bg-color: #1e1e1e;
-	--input-bg: #2d2d2d;
-	--input-border: #3d3d3d;
-	--input-focus: #007acc;
-	--btn-bg: #0e639c;
-	--btn-hover: #1177bb;
-	--text-color: #cccccc;
-	--placeholder-color: #6e6e6e;
+	--bg-color: var(--vscode-editor-background, #1e1e1e);
+	--input-bg: var(--vscode-input-background, #2d2d2d);
+	--input-border: var(--vscode-input-border, #3d3d3d);
+	--input-focus: var(--vscode-focusBorder, #007acc);
+	--btn-bg: var(--vscode-button-background, #0e639c);
+	--btn-hover: var(--vscode-button-hoverBackground, #1177bb);
+	--btn-foreground: var(--vscode-button-foreground, #ffffff);
+	--text-color: var(--vscode-editor-foreground, #cccccc);
+	--placeholder-color: var(--vscode-input-placeholderForeground, #6e6e6e);
 }
 
 body {
@@ -74,7 +75,7 @@ select {
 	background: var(--input-bg);
 	border: 1px solid var(--input-border);
 	border-radius: 4px;
-	color: #ffffff;
+	color: var(--vscode-dropdown-foreground, var(--text-color));
 	font-size: 13px;
 	outline: none;
 	cursor: pointer;
@@ -86,28 +87,28 @@ select:focus {
 
 select option {
 	background: var(--input-bg);
-	color: #ffffff;
+	color: var(--vscode-dropdown-foreground, var(--text-color));
 }
 
-.textarea-input {
+textarea {
 	width: 90%;
 	height: 80px;
 	padding: 8px 12px;
 	background: var(--input-bg);
 	border: 1px solid var(--input-border);
 	border-radius: 4px;
-	color: #ffffff;
+	color: var(--vscode-editor-foreground, var(--text-color));
 	font-size: 13px;
 	outline: none;
-	resize: none;
+	resize: vertical;
 	font-family: inherit;
 }
 
-.textarea-input:focus {
+textarea:focus {
 	border-color: var(--input-focus);
 }
 
-.textarea-input::placeholder {
+textarea::placeholder {
 	color: var(--placeholder-color);
 }
 
@@ -166,7 +167,7 @@ input[type="number"] {
 	background: var(--input-bg);
 	border: 1px solid var(--input-border);
 	border-radius: 4px;
-	color: #ffffff;
+	color: var(--vscode-editor-foreground, var(--text-color));
 	font-size: 13px;
 	outline: none;
 	transition: border-color 0.2s;
@@ -196,7 +197,7 @@ input[type="number"]::-webkit-outer-spin-button {
 button {
 	padding: 8px 16px;
 	background: var(--btn-bg);
-	color: #ffffff;
+	color: var(--btn-foreground);
 	border: none;
 	border-radius: 4px;
 	font-size: 13px;
