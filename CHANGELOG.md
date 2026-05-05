@@ -1,9 +1,5 @@
-# Change Log
+### 0.0.2
+* 优化高亮匹配规则
 
-All notable changes to the "xm-magic-builder" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+### 0.0.1
+* 完成基本功能、代码高亮、操作面板
