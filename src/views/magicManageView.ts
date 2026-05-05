@@ -1,63 +1,60 @@
 import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createRadioGroup, createTextInput, createCheckboxGroup, checkXmFile, insertTextAtLine } from '../utils';
 
 export class MagicManageView extends BaseView {
 	getContent(): string {
+		const portLimitHtml = createRadioGroup('port-limit', [
+			{ value: '0', label: '不限', checked: true },
+			{ value: '1', label: '限Unity端' },
+			{ value: '2', label: '限Flash端' },
+		], true);
+		
+		const versionWrapper = `
+		<div class="version-wrapper">
+			<input type="number" id="version-major" value="0" class="version-input" />
+			<span class="version-dot">.</span>
+			<input type="number" id="version-minor" value="1" class="version-input" />
+		</div>`;
+		
+		const apiParamHtml = createTextInput({ id: 'api-param' });
+		const versionCheckHtml = createCheckboxGroup([
+			{ id: 'version-check1', label: '当魔法版本小于接口返回的版本号时，禁止运行', checked: true },
+			{ id: 'version-check2', label: '当接口参数获取最新版本数据失败时，允许运行' },
+		]);
+		const blacklistHtml = createTextInput({ id: 'blacklist' });
+		const appidHtml = createTextInput({ id: 'appid' });
+		const sponsorDaysHtml = createTextInput({ id: 'sponsor-days', value: '1', type: 'number' });
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">端口限制</span>
-			<div class="radio-group inline">
-				<label class="radio-label">
-					<input type="radio" name="port-limit" value="0" checked />
-					<span>不限</span>
-				</label>
-				<label class="radio-label">
-					<input type="radio" name="port-limit" value="1" />
-					<span>限Unity端</span>
-				</label>
-				<label class="radio-label">
-					<input type="radio" name="port-limit" value="2" />
-					<span>限Flash端</span>
-				</label>
-			</div>
+			${portLimitHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">当前版本</span>
-			<div class="version-wrapper">
-				<input type="number" id="version-major" value="0" class="version-input" />
-				<span class="version-dot">.</span>
-				<input type="number" id="version-minor" value="1" class="version-input" />
-			</div>
+			${versionWrapper}
 		</div>
 		<div class="input-group">
 			<span class="label">接口参数</span>
-			<input type="text" id="api-param" />
+			${apiParamHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">版本控制</span>
-			<div class="checkbox-group">
-				<label class="checkbox-label">
-					<input type="checkbox" id="version-check1" checked />
-					<span>当魔法版本小于接口返回的版本号时，禁止运行</span>
-				</label>
-				<label class="checkbox-label">
-					<input type="checkbox" id="version-check2" />
-					<span>当接口参数获取最新版本数据失败时，允许运行</span>
-				</label>
-			</div>
+			${versionCheckHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">本地黑名单</span>
-			<input type="text" id="blacklist" />
+			${blacklistHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">Appid</span>
-			<input type="text" id="appid" />
+			${appidHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">赞助用户到设置天数前可免费使用</span>
-			<input type="number" id="sponsor-days" value="1" />
+			${sponsorDaysHtml}
 		</div>
 		<button id="add-btn" class="btn-block">添加</button>
 	</div>
@@ -91,26 +88,11 @@ export class MagicManageView extends BaseView {
 	}
 
 	protected handleMessage(message: any): void {
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'magic-manage') {
 			const output = `魔法管理={端口限制=${message.portLimit}|当前版本=${message.versionMajor}.${message.versionMinor}|接口参数=${message.apiParam}|接口类型=0|版本控制1=${message.versionCheck1}|版本控制2=${message.versionCheck2}|本地黑名单=${message.blacklist}|Appid=${message.appid}|赞助免费=${message.sponsorDays}}`;
-			
-			const firstLine = editor.document.lineAt(0);
-			const isFirstLineMagic = firstLine.text.trim().startsWith('魔法管理=');
-			
-			editor.edit((builder) => {
-				if (isFirstLineMagic) {
-					const range = new vscode.Range(0, 0, 0, firstLine.text.length);
-					builder.replace(range, output);
-				} else {
-					const pos = new vscode.Position(0, 0);
-					builder.insert(pos, output + '\n');
-				}
-			});
+			insertTextAtLine(output, 0);
 		}
 	}
 }

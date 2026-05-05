@@ -1,16 +1,18 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createInputRow, checkXmFile, insertText } from '../utils';
 
 export class TakeoverBattleView extends BaseView {
 	getContent(): string {
+		const inputHtml = createInputRow(
+			[{ id: 'battle-id-input', type: 'text' }],
+			[{ id: 'add-btn', text: '添加' }]
+		);
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">对战包</span>
-			<div class="input-row">
-				<input type="text" id="battle-id-input" />
-				<button id="add-btn">添加</button>
-			</div>
+			${inputHtml}
 		</div>
 	</div>
 	<script>
@@ -24,13 +26,8 @@ export class TakeoverBattleView extends BaseView {
 
 	protected handleMessage(message: { command: string; content: string }): void {
 		if (message.command === 'add-takeover-battle') {
-			if (!this.checkXmFile()) return;
-			
-			const editor = vscode.window.activeTextEditor;
-			if (!editor) return;
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `接管对战=${message.content}\n`);
-			});
+			if (!checkXmFile()) {return;}
+			insertText(`接管对战=${message.content}`);
 		}
 	}
 }

@@ -1,18 +1,21 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createTextInput, createButtonRow, checkXmFile, insertText } from '../utils';
 
 export class SetBagView extends BaseView {
 	getContent(): string {
+		const inputHtml = createTextInput({ id: 'bag-input', value: '3022|3437|3460' });
+		const buttonsHtml = createButtonRow([
+			{ id: 'set-btn', text: '设置背包' },
+			{ id: 'restore-btn', text: '还原背包' },
+		]);
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">精灵ID(每个ID之间用 | 分隔)</span>
-			<input type="text" id="bag-input" value="3022|3437|3460" />
+			${inputHtml}
 		</div>
-		<div class="btn-row">
-			<button id="set-btn">设置背包</button>
-			<button id="restore-btn">还原背包</button>
-		</div>
+		${buttonsHtml}
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
@@ -27,19 +30,12 @@ export class SetBagView extends BaseView {
 	}
 
 	protected handleMessage(message: { command: string; content: string }): void {
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'set-bag') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `设置背包=${message.content}\n`);
-			});
+			insertText(`设置背包=${message.content}`);
 		} else if (message.command === 'restore-bag') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, '设置背包=还原背包\n');
-			});
+			insertText('设置背包=还原背包');
 		}
 	}
 }

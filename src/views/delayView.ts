@@ -1,23 +1,27 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createInputRow, checkXmFile, insertText } from '../utils';
 
 export class DelayView extends BaseView {
 	getContent(): string {
+		const delayInput = createInputRow(
+			[{ id: 'delay-input', type: 'number', value: '1000' }],
+			[{ id: 'add-delay-btn', text: '添加' }]
+		);
+		
+		const battleDelayInput = createInputRow(
+			[{ id: 'battle-delay-input', type: 'number', value: '1000' }],
+			[{ id: 'add-battle-delay-btn', text: '添加' }]
+		);
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">延时(毫秒)</span>
-			<div class="input-row">
-				<input type="number" id="delay-input" value="1000" />
-				<button id="add-delay-btn">添加</button>
-			</div>
+			${delayInput}
 		</div>
 		<div class="input-group">
 			<span class="label">对战延时(毫秒)</span>
-			<div class="input-row">
-				<input type="number" id="battle-delay-input" value="1000" />
-				<button id="add-battle-delay-btn">添加</button>
-			</div>
+			${battleDelayInput}
 		</div>
 	</div>
 	<script>
@@ -34,19 +38,12 @@ export class DelayView extends BaseView {
 	}
 
 	protected handleMessage(message: { command: string; content: string }): void {
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'add-delay') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `延时=${message.content}\n`);
-			});
+			insertText(`延时=${message.content}`);
 		} else if (message.command === 'add-battle-delay') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `对战延时=${message.content}\n`);
-			});
+			insertText(`对战延时=${message.content}`);
 		}
 	}
 }

@@ -1,16 +1,18 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createInputRow, checkXmFile, insertText } from '../utils';
 
 export class PokemonFirstView extends BaseView {
 	getContent(): string {
+		const inputHtml = createInputRow(
+			[{ id: 'pokemon-id-input', type: 'number', value: '5000' }],
+			[{ id: 'add-btn', text: '添加' }]
+		);
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">精灵ID</span>
-			<div class="input-row">
-				<input type="number" id="pokemon-id-input" value="5000" />
-				<button id="add-btn">添加</button>
-			</div>
+			${inputHtml}
 		</div>
 	</div>
 	<script>
@@ -24,13 +26,8 @@ export class PokemonFirstView extends BaseView {
 
 	protected handleMessage(message: { command: string; content: string }): void {
 		if (message.command === 'add-pokemon-first') {
-			if (!this.checkXmFile()) return;
-			
-			const editor = vscode.window.activeTextEditor;
-			if (!editor) return;
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `精灵首发=${message.content}\n`);
-			});
+			if (!checkXmFile()) {return;}
+			insertText(`精灵首发=${message.content}`);
 		}
 	}
 }

@@ -1,27 +1,23 @@
 import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createRadioGroup, createInputRow, checkXmFile, insertText } from '../utils';
 
 export class PokemonSwitchView extends BaseView {
 	getContent(): string {
+		const radioHtml = createRadioGroup('switch-type', [
+			{ value: 'id', label: '根据ID切换', checked: true },
+			{ value: 'position', label: '根据背包位置切换' },
+		], true);
+		
+		const inputHtml = createInputRow(
+			[{ id: 'pokemon-switch-input', type: 'number', value: '5000' }],
+			[{ id: 'add-btn', text: '添加' }]
+		);
+		
 		return `
 	<div class="container">
-		<div class="radio-group inline">
-			<label class="radio-label">
-				<input type="radio" name="switch-type" value="id" checked />
-				<span>根据ID切换</span>
-			</label>
-			<label class="radio-label">
-				<input type="radio" name="switch-type" value="position" />
-				<span>根据背包位置切换</span>
-			</label>
-		</div>
-		<div class="input-group">
-			<span class="label">精灵ID/背包位置</span>
-			<div class="input-row">
-				<input type="number" id="pokemon-switch-input" value="5000" />
-				<button id="add-btn">添加</button>
-			</div>
-		</div>
+		${radioHtml}
+		${inputHtml}
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
@@ -38,16 +34,9 @@ export class PokemonSwitchView extends BaseView {
 	}
 
 	protected handleMessage(message: { command: string; content: string; type: string }): void {
-		if (message.command === 'add-pokemon-switch') {
-			if (!this.checkXmFile()) return;
-			
-			const editor = vscode.window.activeTextEditor;
-			if (!editor) return;
-			
-			const prefix = message.type === 'id' ? '精灵切换-ID' : '精灵切换-位置';
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `${prefix}=${message.content}\n`);
-			});
-		}
+		if (!checkXmFile()) {return;}
+		
+		const prefix = message.type === 'id' ? '精灵切换-ID' : '精灵切换-位置';
+		insertText(`${prefix}=${message.content}`);
 	}
 }

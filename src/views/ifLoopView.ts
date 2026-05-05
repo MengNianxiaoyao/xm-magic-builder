@@ -1,21 +1,25 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createTextarea, createButtonRow, checkXmFile, insertText } from '../utils';
 
 export class IfLoopView extends BaseView {
-getContent(): string {
-return `
+	getContent(): string {
+		const textareaHtml = createTextarea({ id: 'packet-param' });
+		const buttonsHeadTail = createButtonRow([
+			{ id: 'head-btn', text: '判断循环体头' },
+			{ id: 'tail-btn', text: '判断循环体尾' },
+		]);
+		const buttonBreak = createButtonRow([
+			{ id: 'break-btn', text: '跳出循环' },
+		]);
+		
+		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">发包参数</span>
-			<textarea id="packet-param" class="textarea-input"></textarea>
+			${textareaHtml}
 		</div>
-		<div class="btn-row">
-			<button id="head-btn">判断循环体头</button>
-			<button id="tail-btn">判断循环体尾</button>
-		</div>
-		<div class="btn-row">
-			<button id="break-btn">跳出循环</button>
-		</div>
+		${buttonsHeadTail}
+		${buttonBreak}
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
@@ -33,23 +37,14 @@ return `
 	}
 
 	protected handleMessage(message: { command: string; packetParam?: string }): void {
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'if-loop-head') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `判断循环体=头部|${message.packetParam}\n`);
-			});
+			insertText(`判断循环体=头部|${message.packetParam}`);
 		} else if (message.command === 'if-loop-tail') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, '判断循环体=尾部\n');
-			});
+			insertText('判断循环体=尾部');
 		} else if (message.command === 'if-loop-break') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, '判断循环体=跳出循环\n');
-			});
+			insertText('判断循环体=跳出循环');
 		}
 	}
 }

@@ -1,26 +1,31 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createTextInput, createButtonRow, checkXmFile, insertText } from '../utils';
 
 export class CountLoopView extends BaseView {
 	getContent(): string {
+		const loopIdHtml = createTextInput({ id: 'loop-id', value: '标识1' });
+		const valueHtml = createTextInput({ id: 'value', value: '[j]' });
+		const initValueHtml = createTextInput({ id: 'init-value', value: '[i]' });
+		const buttonsHtml = createButtonRow([
+			{ id: 'head-btn', text: '计次循环体头' },
+			{ id: 'tail-btn', text: '计次循环体尾' },
+		]);
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">循环标识</span>
-			<input type="text" id="loop-id" value="标识1" />
+			${loopIdHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">指定值</span>
-			<input type="text" id="value" value="[j]" />
+			${valueHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">初始值赋值变量</span>
-			<input type="text" id="init-value" value="[i]" />
+			${initValueHtml}
 		</div>
-		<div class="btn-row">
-			<button id="head-btn">计次循环体头</button>
-			<button id="tail-btn">计次循环体尾</button>
-		</div>
+		${buttonsHtml}
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
@@ -38,19 +43,12 @@ export class CountLoopView extends BaseView {
 	}
 
 	protected handleMessage(message: { command: string; loopId: string; value?: string; init?: string }): void {
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'count-loop-head') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `计次循环体=头部|${message.loopId}|[${message.value}]|[${message.init}]\n`);
-			});
+			insertText(`计次循环体=头部|${message.loopId}|[${message.value}]|[${message.init}]`);
 		} else if (message.command === 'count-loop-tail') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `计次循环体=尾部|${message.loopId}\n`);
-			});
+			insertText(`计次循环体=尾部|${message.loopId}`);
 		}
 	}
 }

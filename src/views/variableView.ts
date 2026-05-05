@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createTextInput, createButtonRow, createSelect, checkXmFile, insertText, showWarning } from '../utils';
 
 const INTEGER_VALUES = [
 	{ value: '自定义值', label: '自定义值' },
@@ -56,36 +57,43 @@ export class VariableView extends BaseView {
 	getContent(): string {
 		const values = this.varType === 'integer' ? INTEGER_VALUES : STRING_VALUES;
 		const showCustom = !NO_CUSTOM_VALUE_TYPES.includes(this.varValue);
-		const customValueLabel = this.varType === 'integer' ? '自定义值' : '自定义文本';
+		
+		const varNameHtml = createTextInput({ id: 'var-name' });
+		const varTypeHtml = createSelect({
+			id: 'var-type',
+			options: [
+				{ value: 'integer', label: '整数型(长整数)' },
+				{ value: 'string', label: '文本型(字符串)' },
+			],
+		});
+		const varValueHtml = createSelect({ id: 'var-value', options: values });
+		const customValueHtml = createTextInput({ id: 'custom-value' });
+		const buttonsHtml = createButtonRow([
+			{ id: 'clear-btn', text: '清空变量' },
+			{ id: 'add-btn', text: '添加变量' },
+		]);
+		
+		const customInputSection = showCustom ? `
+		<div class="input-group" id="custom-value-group">
+			${customValueHtml}
+		</div>` : '';
 		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">变量名称</span>
-			<input type="text" id="var-name" />
+			${varNameHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">变量类型</span>
-			<select id="var-type">
-				<option value="integer" ${this.varType === 'integer' ? 'selected' : ''}>整数型(长整数)</option>
-				<option value="string" ${this.varType === 'string' ? 'selected' : ''}>文本型(字符串)</option>
-			</select>
+			${varTypeHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">变量值</span>
-			<select id="var-value">
-				${values.map(v => `<option value="${v.value}" ${this.varValue === v.value ? 'selected' : ''}>${v.label}</option>`).join('')}
-			</select>
+			${varValueHtml}
 		</div>
-		${showCustom ? `
-		<div class="input-group" id="custom-value-group">
-			<input type="text" id="custom-value" />
-		</div>
-		` : ''}
-		<div class="btn-row">
-			<button id="clear-btn">清空变量</button>
-			<button id="add-btn">添加变量</button>
-		</div>
+		${customInputSection}
+		${buttonsHtml}
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
@@ -155,26 +163,19 @@ export class VariableView extends BaseView {
 
 	protected handleMessage(message: any): void {
 		if (message.command === 'show-warning') {
-			vscode.window.showWarningMessage(message.message);
+			showWarning(message.message);
 			return;
 		}
 		
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'variable-clear') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, '变量=清空变量\n');
-			});
+			insertText('变量=清空变量');
 		} else if (message.command === 'variable-add') {
 			const typeLabel = message.varType === 'integer' ? '整数型' : '文本型';
 			const actualValue = NO_CUSTOM_VALUE_TYPES.includes(message.varValue) ? '0' : message.customValue;
 			const output = `变量=${typeLabel}|${message.varName}|${message.varValue}|${actualValue}`;
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, output + '\n');
-			});
+			insertText(output);
 		}
 	}
 }

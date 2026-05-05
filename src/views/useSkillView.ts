@@ -1,18 +1,21 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createTextInput, createButtonRow, checkXmFile, insertText } from '../utils';
 
 export class UseSkillView extends BaseView {
 	getContent(): string {
+		const inputHtml = createTextInput({ id: 'skill-input' });
+		const buttonsHtml = createButtonRow([
+			{ id: 'add-btn', text: '添加' },
+			{ id: 'retreat-btn', text: '对战撤退' },
+		]);
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">技能ID</span>
-			<input type="text" id="skill-input" />
+			${inputHtml}
 		</div>
-		<div class="btn-row">
-			<button id="add-btn">添加</button>
-			<button id="retreat-btn">对战撤退</button>
-		</div>
+		${buttonsHtml}
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
@@ -27,19 +30,12 @@ export class UseSkillView extends BaseView {
 	}
 
 	protected handleMessage(message: { command: string; content: string }): void {
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'use-skill') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `使用技能=${message.content}\n`);
-			});
+			insertText(`使用技能=${message.content}`);
 		} else if (message.command === 'use-skill-retreat') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, '使用技能=撤退\n');
-			});
+			insertText('使用技能=撤退');
 		}
 	}
 }

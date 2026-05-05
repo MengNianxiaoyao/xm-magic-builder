@@ -1,24 +1,31 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createSelect, createButtonRow, checkXmFile, insertText } from '../utils';
 
 export class PreBattleView extends BaseView {
-getContent(): string {
+	getContent(): string {
+		const selectHtml = createSelect({
+			id: 'fire-select',
+			options: [
+				{ value: '绿火', label: '绿火' },
+				{ value: '金火', label: '金火' },
+				{ value: '紫火', label: '紫火' },
+				{ value: '蓝火', label: '蓝火' },
+			],
+		});
+		
+		const buttonsHtml = createButtonRow([
+			{ id: 'add-btn', text: '添加' },
+			{ id: 'pressure-btn', text: '压血' },
+			{ id: 'recover-btn', text: '全精灵恢复' },
+		]);
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">借火类型</span>
-			<select id="fire-select">
-				<option value="绿火">绿火</option>
-				<option value="金火">金火</option>
-				<option value="紫火">紫火</option>
-				<option value="蓝火">蓝火</option>
-			</select>
+			${selectHtml}
 		</div>
-		<div class="btn-row">
-			<button id="add-btn">添加</button>
-			<button id="pressure-btn">压血</button>
-			<button id="recover-btn">全精灵恢复</button>
-		</div>
+		${buttonsHtml}
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
@@ -36,23 +43,14 @@ getContent(): string {
 	}
 
 	protected handleMessage(message: { command: string; content: string }): void {
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'pre-battle-add') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `战前准备=领取${message.content}\n`);
-			});
+			insertText(`战前准备=领取${message.content}`);
 		} else if (message.command === 'pre-battle-pressure') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, '战前准备=压血\n');
-			});
+			insertText('战前准备=压血');
 		} else if (message.command === 'pre-battle-recover') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, '战前准备=全精灵恢复\n');
-			});
+			insertText('战前准备=全精灵恢复');
 		}
 	}
 }

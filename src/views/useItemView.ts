@@ -1,16 +1,18 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createInputRow, checkXmFile, insertText } from '../utils';
 
 export class UseItemView extends BaseView {
 	getContent(): string {
+		const inputHtml = createInputRow(
+			[{ id: 'item-input', type: 'text' }],
+			[{ id: 'add-btn', text: '添加' }]
+		);
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">道具ID</span>
-			<div class="input-row">
-				<input type="text" id="item-input" />
-				<button id="add-btn">添加</button>
-			</div>
+			${inputHtml}
 		</div>
 	</div>
 	<script>
@@ -23,15 +25,10 @@ export class UseItemView extends BaseView {
 	}
 
 	protected handleMessage(message: { command: string; content: string }): void {
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'use-item') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `使用道具=${message.content}\n`);
-			});
+			insertText(`使用道具=${message.content}`);
 		}
 	}
 }

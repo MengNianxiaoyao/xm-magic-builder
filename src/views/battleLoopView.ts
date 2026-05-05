@@ -1,21 +1,28 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createSelect, createButtonRow, checkXmFile, insertText } from '../utils';
 
 export class BattleLoopView extends BaseView {
 	getContent(): string {
+		const selectHtml = createSelect({
+			id: 'condition-select',
+			options: [
+				{ value: '对战胜利', label: '对战胜利' },
+				{ value: '对战未触发', label: '对战未触发' },
+			],
+		});
+		
+		const buttonsHtml = createButtonRow([
+			{ id: 'head-btn', text: '对战循环体头' },
+			{ id: 'tail-btn', text: '对战循环体尾' },
+		]);
+		
 		return `
 	<div class="container">
 		<div class="input-group">
 			<span class="label">条件类型</span>
-			<select id="condition-select">
-				<option value="对战胜利">对战胜利</option>
-				<option value="对战未触发">对战未触发</option>
-			</select>
+			${selectHtml}
 		</div>
-		<div class="btn-row">
-			<button id="head-btn">对战循环体头</button>
-			<button id="tail-btn">对战循环体尾</button>
-		</div>
+		${buttonsHtml}
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
@@ -31,19 +38,12 @@ export class BattleLoopView extends BaseView {
 	}
 
 	protected handleMessage(message: { command: string; content: string }): void {
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'battle-loop-head') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `对战循环体=${message.content}头部\n`);
-			});
+			insertText(`对战循环体=${message.content}头部`);
 		} else if (message.command === 'battle-loop-tail') {
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, `对战循环体=${message.content}尾部\n`);
-			});
+			insertText(`对战循环体=${message.content}尾部`);
 		}
 	}
 }

@@ -1,33 +1,35 @@
 import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { createCheckboxGroup, createTextInput, createButtonRow, checkXmFile, insertText, showWarning } from '../utils';
 
 export class CustomMagicView extends BaseView {
 	getContent(): string {
+		const checkboxHtml = createCheckboxGroup([
+			{ id: 'pass-current', label: '传入当前魔法变量' },
+			{ id: 'return-var', label: '返回调用魔法变量' },
+		]);
+		
+		const passwordHtml = createTextInput({ id: 'password' });
+		const fileNameHtml = createTextInput({ id: 'file-name', readonly: true });
+		const fileInputHtml = `<input type="file" id="file-input" accept=".xmgic" style="display: none;" />`;
+		const buttonsHtml = createButtonRow([
+			{ id: 'import-btn', text: '导入魔法' },
+			{ id: 'add-btn', text: '添加' },
+		]);
+		
 		return `
 	<div class="container">
-		<div class="checkbox-group">
-			<label class="checkbox-label">
-				<input type="checkbox" id="pass-current" />
-				<span>传入当前魔法变量</span>
-			</label>
-			<label class="checkbox-label">
-				<input type="checkbox" id="return-var" />
-				<span>返回调用魔法变量</span>
-			</label>
-		</div>
+		${checkboxHtml}
 		<div class="input-group">
 			<span class="label">魔法密码</span>
-			<input type="text" id="password" />
+			${passwordHtml}
 		</div>
 		<div class="input-group">
 			<span class="label">自定义魔法</span>
-			<input type="text" id="file-name" readonly />
+			${fileNameHtml}
 		</div>
-		<div class="btn-row">
-			<button id="import-btn">导入魔法</button>
-			<button id="add-btn">添加</button>
-		</div>
-		<input type="file" id="file-input" accept=".xmgic" style="display: none;" />
+		${buttonsHtml}
+		${fileInputHtml}
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
@@ -79,21 +81,16 @@ export class CustomMagicView extends BaseView {
 
 	protected handleMessage(message: any): void {
 		if (message.command === 'show-warning') {
-			vscode.window.showWarningMessage(message.message);
+			showWarning(message.message);
 			return;
 		}
 		
-		if (!this.checkXmFile()) return;
-		
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) return;
+		if (!checkXmFile()) {return;}
 		
 		if (message.command === 'custom-magic-add') {
 			const passwordPart = message.password ? `|${message.password}` : '';
 			const output = `自定义魔法=${message.passCurrent}|${message.returnVar}|${passwordPart}|${message.fileName}|${message.fileHex}`;
-			editor.edit((builder) => {
-				builder.insert(editor.selection.active, output + '\n');
-			});
+			insertText(output);
 		}
 	}
 }
