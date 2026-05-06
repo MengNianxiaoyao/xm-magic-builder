@@ -1,4 +1,3 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
 import { createInputRow, checkXmFile, insertText } from '../utils';
 

@@ -5,7 +5,7 @@ export class OutputView extends BaseView {
 	getContent(): string {
 		const textareaHtml = createTextarea({
 			id: 'output-input',
-			value: '\\r\\n测试输出{1,十六进制,1,1}个,\\r\\n测试输出[变量1]，\\r\\n测试输出#<3*2+1>#个',
+			value: '\\r\\n测试输出{1,十六进制,1,1}个,\\r\\n测试输出[变量1],\\r\\n测试输出#<3*2+1>#个',
 		});
 		
 		return `

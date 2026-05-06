@@ -14,6 +14,9 @@
 			"include": "#variables"
 		},
 		{
+			"include": "#special-keywords"
+		},
+		{
 			"include": "#special-values"
 		},
 		{
@@ -42,7 +45,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.xm",
-					"match": "^(魔法管理|发包|(对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|变量|自定义(?:出招|魔法)|(对战|判断|计次)循环体)\\s*="
+					"match": "(魔法管理|发包|(对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|变量|自定义(?:出招|魔法)|(对战|判断|计次)循环体)="
 				},
 				{
 					"name": "keyword.control-value.xm",
@@ -70,7 +73,11 @@
 				},
 				{
 					"name": "keyword.loop-battle.xm",
-					"match": "(对战胜利|对战未触发)(头|尾)部"
+					"match": "\\b(对战胜利|对战未触发)(头|尾)部\\b"
+				},
+				{
+					"name": "keyword.and-or.xm",
+					"match": "\\b(且|或)\\b"
 				},
 				{
 					"name": "constant.numeric.expression.xm",
@@ -95,19 +102,16 @@
 					]
 				},
 				{
-					"name": "keyword.loop-if-andor.xm",
-					"begin": "\\}|",
-					"end": "|\\{",
-					"patterns": [
-						{
-							"name": "keyword.logical-op.xm",
-							"match": "(且|或)"
-						}
-					]
-				},
-				{
 					"name": "constant.character.escape.xm",
-					"match": "\\\\[r][n]|[\\\\r\\\\n]"
+					"match": "\\\\(r|n)|\\\\r\\\\n"
+				}
+			]
+		},
+		"special-keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.special.xm",
+					"match": "(forstart)|(forend)|(whilestart)|(whileend)"
 				}
 			]
 		},
