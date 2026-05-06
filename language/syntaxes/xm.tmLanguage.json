@@ -83,7 +83,7 @@
 						}
 					]
 				},
-{
+				{
 					"name": "meta.condition-params.xm",
 					"begin": "\\{",
 					"end": "\\}",
@@ -97,6 +97,10 @@
 				{
 					"name": "keyword.control-break.xm",
 					"match": "\\b跳出循环\\b"
+				},
+				{
+					"name": "constant.character.escape.xm",
+					"match": "\\\\[rR][nN]|[\\\\r\\\\n]"
 				}
 			]
 		},
