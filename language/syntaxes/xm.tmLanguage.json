@@ -42,19 +42,19 @@
 			"patterns": [
 				{
 					"name": "keyword.control.xm",
-					"match": "^(魔法管理|发包|延时|对战延时|接管对战|精灵首发|精灵切换-ID|精灵切换-位置|设置背包|使用技能|使用道具|战前准备|信息输出|变量|自定义出招|自定义魔法|出招循环体|对战循环体|判断循环体|计次循环体)\\s*="
+					"match": "^(魔法管理|发包|(对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|变量|自定义(?:出招|魔法)|(对战|判断|计次)循环体)\\s*="
 				},
 				{
 					"name": "keyword.control-value.xm",
 					"match": "(?<=^(延时|对战延时|设置背包|战前准备|使用(?:技能|道具)|精灵(?:首发|切换-ID|切换-位置))=).+"
 				},
 				{
-					"name": "keyword.condition.xm",
-					"match": "\\b判断真\\d*\\b"
+					"name": "keyword.loop-if.xm",
+					"match": "\\b判断(真|假)\\d*\\b"
 				},
 				{
-					"name": "keyword.condition.xm",
-					"match": "\\b判断假\\d*\\b"
+					"name": "keyword.control-break.xm",
+					"match": "\\b跳出循环\\b"
 				},
 				{
 					"name": "keyword.wild-pokemon.xm",
@@ -69,8 +69,8 @@
 					"match": "\\b尾部\\b"
 				},
 				{
-					"name": "keyword.loop.xm",
-					"match": "(?<=对战循环体=)(对战胜利|对战未触发)"
+					"name": "keyword.loop-battle.xm",
+					"match": "(对战胜利|对战未触发)(头|尾)部"
 				},
 				{
 					"name": "constant.numeric.expression.xm",
@@ -90,17 +90,24 @@
 					"patterns": [
 						{
 							"name": "keyword.compare-op.xm",
-							"match": "(?:十六|二)进制|小(?:于(?:等于)?)?|大(?:于(?:等于)?)?|等于|不等于"
+							"match": "[大小](?:于(?:等于)?)?|(十六|二)进制|等于|不等于"
 						}
 					]
 				},
 				{
-					"name": "keyword.control-break.xm",
-					"match": "\\b跳出循环\\b"
+					"name": "keyword.loop-if-andor.xm",
+					"begin": "\\}|",
+					"end": "|\\{",
+					"patterns": [
+						{
+							"name": "keyword.logical-op.xm",
+							"match": "(且|或)"
+						}
+					]
 				},
 				{
 					"name": "constant.character.escape.xm",
-					"match": "\\\\[rR][nN]|[\\\\r\\\\n]"
+					"match": "\\\\[r][n]|[\\\\r\\\\n]"
 				}
 			]
 		},
