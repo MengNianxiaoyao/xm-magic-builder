@@ -77,21 +77,21 @@ jobs:
           asset_name: xm-magic-builder-${{ env.EXT_VERSION }}.vsix
           asset_content_type: application/vsix
 
-#   publish:
-#     needs: release
+  publish:
+    needs: release
 
-#     runs-on: ubuntu-latest
-#     permissions: {}
+    runs-on: ubuntu-latest
+    permissions: {}
 
-#     steps:
-#       - uses: actions/download-artifact@v4
-#         with:
-#           name: xm-magic-builder-${{ needs.release.outputs.version }}.vsix
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: xm-magic-builder-${{ needs.release.outputs.version }}.vsix
 
-#       - name: Publish to marketplace
-#         # https://github.com/HaaLeo/publish-vscode-extension/releases/tag/v1.2.0
-#         uses: HaaLeo/publish-vscode-extension@c1a0486c5a3eed24e8c21d4e37889a7c4c60c443
-#         with:
-#           pat: ${{ secrets.PUBLISHER_KEY }}
-#           registryUrl: https://marketplace.visualstudio.com
-#           extensionFile: ./xm-magic-builder-${{ needs.release.outputs.version }}.vsix
+      - name: Publish to marketplace
+        # https://github.com/HaaLeo/publish-vscode-extension/releases/tag/v1.2.0
+        uses: HaaLeo/publish-vscode-extension@c1a0486c5a3eed24e8c21d4e37889a7c4c60c443
+        with:
+          pat: ${{ secrets.PUBLISHER_KEY }}
+          registryUrl: https://marketplace.visualstudio.com
+          extensionFile: ./xm-magic-builder-${{ needs.release.outputs.version }}.vsix
