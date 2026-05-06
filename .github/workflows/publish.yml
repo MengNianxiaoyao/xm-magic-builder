@@ -8,10 +8,6 @@ on:
       - package.json
 
   workflow_dispatch:
-    inputs:
-      version:
-        description: "Version to release"
-        required: true
 
 jobs:
   release:
