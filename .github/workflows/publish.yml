@@ -1,0 +1,97 @@
+name: Release and publish extension
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release"
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: read
+    
+    env:
+      EXT_VERSION: ""
+
+    outputs:
+      version: ${{ env.EXT_VERSION }}
+
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v6.0.3
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v6.4.0
+        with:
+          node-version: lts/*
+          cache: pnpm
+            
+      - name: Parse version from package.json
+        run: |
+          echo "EXT_VERSION=$(node -p -e "require('./package.json').version")" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - run: pnpm install -g vsce
+
+      - run: vsce package
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xm-magic-builder-${{ env.EXT_VERSION }}.vsix
+          path: ./xm-magic-builder-${{ env.EXT_VERSION }}.vsix
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.EXT_VERSION }}
+          release_name: Release ${{ env.EXT_VERSION }}
+          body: "Release ${{ env.EXT_VERSION }}"
+      
+      - name: Upload Release
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./xm-magic-builder-${{ env.EXT_VERSION }}.vsix
+          asset_name: xm-magic-builder-${{ env.EXT_VERSION }}.vsix
+          asset_content_type: application/vsix
+
+#   publish:
+#     needs: release
+
+#     runs-on: ubuntu-latest
+#     permissions: {}
+
+#     steps:
+#       - uses: actions/download-artifact@v4
+#         with:
+#           name: xm-magic-builder-${{ needs.release.outputs.version }}.vsix
+
+#       - name: Publish to marketplace
+#         # https://github.com/HaaLeo/publish-vscode-extension/releases/tag/v1.2.0
+#         uses: HaaLeo/publish-vscode-extension@c1a0486c5a3eed24e8c21d4e37889a7c4c60c443
+#         with:
+#           pat: ${{ secrets.PUBLISHER_KEY }}
+#           registryUrl: https://marketplace.visualstudio.com
+#           extensionFile: ./xm-magic-builder-${{ needs.release.outputs.version }}.vsix

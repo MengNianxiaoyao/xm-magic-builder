@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: read
+    
+    env:
+      EXT_VERSION: ""
+
+    outputs:
+      version: ${{ env.EXT_VERSION }}
+
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v6.0.3
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v6.4.0
+        with:
+          node-version: lts/*
+          cache: pnpm
+            
+      - name: Parse version from package.json
+        run: |
+          echo "EXT_VERSION=$(node -p -e "require('./package.json').version")" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - run: pnpm install -g vsce
+
+      - run: vsce package
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xm-magic-builder-${{ env.EXT_VERSION }}.vsix
+          path: ./xm-magic-builder-${{ env.EXT_VERSION }}.vsix
