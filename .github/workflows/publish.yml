@@ -12,6 +12,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    if: github.event.commits.author.username == 'MengNianxiaoyao'
 
     permissions:
       contents: write
