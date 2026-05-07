@@ -2,42 +2,70 @@
 	"name": "XM Language",
 	"patterns": [
 		{
-			"include": "#comments"
+			"include": "#magic-manage"
 		},
 		{
-			"include": "#strings"
+			"include": "#variable-decl"
 		},
 		{
 			"include": "#keywords"
 		},
 		{
 			"include": "#variables"
-		},
-		{
-			"include": "#special-keywords"
-		},
-		{
-			"include": "#special-values"
-		},
-		{
-			"include": "#hex-values"
 		}
 	],
 	"repository": {
-		"comments": {
+		"variable-decl": {
 			"patterns": [
 				{
-					"name": "comment.line.number-sign.xm",
-					"match": "^\\s*#.*$"
+					"name": "meta.variable-decl.xm",
+					"begin": "^ *变量=",
+					"end": "$",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.variable-header.xm"
+						}
+					},
+					"patterns": [
+						{
+							"name": "keyword.variable-type.xm",
+							"match": "整数型|文本型"
+						},
+						{
+							"name": "variable.name.xm",
+							"match": "[^=|]+"
+						}
+					]
 				}
 			]
 		},
-		"strings": {
+		"magic-manage": {
 			"patterns": [
 				{
-					"name": "string.quoted.xm",
-					"begin": "\"",
-					"end": "\""
+					"name": "meta.magic-manage.xm",
+					"begin": "^ *魔法管理=\\{",
+					"end": "\\}",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.magic-manage-header.xm"
+						}
+					},
+					"endCaptures": {
+						"0": {
+							"name": "keyword.magic-manage-footer.xm"
+						}
+					},
+					"contentName": "meta.magic-manage-params.xm",
+					"patterns": [
+						{
+							"name": "keyword.magic-manage-key.xm",
+							"match": "[^=|]+(?==)"
+						},
+						{
+							"name": "string.magic-manage-value.xm",
+							"match": "(?<==)[^=|}]+"
+						}
+					]
 				}
 			]
 		},
@@ -45,39 +73,19 @@
 			"patterns": [
 				{
 					"name": "keyword.control.xm",
-					"match": "(魔法管理|发包|(对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|变量|自定义(?:出招|魔法)|(对战|判断|计次)循环体)="
+					"match": "^ *(?:发包|(?:对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|自定义(?:出招|魔法)|(?:对战|判断|计次)循环体)="
 				},
 				{
-					"name": "keyword.control-value.xm",
-					"match": "(?<=^(延时|对战延时|设置背包|战前准备|使用(?:技能|道具)|精灵(?:首发|切换-ID|切换-位置))=).+"
+					"name": "keyword.loop.xm",
+					"match": "(?:判断(?:真|假)\\d*)|跳出循环|(?:对战胜利|对战未触发)?(?:头|尾)部"
 				},
 				{
-					"name": "keyword.loop-if.xm",
-					"match": "\\b判断(真|假)\\d*\\b"
+					"name": "keyword.strings.xm",
+					"match": "[0-9a-zA-Z]+"
 				},
 				{
-					"name": "keyword.control-break.xm",
-					"match": "\\b跳出循环\\b"
-				},
-				{
-					"name": "keyword.wild-pokemon.xm",
-					"match": "^\\s*野怪操作-(对战|捕捉)\\s*="
-				},
-				{
-					"name": "keyword.loop-head.xm",
-					"match": "\\b头部\\b"
-				},
-				{
-					"name": "keyword.loop-tail.xm",
-					"match": "\\b尾部\\b"
-				},
-				{
-					"name": "keyword.loop-battle.xm",
-					"match": "\\b(对战胜利|对战未触发)(头|尾)部\\b"
-				},
-				{
-					"name": "keyword.and-or.xm",
-					"match": "\\b(且|或)\\b"
+					"name": "keyword.special.xm",
+					"match": "(?:且|或|forstart|forend|whilestart|whileend|break|if|else|and|or|还原背包|撤退|全精灵恢复|压血|领取.*火)"
 				},
 				{
 					"name": "constant.numeric.expression.xm",
@@ -97,7 +105,11 @@
 					"patterns": [
 						{
 							"name": "keyword.compare-op.xm",
-							"match": "[大小](?:于(?:等于)?)?|(十六|二)进制|等于|不等于"
+							"match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
+						},
+						{
+							"name": "constant.numeric.xm",
+							"match": "\\d+"
 						}
 					]
 				},
@@ -107,35 +119,11 @@
 				}
 			]
 		},
-		"special-keywords": {
-			"patterns": [
-				{
-					"name": "keyword.control.special.xm",
-					"match": "(forstart)|(forend)|(whilestart)|(whileend)"
-				}
-			]
-		},
 		"variables": {
 			"patterns": [
 				{
 					"name": "variable.other.xm",
 					"match": "\\[([^\\]]+)\\]"
-				}
-			]
-		},
-		"special-values": {
-			"patterns": [
-				{
-					"name": "constant.special.xm",
-					"match": "(还原背包|撤退|全精灵恢复|压血|领取)"
-				}
-			]
-		},
-		"hex-values": {
-			"patterns": [
-				{
-					"name": "constant.numeric.hex.xm",
-					"match": "\\{[^}]+\\}"
 				}
 			]
 		}

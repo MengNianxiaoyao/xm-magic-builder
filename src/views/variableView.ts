@@ -1,62 +1,14 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
 import { createTextInput, createButtonRow, createSelect, checkXmFile, insertText, showWarning } from '../utils';
-
-const INTEGER_VALUES = [
-	{ value: '自定义值', label: '自定义值' },
-	{ value: '道具数量返回', label: '道具数量返回' },
-	{ value: '精灵数量返回1', label: '精灵数量返回1' },
-	{ value: '精灵数量返回2', label: '精灵数量返回2' },
-	{ value: '背包精灵catchtime返回', label: '背包精灵catchtime返回' },
-	{ value: '背包精灵catchtime返回2', label: '背包精灵catchtime返回2' },
-	{ value: '用户当前超NO状态返回', label: '用户当前超NO状态返回' },
-	{ value: '用户当前年费状态返回', label: '用户当前年费状态返回' },
-	{ value: '用户当前火焰状态返回', label: '用户当前火焰状态返回' },
-	{ value: '现行10位时间戳', label: '现行10位时间戳' },
-	{ value: '当前星期几', label: '当前星期几' },
-	{ value: '当前年份', label: '当前年份' },
-	{ value: '当前月份', label: '当前月份' },
-	{ value: '当前日', label: '当前日' },
-	{ value: '当前小时', label: '当前小时' },
-	{ value: '当前分钟', label: '当前分钟' },
-	{ value: '当前秒数', label: '当前秒数' },
-	{ value: '时间戳取年份', label: '时间戳取年份' },
-	{ value: '时间戳取月份', label: '时间戳取月份' },
-	{ value: '时间戳取日', label: '时间戳取日' },
-	{ value: '时间戳取小时', label: '时间戳取小时' },
-	{ value: '时间戳取分钟', label: '时间戳取分钟' },
-	{ value: '时间戳取秒数', label: '时间戳取秒数' },
-];
-
-const STRING_VALUES = [
-	{ value: '自定义文本', label: '自定义文本' },
-	{ value: '游戏收包主体文本返回', label: '游戏收包主体文本返回' },
-	{ value: '现行时间', label: '现行时间' },
-	{ value: '时间戳转文本', label: '时间戳转文本' },
-];
-
-const NO_CUSTOM_VALUE_TYPES = [
-	'用户当前超NO状态返回',
-	'用户当前年费状态返回',
-	'用户当前火焰状态返回',
-	'现行10位时间戳',
-	'当前星期几',
-	'当前年份',
-	'当前月份',
-	'当前日',
-	'当前小时',
-	'当前分钟',
-	'当前秒数',
-	'现行时间',
-];
+import { INTEGER_VAR_VALUES, STRING_VAR_VALUES, NO_CUSTOM_VAR_TYPES } from '../constants';
 
 export class VariableView extends BaseView {
 	private varType = 'integer';
 	private varValue = 'custom';
 
 	getContent(): string {
-		const values = this.varType === 'integer' ? INTEGER_VALUES : STRING_VALUES;
-		const showCustom = !NO_CUSTOM_VALUE_TYPES.includes(this.varValue);
+		const values = this.varType === 'integer' ? INTEGER_VAR_VALUES : STRING_VAR_VALUES;
+		const showCustom = !NO_CUSTOM_VAR_TYPES.includes(this.varValue);
 		
 		const varNameHtml = createTextInput({ id: 'var-name' });
 		const varTypeHtml = createSelect({
@@ -98,9 +50,9 @@ export class VariableView extends BaseView {
 	<script>
 		const vscode = acquireVsCodeApi();
 		
-		const integerValues = ${JSON.stringify(INTEGER_VALUES)};
-		const stringValues = ${JSON.stringify(STRING_VALUES)};
-		const noCustomTypes = ${JSON.stringify(NO_CUSTOM_VALUE_TYPES)};
+		const integerValues = ${JSON.stringify(INTEGER_VAR_VALUES)};
+		const stringValues = ${JSON.stringify(STRING_VAR_VALUES)};
+		const noCustomTypes = ${JSON.stringify(NO_CUSTOM_VAR_TYPES)};
 		
 		function updateValueOptions(type) {
 			const valueSelect = document.getElementById('var-value');
@@ -173,7 +125,7 @@ export class VariableView extends BaseView {
 			insertText('变量=清空变量');
 		} else if (message.command === 'variable-add') {
 			const typeLabel = message.varType === 'integer' ? '整数型' : '文本型';
-			const actualValue = NO_CUSTOM_VALUE_TYPES.includes(message.varValue) ? '0' : message.customValue;
+			const actualValue = NO_CUSTOM_VAR_TYPES.includes(message.varValue) ? '0' : message.customValue;
 			const output = `变量=${typeLabel}|${message.varName}|${message.varValue}|${actualValue}`;
 			insertText(output);
 		}

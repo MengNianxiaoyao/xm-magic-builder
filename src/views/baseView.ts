@@ -21,15 +21,6 @@ export abstract class BaseView implements vscode.WebviewViewProvider {
 		).toString();
 	}
 
-	protected checkXmFile(): boolean {
-		const editor = vscode.window.activeTextEditor;
-		if (!editor || !editor.document.fileName.endsWith('.xm')) {
-			vscode.window.showWarningMessage('请先打开 .xm 文件');
-			return false;
-		}
-		return true;
-	}
-
 	protected abstract getContent(): string;
 	
 	protected handleMessage(message: unknown): void {}

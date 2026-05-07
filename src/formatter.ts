@@ -35,6 +35,7 @@ function convertFullwidth(line: string): string {
 	line = line.replace(/whileend/g, '判断循环体=尾部');
 	line = line.replace(/if/g, '判断循环体=判断真');
 	line = line.replace(/else/g, '判断循环体=判断假');
+	line = line.replace(/break/g, '判断循环体=跳出循环');
 	line= line.replace(/and/g, '且');
 	line= line.replace(/or/g, '或');
 	return line;

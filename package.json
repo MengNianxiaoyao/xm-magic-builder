@@ -64,12 +64,7 @@
       "xm-magic-builder-sidebar": [
         {
           "id": "xm-magic-builder.send-packet",
-          "name": "发包",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.delay",
-          "name": "延时",
+          "name": "发包延时",
           "type": "webview"
         },
         {

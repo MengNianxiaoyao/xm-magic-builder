@@ -1,11 +1,11 @@
-import * as vscode from 'vscode';
 import { BaseView } from './baseView';
 import { createRadioGroup, createTextInput, createCheckboxGroup, checkXmFile, insertTextAtLine } from '../utils';
+import { loadMagicManageFromFile } from '../magicManageLoader';
 
 export class MagicManageView extends BaseView {
 	public refresh(): void {
 		if (!this.webviewView) {return;}
-		const data = this.loadMagicManageFromCurrentFile();
+		const data = loadMagicManageFromFile();
 		this.webviewView.webview.postMessage({
 			command: 'magic-manage-loaded',
 			data
@@ -129,7 +129,7 @@ export class MagicManageView extends BaseView {
 
 	protected handleMessage(message: any): void {
 		if (message.command === 'load-magic-manage') {
-			const data = this.loadMagicManageFromCurrentFile();
+			const data = loadMagicManageFromFile();
 			this.webviewView?.webview.postMessage({
 				command: 'magic-manage-loaded',
 				data
@@ -143,61 +143,5 @@ export class MagicManageView extends BaseView {
 			const output = `魔法管理={端口限制=${message.portLimit}|当前版本=${message.versionMajor}.${message.versionMinor}|接口参数=${message.apiParam}|接口类型=0|版本控制1=${message.versionCheck1}|版本控制2=${message.versionCheck2}|本地黑名单=${message.blacklist}|Appid=${message.appid}|赞助免费=${message.sponsorDays}}`;
 			insertTextAtLine(output, 0);
 		}
-	}
-	
-	private loadMagicManageFromCurrentFile(): any {
-		const editor = vscode.window.activeTextEditor;
-		if (!editor || !editor.document.fileName.endsWith('.xm')) {return null;}
-		
-		const firstLine = editor.document.lineAt(0).text.trim();
-		if (!firstLine.startsWith('魔法管理=')) {return null;}
-		
-		const match = firstLine.match(/^魔法管理=\{(.+)\}$/);
-		if (!match) {return null;}
-		
-		const pairs = match[1].split('|');
-		const data: any = {};
-		
-		for (const pair of pairs) {
-			const [key, value] = pair.split('=');
-			if (!key || value === undefined) {continue;}
-			data[key] = value;
-		}
-		
-		if (data['当前版本']) {
-			const [major, minor] = data['当前版本'].split('.');
-			data['versionMajor'] = major || '0';
-			data['versionMinor'] = minor || '1';
-		}
-		
-		if (data['端口限制']) {
-			data['portLimit'] = data['端口限制'];
-		}
-		
-		if (data['接口参数']) {
-			data['apiParam'] = data['接口参数'];
-		}
-		
-		if (data['版本控制1'] !== undefined) {
-			data['versionCheck1'] = data['版本控制1'];
-		}
-		
-		if (data['版本控制2'] !== undefined) {
-			data['versionCheck2'] = data['版本控制2'];
-		}
-		
-		if (data['本地黑名单']) {
-			data['blacklist'] = data['本地黑名单'];
-		}
-		
-		if (data['Appid']) {
-			data['appid'] = data['Appid'];
-		}
-		
-		if (data['赞助免费']) {
-			data['sponsorDays'] = data['赞助免费'];
-		}
-		
-		return data;
 	}
 }

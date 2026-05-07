@@ -67,14 +67,13 @@ function getWelcomeHtml(): string {
 	<div class="card">
 		<h2>功能面板</h2>
 		<ul>
-			<li><strong>发包</strong> - 发送游戏数据包</li>
-			<li><strong>延时</strong> - 延时操作</li>
+			<li><strong>发包延时</strong> - 发包和延时操作</li>
 			<li><strong>对战操作</strong> - 对战相关操作</li>
 			<li><strong>精灵操作</strong> - 精灵相关操作</li>
 			<li><strong>循环体</strong> - 出招/对战/判断/计次循环</li>
 			<li><strong>变量</strong> - 定义变量</li>
 			<li><strong>魔法管理</strong> - 魔法全局设置</li>
-			<li><strong>自定义出招/魔法</strong> - 导入自定义方案</li>
+			<li><strong>自定义出招/魔法</strong> - 导入自定义</li>
 		</ul>
 	</div>
 	
@@ -83,6 +82,11 @@ function getWelcomeHtml(): string {
 		<p>添加的内容会按照以下格式输出到 .xm 文件：</p>
 		<div class="code">功能名=值</div>
 		<p>例如：延时=1000</p>
+	</div>
+
+	<div class="card">
+		<h2>功能详细说明</h2>
+		<p>功能详细请看 <a href="https://www.yuque.com/xinranyimeng-zbrse/nbid0s/xf4ec40lsuwph5l0?singleDoc">XM Seer脱机日常使用说明文档</a></p>
 	</div>
 </body>
 </html>`;

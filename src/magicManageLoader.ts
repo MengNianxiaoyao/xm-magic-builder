@@ -5,8 +5,8 @@ export interface MagicManageData {
 	versionMajor: string;
 	versionMinor: string;
 	apiParam: string;
-	versionCheck1: boolean;
-	versionCheck2: boolean;
+	versionCheck1: string;
+	versionCheck2: string;
 	blacklist: string;
 	appid: string;
 	sponsorDays: string;
@@ -22,8 +22,8 @@ export function parseMagicManage(content: string): MagicManageData | null {
 		versionMajor: '0',
 		versionMinor: '1',
 		apiParam: '',
-		versionCheck1: false,
-		versionCheck2: false,
+		versionCheck1: '0',
+		versionCheck2: '0',
 		blacklist: '',
 		appid: '',
 		sponsorDays: '1',
@@ -46,10 +46,10 @@ export function parseMagicManage(content: string): MagicManageData | null {
 				data.apiParam = value;
 				break;
 			case '版本控制1':
-				data.versionCheck1 = value === '1';
+				data.versionCheck1 = value === '1' ? '1' : '0';
 				break;
 			case '版本控制2':
-				data.versionCheck2 = value === '1';
+				data.versionCheck2 = value === '1' ? '1' : '0';
 				break;
 			case '本地黑名单':
 				data.blacklist = value;
@@ -74,18 +74,4 @@ export function loadMagicManageFromFile(): MagicManageData | null {
 	if (!firstLine.startsWith('魔法管理=')) {return null;}
 	
 	return parseMagicManage(firstLine);
-}
-
-export function registerMagicManageLoader(context: vscode.ExtensionContext) {
-	const disposable = vscode.commands.registerCommand('xm-magic-builder.loadMagicManage', () => {
-		const data = loadMagicManageFromFile();
-		if (data) {
-			vscode.window.showInformationMessage('已加载魔法管理配置');
-		} else {
-			vscode.window.showInformationMessage('未找到魔法管理配置');
-		}
-		return data;
-	});
-	
-	context.subscriptions.push(disposable);
 }

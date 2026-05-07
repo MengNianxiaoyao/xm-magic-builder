@@ -16,11 +16,11 @@ export function createFileImportScript(options: {
 }): string {
 	return `
 	let ${options.variableName} = '';
-	
+
 	document.getElementById('${options.importButtonId}').addEventListener('click', () => {
 		document.getElementById('${options.fileInputId}').click();
 	});
-	
+
 	document.getElementById('${options.fileInputId}').addEventListener('change', (e) => {
 		const file = e.target.files[0];
 		if (file) {

@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
-import { SendPacketView } from './views/sendPacket';
-import { DelayView } from './views/delayView';
+import { SendPacketView } from './views/sendPacketView';
 import { PokemonOperationView } from './views/pokemonOperationView';
 import { BattleOperationView } from './views/battleOperationView';
 import { AttackLoopView } from './views/attackLoopView';
@@ -16,7 +15,6 @@ import { CustomMagicView } from './views/customMagicView';
 
 export function registerSidebar(context: vscode.ExtensionContext) {
 	const sendPacketView = new SendPacketView(context);
-	const delayView = new DelayView(context);
 	const pokemonOperationView = new PokemonOperationView(context);
 	const battleOperationView = new BattleOperationView(context);
 	const attackLoopView = new AttackLoopView(context);
@@ -31,7 +29,6 @@ export function registerSidebar(context: vscode.ExtensionContext) {
 	const customMagicView = new CustomMagicView(context);
 
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.send-packet', sendPacketView);
-	vscode.window.registerWebviewViewProvider('xm-magic-builder.delay', delayView);
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.pokemon-operation', pokemonOperationView);
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.battle-operation', battleOperationView);
 	vscode.window.registerWebviewViewProvider('xm-magic-builder.attack-loop', attackLoopView);
