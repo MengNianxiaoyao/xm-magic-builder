@@ -1,5 +1,6 @@
 export const INTEGER_VAR_VALUES: { value: string; label: string }[] = [
 	{ value: '自定义值', label: '自定义值' },
+	{ value: '向上取整', label: '向上取整' },
 	{ value: '道具数量返回', label: '道具数量返回' },
 	{ value: '精灵数量返回1', label: '精灵数量返回1' },
 	{ value: '精灵数量返回2', label: '精灵数量返回2' },
