@@ -15,46 +15,6 @@
 		}
 	],
 	"repository": {
-		"variable-decl": {
-			"patterns": [
-				{
-					"name": "meta.variable-decl.xm",
-					"begin": "^ *变量",
-					"end": "$",
-					"beginCaptures": {
-						"0": {
-							"name": "keyword.variable-header.xm"
-						}
-					},
-					"patterns": [
-						{
-							"name": "keyword.variable-type.xm",
-							"match": "整数型|文本型"
-						},
-						{
-							"name": "keyword.compare-op.xm",
-							"match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
-						},
-						{
-							"name": "constant.numeric.xm",
-							"match": "\\d+"
-						},
-						{
-							"name": "constant.name.xm",
-							"match": "\\|([^|]+)\\|([^|]+)",
-							"captures": {
-								"1": {
-									"name": "variable.name.xm"
-								},
-								"2": {
-									"name": "string.name.xm"
-								}
-							}
-						}
-					]
-				}
-			]
-		},
 		"magic-manage": {
 			"patterns": [
 				{
@@ -85,11 +45,55 @@
 				}
 			]
 		},
+		"variable-decl": {
+			"patterns": [
+				{
+					"name": "meta.variable-decl.xm",
+					"begin": "^ *变量",
+					"end": "$",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.variable-header.xm"
+						}
+					},
+					"patterns": [
+						{
+							"name": "keyword.variable-type.xm",
+							"match": "整数型|文本型"
+						},
+						{
+							"name": "variable.clear.xm",
+							"match": "清空变量"
+						},
+						{
+							"name": "keyword.compare-op.xm",
+							"match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
+						},
+						{
+							"name": "constant.numeric.xm",
+							"match": "\\d+"
+						},
+						{
+							"name": "constant.name.xm",
+							"match": "\\|([^|]+)\\|([^|]+)",
+							"captures": {
+								"1": {
+									"name": "variable.name.xm"
+								},
+								"2": {
+									"name": "string.name.xm"
+								}
+							}
+						}
+					]
+				}
+			]
+		},
 		"keywords": {
 			"patterns": [
 				{
 					"name": "keyword.control.xm",
-					"match": "^ *(?:发包|(?:对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|自定义(?:出招|魔法)|(?:对战|判断|计次)循环体)"
+					"match": "^ *(?:发包|(?:对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|自定义(?:出招|魔法)|(?:出招|对战|判断|计次)循环体)"
 				},
 				{
 					"name": "keyword.loop.xm",
@@ -111,6 +115,10 @@
 						{
 							"name": "keyword.operator.xm",
 							"match": "[*+\\-/%]"
+						},
+						{
+							"name": "variable.other.xm",
+							"match": "\\[([^\\]]+)\\]"
 						}
 					]
 				},

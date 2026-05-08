@@ -7,6 +7,12 @@ on:
       - dev
     paths-ignore:
       - 'package.json'
+  pull_request:
+    branches:
+      - main
+      - dev
+    paths-ignore:
+      - 'package.json'
 
   workflow_dispatch:
 
