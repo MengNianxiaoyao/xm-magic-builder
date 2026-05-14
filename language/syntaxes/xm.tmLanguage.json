@@ -84,6 +84,21 @@
 									"name": "string.name.xm"
 								}
 							}
+						},
+						{
+							"name": "constant.numeric.expression.xm",
+							"begin": "#<",
+							"end": ">#",
+							"patterns": [
+								{
+									"name": "keyword.operator.xm",
+									"match": "[*+\\-/%]"
+								}
+							]
+						},
+						{
+							"name": "variable.other.xm",
+							"match": "\\[([^\\]]+)\\]"
 						}
 					]
 				}
