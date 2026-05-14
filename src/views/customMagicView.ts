@@ -77,7 +77,7 @@ export class CustomMagicView extends BaseView {
 		if (!checkXmFile()) {return;}
 
 		if (message.command === 'custom-magic-add') {
-			const passwordPart = message.password ? `|${message.password}` : '';
+			const passwordPart = message.password ? `${message.password}` : '';
 			const output = `自定义魔法=${message.passCurrent}|${message.returnVar}|${passwordPart}|${message.fileName}|${message.fileHex}`;
 			insertText(output);
 		}
