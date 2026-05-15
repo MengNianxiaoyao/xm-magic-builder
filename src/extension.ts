@@ -14,4 +14,4 @@ export function activate(context: import('vscode').ExtensionContext) {
 	showWelcomePanel(context);
 }
 
-export function deactivate() {}
+export function deactivate() { }

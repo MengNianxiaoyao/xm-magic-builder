@@ -1,168 +1,187 @@
 {
-  "publisher": "MengNianxiaoyao",
-  "name": "xm-magic-builder",
-  "displayName": "XMSeer's Magic Builder",
-  "description": "An XMSeer's magic build tool",
-  "author": "MengNianxiaoyao",
-  "homepage": "https://github.com/MengNianxiaoyao/xm-magic-builder#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/MengNianxiaoyao/xm-magic-builder"
-  },
-  "bugs": {
-    "url": "https://github.com/MengNianxiaoyao/xm-magic-builder/issues"
-  },
-  "version": "0.1.2",
-  "engines": {
-    "vscode": "^1.118.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "icon": "resources/icon.png",
-  "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "xm-magic-builder.autoIndent",
-        "title": "XM: 自动缩进"
-      },
-      {
-        "command": "xm-magic-builder.refreshMagicManage",
-        "title": "刷新魔法管理",
-        "icon": "$(refresh)"
-      }
-    ],
-    "languages": [
-      {
-        "id": "xm",
-        "extensions": [".xm"],
-        "aliases": ["XM Language"],
-        "configuration": "./language/language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "xm",
-        "scopeName": "source.xm",
-        "path": "./language/syntaxes/xm.tmLanguage.json"
-      }
-    ],
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "xm-magic-builder-sidebar",
-          "title": "XM魔法编辑器",
-          "icon": "resources/icon.png"
-        }
-      ]
+    "publisher": "MengNianxiaoyao",
+    "name": "xm-magic-builder",
+    "displayName": "XMSeer's Magic Builder",
+    "description": "An XMSeer's magic build tool",
+    "author": "MengNianxiaoyao",
+    "homepage": "https://github.com/MengNianxiaoyao/xm-magic-builder#readme",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MengNianxiaoyao/xm-magic-builder"
     },
-    "views": {
-      "xm-magic-builder-sidebar": [
-        {
-          "id": "xm-magic-builder.send-packet",
-          "name": "发包延时",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.pokemon-operation",
-          "name": "精灵操作",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.battle-operation",
-          "name": "对战操作",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.attack-loop",
-          "name": "出招循环体",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.battle-loop",
-          "name": "对战循环体",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.custom-attack",
-          "name": "自定义出招",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.wild-pokemon",
-          "name": "野怪操作",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.variable",
-          "name": "变量",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.if-loop",
-          "name": "判断循环体",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.count-loop",
-          "name": "计次循环体",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.output",
-          "name": "信息输出",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.magic-manage",
-          "name": "魔法管理",
-          "type": "webview"
-        },
-        {
-          "id": "xm-magic-builder.custom-magic",
-          "name": "自定义魔法",
-          "type": "webview"
-        }
-      ]
+    "bugs": {
+        "url": "https://github.com/MengNianxiaoyao/xm-magic-builder/issues"
     },
-    "menus": {
-      "view/title": [
-        {
-          "command": "xm-magic-builder.refreshMagicManage",
-          "when": "view == xm-magic-builder.magic-manage",
-          "group": "navigation"
+    "version": "0.1.3",
+    "engines": {
+        "vscode": "^1.118.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "icon": "resources/icon.png",
+    "main": "./dist/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "xm-magic-builder.autoIndent",
+                "title": "XM: 自动缩进"
+            },
+            {
+                "command": "xm-magic-builder.refreshMagicManage",
+                "title": "刷新魔法管理",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refreshCompletionStats",
+                "title": "刷新补全统计",
+                "icon": "$(refresh)"
+            }
+        ],
+        "languages": [
+            {
+                "id": "xm",
+                "extensions": [
+                    ".xm"
+                ],
+                "aliases": [
+                    "XM Language"
+                ],
+                "configuration": "./language/language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "xm",
+                "scopeName": "source.xm",
+                "path": "./language/syntaxes/xm.tmLanguage.json"
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "xm-magic-builder-sidebar",
+                    "title": "XM魔法编辑器",
+                    "icon": "resources/icon.png"
+                }
+            ]
+        },
+        "views": {
+            "xm-magic-builder-sidebar": [
+                {
+                    "id": "xm-magic-builder.send-packet",
+                    "name": "发包延时",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.pokemon-operation",
+                    "name": "精灵操作",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.battle-operation",
+                    "name": "对战操作",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.attack-loop",
+                    "name": "出招循环体",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.battle-loop",
+                    "name": "对战循环体",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.custom-attack",
+                    "name": "自定义出招",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.wild-pokemon",
+                    "name": "野怪操作",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.variable",
+                    "name": "变量",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.if-loop",
+                    "name": "判断循环体",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.count-loop",
+                    "name": "计次循环体",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.output",
+                    "name": "信息输出",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.magic-manage",
+                    "name": "魔法管理",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.custom-magic",
+                    "name": "自定义魔法",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.completion-stats",
+                    "name": "补全使用统计",
+                    "type": "webview"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "xm-magic-builder.refreshMagicManage",
+                    "when": "view == xm-magic-builder.magic-manage",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refreshCompletionStats",
+                    "when": "view == xm-magic-builder.completion-stats",
+                    "group": "navigation"
+                }
+            ]
         }
-      ]
+    },
+    "scripts": {
+        "vscode:prepublish": "pnpm run package",
+        "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+        "watch": "npm-run-all -p watch:*",
+        "watch:esbuild": "node esbuild.js --watch",
+        "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+        "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+        "check-types": "tsc --noEmit",
+        "lint": "eslint src --fix",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.118.0",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "22.x",
+        "typescript-eslint": "^8.56.1",
+        "eslint": "^9.39.3",
+        "esbuild": "^0.27.3",
+        "npm-run-all": "^4.1.5",
+        "typescript": "^5.9.3",
+        "@vscode/test-cli": "^0.0.12",
+        "@vscode/test-electron": "^2.5.2"
     }
-  },
-  "scripts": {
-    "vscode:prepublish": "pnpm run package",
-    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
-    "watch": "npm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src --fix",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.118.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "22.x",
-    "typescript-eslint": "^8.56.1",
-    "eslint": "^9.39.3",
-    "esbuild": "^0.27.3",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.9.3",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
-  }
 }

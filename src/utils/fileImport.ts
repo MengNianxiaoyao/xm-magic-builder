@@ -1,20 +1,20 @@
 export function createFileImportHtml(options: {
-	fileInputId: string;
-	fileNameInputId: string;
-	importButtonId: string;
-	accept: string;
+    fileInputId: string;
+    fileNameInputId: string;
+    importButtonId: string;
+    accept: string;
 }): string {
-	return `
+    return `
 	<input type="file" id="${options.fileInputId}" accept="${options.accept}" style="display: none;" />`;
 }
 
 export function createFileImportScript(options: {
-	fileInputId: string;
-	fileNameInputId: string;
-	importButtonId: string;
-	variableName: string;
+    fileInputId: string;
+    fileNameInputId: string;
+    importButtonId: string;
+    variableName: string;
 }): string {
-	return `
+    return `
 	let ${options.variableName} = '';
 
 	document.getElementById('${options.importButtonId}').addEventListener('click', () => {
@@ -40,9 +40,9 @@ export function createFileImportScript(options: {
 }
 
 export function getFileImportWarning(): string {
-	return '请先导入文件';
+    return '请先导入文件';
 }
 
 export function validateFileImport(fileName: string, fileHex: string): boolean {
-	return !!(fileName && fileHex);
+    return !!(fileName && fileHex);
 }
