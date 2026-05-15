@@ -1,175 +1,175 @@
 {
-	"name": "XM Language",
-	"patterns": [
-		{
-			"include": "#magic-manage"
-		},
-		{
-			"include": "#variable-decl"
-		},
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#variables"
-		}
-	],
-	"repository": {
-		"magic-manage": {
-			"patterns": [
-				{
-					"name": "meta.magic-manage.xm",
-					"begin": "^ *魔法管理",
-					"end": "\\}",
-					"beginCaptures": {
-						"0": {
-							"name": "keyword.magic-manage-header.xm"
-						}
-					},
-					"endCaptures": {
-						"0": {
-							"name": "keyword.magic-manage-footer.xm"
-						}
-					},
-					"contentName": "meta.magic-manage-params.xm",
-					"patterns": [
-						{
-							"name": "keyword.magic-manage-key.xm",
-							"match": "[^=|]+(?==)"
-						},
-						{
-							"name": "string.magic-manage-value.xm",
-							"match": "(?<==)[^=|}]+"
-						}
-					]
-				}
-			]
-		},
-		"variable-decl": {
-			"patterns": [
-				{
-					"name": "meta.variable-decl.xm",
-					"begin": "^ *变量",
-					"end": "$",
-					"beginCaptures": {
-						"0": {
-							"name": "keyword.variable-header.xm"
-						}
-					},
-					"patterns": [
-						{
-							"name": "keyword.variable-type.xm",
-							"match": "整数型|文本型"
-						},
-						{
-							"name": "variable.clear.xm",
-							"match": "清空变量"
-						},
-						{
-							"name": "keyword.compare-op.xm",
-							"match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
-						},
-						{
-							"name": "constant.numeric.xm",
-							"match": "\\d+"
-						},
-						{
-							"name": "constant.name.xm",
-							"match": "\\|([^|]+)\\|([^|]+)",
-							"captures": {
-								"1": {
-									"name": "variable.name.xm"
-								},
-								"2": {
-									"name": "string.name.xm"
-								}
-							}
-						},
-						{
-							"name": "constant.numeric.expression.xm",
-							"begin": "#<",
-							"end": ">#",
-							"patterns": [
-								{
-									"name": "keyword.operator.xm",
-									"match": "[*+\\-/%]"
-								}
-							]
-						},
-						{
-							"name": "variable.other.xm",
-							"match": "(\\[([^\\]]+)\\])|([0-9a-zA-Z]+)"
-						}
-					]
-				}
-			]
-		},
-		"keywords": {
-			"patterns": [
-				{
-					"name": "keyword.control.xm",
-					"match": "^ *(?:发包|(?:对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|自定义(?:出招|魔法)|(?:出招|对战|判断|计次)循环体)"
-				},
-				{
-					"name": "keyword.loop.xm",
-					"match": "(?:判断(?:真|假)\\d*)|跳出循环|(?:对战胜利|对战未触发)?(?:头|尾)部"
-				},
-				{
-					"name": "keyword.special.xm",
-					"match": "(?:且|或|forstart|forend|whilestart|whileend|break|if|else|and|or|还原背包|撤退|全精灵恢复|压血|领取[^火]+火)"
-				},
-				{
-					"name": "keyword.strings.xm",
-					"match": "[0-9a-zA-Z]+"
-				},
-				{
-					"name": "constant.numeric.expression.xm",
-					"begin": "#<",
-					"end": ">#",
-					"patterns": [
-						{
-							"name": "keyword.operator.xm",
-							"match": "[*+\\-/%]"
-						},
-						{
-							"name": "variable.other.xm",
-							"match": "\\[([^\\]]+)\\]"
-						}
-					]
-				},
-				{
-					"name": "meta.condition-params.xm",
-					"begin": "\\{",
-					"end": "\\}",
-					"patterns": [
-						{
-							"name": "keyword.compare-op.xm",
-							"match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
-						},
-						{
-							"name": "constant.numeric.xm",
-							"match": "\\d+"
-						},
-						{
-							"name": "variable.other.xm",
-							"match": "\\[([^\\]]+)\\]"
-						}
-					]
-				},
-				{
-					"name": "constant.character.escape.xm",
-					"match": "\\\\(r|n)|\\\\r\\\\n"
-				}
-			]
-		},
-		"variables": {
-			"patterns": [
-				{
-					"name": "variable.other.xm",
-					"match": "\\[([^\\]]+)\\]"
-				}
-			]
-		}
-	},
-	"scopeName": "source.xm"
+    "name": "XM Language",
+    "patterns": [
+        {
+            "include": "#magic-manage"
+        },
+        {
+            "include": "#variable-decl"
+        },
+        {
+            "include": "#keywords"
+        },
+        {
+            "include": "#variables"
+        }
+    ],
+    "repository": {
+        "magic-manage": {
+            "patterns": [
+                {
+                    "name": "meta.magic-manage.xm",
+                    "begin": "^ *魔法管理",
+                    "end": "\\}",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.magic-manage-header.xm"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.magic-manage-footer.xm"
+                        }
+                    },
+                    "contentName": "meta.magic-manage-params.xm",
+                    "patterns": [
+                        {
+                            "name": "keyword.magic-manage-key.xm",
+                            "match": "[^=|]+(?==)"
+                        },
+                        {
+                            "name": "string.magic-manage-value.xm",
+                            "match": "(?<==)[^=|}]+"
+                        }
+                    ]
+                }
+            ]
+        },
+        "variable-decl": {
+            "patterns": [
+                {
+                    "name": "meta.variable-decl.xm",
+                    "begin": "^ *变量",
+                    "end": "$",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.variable-header.xm"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "name": "keyword.variable-type.xm",
+                            "match": "整数型|文本型"
+                        },
+                        {
+                            "name": "variable.clear.xm",
+                            "match": "清空变量"
+                        },
+                        {
+                            "name": "keyword.compare-op.xm",
+                            "match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
+                        },
+                        {
+                            "name": "constant.numeric.xm",
+                            "match": "\\d+"
+                        },
+                        {
+                            "name": "constant.name.xm",
+                            "match": "\\|([^|]+)\\|([^|]+)",
+                            "captures": {
+                                "1": {
+                                    "name": "variable.name.xm"
+                                },
+                                "2": {
+                                    "name": "string.name.xm"
+                                }
+                            }
+                        },
+                        {
+                            "name": "constant.numeric.expression.xm",
+                            "begin": "#<",
+                            "end": ">#",
+                            "patterns": [
+                                {
+                                    "name": "keyword.operator.xm",
+                                    "match": "[*+\\-/%]"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "variable.other.xm",
+                            "match": "(\\[([^\\]]+)\\])|([0-9a-zA-Z]+)"
+                        }
+                    ]
+                }
+            ]
+        },
+        "keywords": {
+            "patterns": [
+                {
+                    "name": "keyword.control.xm",
+                    "match": "^ *(?:发包|(?:对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|自定义(?:出招|魔法)|(?:出招|对战|判断|计次)循环体)"
+                },
+                {
+                    "name": "keyword.loop.xm",
+                    "match": "(?:判断(?:真|假)\\d*)|跳出循环|(?:对战胜利|对战未触发)?(?:头|尾)部"
+                },
+                {
+                    "name": "keyword.special.xm",
+                    "match": "(?:且|或|forstart|forend|whilestart|whileend|break|if|else|and|or|还原背包|撤退|全精灵恢复|压血|领取[^火]+火)"
+                },
+                {
+                    "name": "keyword.strings.xm",
+                    "match": "[0-9a-zA-Z]+"
+                },
+                {
+                    "name": "constant.numeric.expression.xm",
+                    "begin": "#<",
+                    "end": ">#",
+                    "patterns": [
+                        {
+                            "name": "keyword.operator.xm",
+                            "match": "[*+\\-/%]"
+                        },
+                        {
+                            "name": "variable.other.xm",
+                            "match": "\\[([^\\]]+)\\]"
+                        }
+                    ]
+                },
+                {
+                    "name": "meta.condition-params.xm",
+                    "begin": "\\{",
+                    "end": "\\}",
+                    "patterns": [
+                        {
+                            "name": "keyword.compare-op.xm",
+                            "match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
+                        },
+                        {
+                            "name": "constant.numeric.xm",
+                            "match": "\\d+"
+                        },
+                        {
+                            "name": "variable.other.xm",
+                            "match": "\\[([^\\]]+)\\]"
+                        }
+                    ]
+                },
+                {
+                    "name": "constant.character.escape.xm",
+                    "match": "\\\\(r|n)|\\\\r\\\\n"
+                }
+            ]
+        },
+        "variables": {
+            "patterns": [
+                {
+                    "name": "variable.other.xm",
+                    "match": "\\[([^\\]]+)\\]"
+                }
+            ]
+        }
+    },
+    "scopeName": "source.xm"
 }
