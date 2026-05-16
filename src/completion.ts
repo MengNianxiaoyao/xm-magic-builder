@@ -25,7 +25,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
             documentation: '设置延时时间(毫秒), 1000ms=1秒',
         },
         {
-            label: '1000\r\n',
+            label: '1000',
             detail: '1000ms',
             documentation: '设置1秒延时',
         },
@@ -37,7 +37,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
             documentation: '设置对战延时时间(毫秒), 1000ms=1秒',
         },
         {
-            label: '5000\r\n',
+            label: '5000',
             detail: '5000ms',
             documentation: '设置5秒对战延时',
         },
@@ -75,7 +75,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
             documentation: '设置背包精灵ID列表',
         },
         {
-            label: '还原背包\r\n',
+            label: '还原背包',
             detail: '还原背包',
             documentation: '还原默认背包',
         },
@@ -87,7 +87,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
             documentation: '使用指定技能',
         },
         {
-            label: '撤退\r\n',
+            label: '撤退',
             detail: '撤退',
             documentation: '对战撤退',
         },
@@ -101,32 +101,32 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
     ],
     战前准备: [
         {
-            label: '压血\r\n',
+            label: '压血',
             detail: '压血',
             documentation: '压制血量到20HP',
         },
         {
-            label: '全精灵恢复\r\n',
+            label: '全精灵恢复',
             detail: '全精灵恢复',
             documentation: '恢复所有精灵状态',
         },
         {
-            label: '领取绿火\r\n',
+            label: '领取绿火',
             detail: '领取绿火',
             documentation: '领取绿火加成',
         },
         {
-            label: '领取金火\r\n',
+            label: '领取金火',
             detail: '领取金火',
             documentation: '领取金火加成',
         },
         {
-            label: '领取紫火\r\n',
+            label: '领取紫火',
             detail: '领取紫火',
             documentation: '领取紫火加成',
         },
         {
-            label: '领取蓝火\r\n',
+            label: '领取蓝火',
             detail: '领取蓝火',
             documentation: '领取蓝火加成',
         },
@@ -143,7 +143,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
             documentation: '出招循环体开始',
         },
         {
-            label: '尾部\r\n',
+            label: '尾部',
             detail: '尾部',
             documentation: '出招循环体结束',
         },
@@ -160,7 +160,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
             documentation: '对战循环体开始(对战胜利)',
         },
         {
-            label: '对战胜利尾部\r\n',
+            label: '对战胜利尾部',
             detail: '胜利尾部',
             documentation: '对战循环体结束(对战胜利)',
         },
@@ -175,7 +175,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
             documentation: '对战循环体开始(对战未触发)',
         },
         {
-            label: '对战未触发尾部\r\n',
+            label: '对战未触发尾部',
             detail: '未触发尾部',
             documentation: '对战循环体结束(对战未触发)',
         },
@@ -202,7 +202,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
             documentation: '判断循环体开始(含发包参数)',
         },
         {
-            label: '尾部\r\n',
+            label: '尾部',
             detail: '尾部',
             documentation: '判断循环体结束',
         },
@@ -264,17 +264,17 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
     ],
     计次循环体: [
         {
-            label: '计次循环体=头部|标识1|[j]|[i]\r\n\r\n计次循环体=尾部',
+            label: '计次循环体=头部|标识1|[j]|[i]\r\n\r\n计次循环体=尾部|[标识1]',
             detail: '计次循环体',
-            documentation: '创建计次循环体',
+            documentation: '创建计次循环体\r\n\r\n计次循环体=头部|循环标识|指定值|初始值\r\n\r\n计次循环体=尾部|循环标识',
         },
         {
-            label: '头部|',
+            label: '头部|标识1|',
             detail: '计次循环体头部',
             documentation: '计次循环体开始',
         },
         {
-            label: '尾部|标识1\r\n',
+            label: '尾部|标识1',
             detail: '计次循环体尾部',
             documentation: '计次循环体结束',
         },
@@ -298,7 +298,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
             documentation: '创建自定义变量',
         },
         {
-            label: '清空变量\r\n',
+            label: '清空变量',
             detail: '清空变量',
             documentation: '清空所有自定义变量',
         },
