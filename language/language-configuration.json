@@ -3,30 +3,89 @@
         "lineComment": "#"
     },
     "brackets": [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"]
+        [
+            "{",
+            "}"
+        ],
+        [
+            "[",
+            "]"
+        ],
+        [
+            "(",
+            ")"
+        ],
+        [
+            "#<",
+            ">#"
+        ]
     ],
     "autoClosingPairs": [
-        { "open": "{", "close": "}" },
-        { "open": "[", "close": "]" },
-        { "open": "(", "close": ")" },
-        { "open": "\"", "close": "\"" },
-        { "open": "'", "close": "'" },
-        { "open": "“", "close": "”" },
-        { "open": "#<", "close": ">#"}
+        {
+            "open": "{",
+            "close": "}"
+        },
+        {
+            "open": "[",
+            "close": "]"
+        },
+        {
+            "open": "(",
+            "close": ")"
+        },
+        {
+            "open": "\"",
+            "close": "\""
+        },
+        {
+            "open": "'",
+            "close": "'"
+        },
+        {
+            "open": "“",
+            "close": "”"
+        },
+        {
+            "open": "《",
+            "close": "》"
+        },
+        {
+            "open": "#<",
+            "close": ">#"
+        }
     ],
     "surroundingPairs": [
-        { "open": "{", "close": "}" },
-        { "open": "[", "close": "]" },
-        { "open": "(", "close": ")" },
-        { "open": "\"", "close": "\"" },
-        { "open": "'", "close": "'" },
-        { "open": "“", "close": "”" },
-        { "open": "#<", "close": ">#"}
-    ],
-    "indentationRules": {
-        "increaseIndentPattern": "^\\s*(判断循环体=(头部|判断(真|假)\\d*)|(出招循环体|对战循环体|计次循环体)=.+头部)|((for|while)start)|((if|else)\\d*)",
-        "decreaseIndentPattern": "^\\s*(判断循环体=(尾部|跳出循环)|(出招循环体|对战循环体|计次循环体)=.+尾部)|((for|while)end)"
-    }
+        {
+            "open": "{",
+            "close": "}"
+        },
+        {
+            "open": "[",
+            "close": "]"
+        },
+        {
+            "open": "(",
+            "close": ")"
+        },
+        {
+            "open": "\"",
+            "close": "\""
+        },
+        {
+            "open": "'",
+            "close": "'"
+        },
+        {
+            "open": "“",
+            "close": "”"
+        },
+        {
+            "open": "《",
+            "close": "》"
+        },
+        {
+            "open": "#<",
+            "close": ">#"
+        }
+    ]
 }
