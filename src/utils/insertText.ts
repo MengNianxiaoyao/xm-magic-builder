@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { XM_KEYWORDS } from '../constants/xmKeywords';
 
 export function checkXmFile(): boolean {
     const editor = vscode.window.activeTextEditor;
@@ -11,7 +12,9 @@ export function checkXmFile(): boolean {
 
 export function insertText(text: string): void {
     const editor = vscode.window.activeTextEditor;
-    if (!editor) { return; }
+    if (!editor) {
+        return;
+    }
     editor.edit((builder) => {
         builder.insert(editor.selection.active, text + '\n');
     });
@@ -19,10 +22,14 @@ export function insertText(text: string): void {
 
 export function insertTextAtLine(text: string, lineIndex: number = 0): void {
     const editor = vscode.window.activeTextEditor;
-    if (!editor) { return; }
+    if (!editor) {
+        return;
+    }
 
     const firstLine = editor.document.lineAt(0);
-    const isFirstLineMagic = firstLine.text.trim().startsWith('魔法管理=');
+    const isFirstLineMagic = firstLine.text
+        .trim()
+        .startsWith(`${XM_KEYWORDS.MAGIC_MANAGE}=`);
 
     editor.edit((builder) => {
         if (lineIndex === 0 && isFirstLineMagic) {

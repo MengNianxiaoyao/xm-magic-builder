@@ -1,5 +1,12 @@
 import { BaseView } from './baseView';
-import { createSelect, createButtonRow, checkXmFile, insertText } from '../utils';
+import {
+    createSelect,
+    createButtonRow,
+    checkXmFile,
+    insertText,
+} from '../utils';
+import { COMMANDS } from '../constants/commands';
+import { XM_KEYWORDS } from '../constants/xmKeywords';
 
 export class BattleLoopView extends BaseView {
     getContent(): string {
@@ -17,33 +24,42 @@ export class BattleLoopView extends BaseView {
         ]);
 
         return `
-    <div class="container">
+        <div class="container">
         <div class="input-group">
-            <span class="label">条件类型</span>
-            ${selectHtml}
+        <span class="label">条件类型</span>
+        ${selectHtml}
         </div>
         ${buttonsHtml}
-    </div>
-    <script>
+        </div>
+        <script>
         const vscode = acquireVsCodeApi();
         document.getElementById('head-btn').addEventListener('click', () => {
-            const select = document.getElementById('condition-select');
-            vscode.postMessage({ command: 'battle-loop-head', content: select.value });
+        const select = document.getElementById('condition-select');
+        vscode.postMessage({ command: '${COMMANDS.BATTLE_LOOP_HEAD}', content: select.value });
         });
         document.getElementById('tail-btn').addEventListener('click', () => {
-            const select = document.getElementById('condition-select');
-            vscode.postMessage({ command: 'battle-loop-tail', content: select.value });
+        const select = document.getElementById('condition-select');
+        vscode.postMessage({ command: '${COMMANDS.BATTLE_LOOP_TAIL}', content: select.value });
         });
-    </script>`;
+        </script>`;
     }
 
-    protected handleMessage(message: { command: string; content: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        content: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
-        if (message.command === 'battle-loop-head') {
-            insertText(`对战循环体=${message.content}头部`);
-        } else if (message.command === 'battle-loop-tail') {
-            insertText(`对战循环体=${message.content}尾部`);
+        if (message.command === COMMANDS.BATTLE_LOOP_HEAD) {
+            insertText(
+                `${XM_KEYWORDS.BATTLE_LOOP}=${message.content}${XM_KEYWORDS.LOOP_HEAD}`
+            );
+        } else if (message.command === COMMANDS.BATTLE_LOOP_TAIL) {
+            insertText(
+                `${XM_KEYWORDS.BATTLE_LOOP}=${message.content}${XM_KEYWORDS.LOOP_TAIL}`
+            );
         }
     }
 }

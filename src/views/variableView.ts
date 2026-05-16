@@ -1,13 +1,27 @@
 import { BaseView } from './baseView';
-import { createTextInput, createButtonRow, createSelect, checkXmFile, insertText, showWarning } from '../utils';
-import { INTEGER_VAR_VALUES, STRING_VAR_VALUES, NO_CUSTOM_VAR_TYPES } from '../constants';
+import {
+    createTextInput,
+    createButtonRow,
+    createSelect,
+    checkXmFile,
+    insertText,
+    showWarning,
+} from '../utils';
+import {
+    INTEGER_VAR_VALUES,
+    STRING_VAR_VALUES,
+    NO_CUSTOM_VAR_TYPES,
+} from '../constants';
+import { COMMANDS } from '../constants/commands';
+import { XM_KEYWORDS } from '../constants/xmKeywords';
 
 export class VariableView extends BaseView {
     private varType = 'integer';
     private varValue = 'custom';
 
     getContent(): string {
-        const values = this.varType === 'integer' ? INTEGER_VAR_VALUES : STRING_VAR_VALUES;
+        const values =
+            this.varType === 'integer' ? INTEGER_VAR_VALUES : STRING_VAR_VALUES;
         const showCustom = !NO_CUSTOM_VAR_TYPES.includes(this.varValue);
 
         const varNameHtml = createTextInput({ id: 'var-name' });
@@ -25,10 +39,12 @@ export class VariableView extends BaseView {
             { id: 'add-btn', text: '添加变量' },
         ]);
 
-        const customInputSection = showCustom ? `
+        const customInputSection = showCustom
+            ? `
         <div class="input-group" id="custom-value-group">
             ${customValueHtml}
-        </div>` : '';
+        </div>`
+            : '';
 
         return `
         <div class="container">
@@ -81,52 +97,57 @@ export class VariableView extends BaseView {
                 updateCustomInput(e.target.value, document.getElementById('var-type').value);
             });
             
-            document.getElementById('clear-btn').addEventListener('click', () => {
-                vscode.postMessage({ command: 'variable-clear' });
-            });
-            
-            document.getElementById('add-btn').addEventListener('click', () => {
-                const varName = document.getElementById('var-name').value;
-                const varType = document.getElementById('var-type').value;
-                const varValue = document.getElementById('var-value').value;
-                const customValueInput = document.getElementById('custom-value');
-                const customValue = customValueInput ? customValueInput.value : '';
-                
-                if (!varName) {
-                    vscode.postMessage({ command: 'show-warning', message: '变量名称不得为空！' });
-                    return;
-                }
-                
-                if (!noCustomTypes.includes(varValue) && !customValue) {
-                    vscode.postMessage({ command: 'show-warning', message: '当前类型变量值不得为空！' });
-                    return;
-                }
-                
-                vscode.postMessage({ 
-                    command: 'variable-add', 
-                    varName, 
-                    varType, 
-                    varValue, 
-                    customValue 
-                });
-            });
+    document.getElementById('clear-btn').addEventListener('click', () => {
+        vscode.postMessage({ command: COMMANDS.VARIABLE_CLEAR });
+    });
+
+    document.getElementById('add-btn').addEventListener('click', () => {
+        const varName = document.getElementById('var-name').value;
+        const varType = document.getElementById('var-type').value;
+        const varValue = document.getElementById('var-value').value;
+        const customValueInput = document.getElementById('custom-value');
+        const customValue = customValueInput ? customValueInput.value : '';
+
+        if (!varName) {
+            vscode.postMessage({ command: COMMANDS.SHOW_WARNING, message: '变量名称不得为空！' });
+            return;
+        }
+
+        if (!noCustomTypes.includes(varValue) && !customValue) {
+            vscode.postMessage({ command: COMMANDS.SHOW_WARNING, message: '当前类型变量值不得为空！' });
+            return;
+        }
+
+        vscode.postMessage({
+            command: COMMANDS.VARIABLE_ADD,
+            varName,
+            varType,
+            varValue,
+            customValue
+        });
+    });
         </script>`;
     }
 
     protected handleMessage(message: any): void {
-        if (message.command === 'show-warning') {
+        if (message.command === COMMANDS.SHOW_WARNING) {
             showWarning(message.message);
             return;
         }
 
-        if (!checkXmFile()) { return; }
+        if (!checkXmFile()) {
+            return;
+        }
 
-        if (message.command === 'variable-clear') {
-            insertText('变量=清空变量');
-        } else if (message.command === 'variable-add') {
-            const typeLabel = message.varType === 'integer' ? '整数型' : '文本型';
-            const actualValue = NO_CUSTOM_VAR_TYPES.includes(message.varValue) ? '0' : message.customValue;
-            const output = `变量=${typeLabel}|${message.varName}|${message.varValue}|${actualValue}`;
+        if (message.command === COMMANDS.VARIABLE_CLEAR) {
+            insertText(`${XM_KEYWORDS.VARIABLE}=${XM_KEYWORDS.CLEAR_VAR}`);
+        } else if (message.command === COMMANDS.VARIABLE_ADD) {
+            const typeLabel =
+                message.varType === 'integer' ? '整数型' : '文本型';
+            const actualValue = NO_CUSTOM_VAR_TYPES.includes(message.varValue)
+                ? '0'
+                : message.customValue;
+            const output = `${XM_KEYWORDS.VARIABLE}=${typeLabel}|${message.varName}|${message.varValue}|${actualValue}`;
             insertText(output);
         }
     }

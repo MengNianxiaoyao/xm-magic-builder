@@ -14,7 +14,9 @@ export interface MagicManageData {
 
 export function parseMagicManage(content: string): MagicManageData | null {
     const match = content.match(/^魔法管理=\{(.+)\}$/);
-    if (!match) { return null; }
+    if (!match) {
+        return null;
+    }
 
     const pairs = match[1].split('|');
     const data: MagicManageData = {
@@ -31,7 +33,9 @@ export function parseMagicManage(content: string): MagicManageData | null {
 
     for (const pair of pairs) {
         const [key, value] = pair.split('=');
-        if (!key || value === undefined) { continue; }
+        if (!key || value === undefined) {
+            continue;
+        }
 
         switch (key) {
             case '端口限制':
@@ -68,10 +72,14 @@ export function parseMagicManage(content: string): MagicManageData | null {
 
 export function loadMagicManageFromFile(): MagicManageData | null {
     const editor = vscode.window.activeTextEditor;
-    if (!editor || !editor.document.fileName.endsWith('.xm')) { return null; }
+    if (!editor || !editor.document.fileName.endsWith('.xm')) {
+        return null;
+    }
 
     const firstLine = editor.document.lineAt(0).text.trim();
-    if (!firstLine.startsWith('魔法管理=')) { return null; }
+    if (!firstLine.startsWith('魔法管理=')) {
+        return null;
+    }
 
     return parseMagicManage(firstLine);
 }

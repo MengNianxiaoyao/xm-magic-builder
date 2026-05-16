@@ -1,5 +1,16 @@
 import { BaseView } from './baseView';
-import { createCheckboxGroup, createTextInput, createButtonRow, createFileImportHtml, createFileImportScript, checkXmFile, insertText, showWarning } from '../utils';
+import {
+    createCheckboxGroup,
+    createTextInput,
+    createButtonRow,
+    createFileImportHtml,
+    createFileImportScript,
+    checkXmFile,
+    insertText,
+    showWarning,
+} from '../utils';
+import { COMMANDS } from '../constants/commands';
+import { XM_KEYWORDS } from '../constants/xmKeywords';
 
 export class CustomMagicView extends BaseView {
     getContent(): string {
@@ -9,7 +20,10 @@ export class CustomMagicView extends BaseView {
         ]);
 
         const passwordHtml = createTextInput({ id: 'password' });
-        const fileNameHtml = createTextInput({ id: 'file-name', readonly: true });
+        const fileNameHtml = createTextInput({
+            id: 'file-name',
+            readonly: true,
+        });
         const fileInputHtml = createFileImportHtml({
             fileInputId: 'file-input',
             fileNameInputId: 'file-name',
@@ -29,56 +43,58 @@ export class CustomMagicView extends BaseView {
 
         return `
         <div class="container">
-            ${checkboxHtml}
-            <div class="input-group">
-                <span class="label">魔法密码</span>
-                ${passwordHtml}
-            </div>
-            <div class="input-group">
-                <span class="label">自定义魔法</span>
-                ${fileNameHtml}
-            </div>
-            ${buttonsHtml}
-            ${fileInputHtml}
+        ${checkboxHtml}
+        <div class="input-group">
+        <span class="label">魔法密码</span>
+        ${passwordHtml}
+        </div>
+        <div class="input-group">
+        <span class="label">自定义魔法</span>
+        ${fileNameHtml}
+        </div>
+        ${buttonsHtml}
+        ${fileInputHtml}
         </div>
         <script>
-            const vscode = acquireVsCodeApi();
-            ${fileImportScript}
+        const vscode = acquireVsCodeApi();
+        ${fileImportScript}
 
-            document.getElementById('add-btn').addEventListener('click', () => {
-                const passCurrent = document.getElementById('pass-current').checked ? '1' : '0';
-                const returnVar = document.getElementById('return-var').checked ? '1' : '0';
-                const password = document.getElementById('password').value;
-                const fileName = document.getElementById('file-name').value;
+        document.getElementById('add-btn').addEventListener('click', () => {
+        const passCurrent = document.getElementById('pass-current').checked ? '1' : '0';
+        const returnVar = document.getElementById('return-var').checked ? '1' : '0';
+        const password = document.getElementById('password').value;
+        const fileName = document.getElementById('file-name').value;
 
-                if (!fileName) {
-                    vscode.postMessage({ command: 'show-warning', message: '自定义魔法不得为空!' });
-                    return;
-                }
+        if (!fileName) {
+        vscode.postMessage({ command: '${COMMANDS.SHOW_WARNING}', message: '自定义魔法不得为空!' });
+        return;
+        }
 
-                vscode.postMessage({
-                    command: 'custom-magic-add',
-                    passCurrent,
-                    returnVar,
-                    password,
-                    fileName,
-                    fileHex
-                });
-            });
+        vscode.postMessage({
+        command: '${COMMANDS.CUSTOM_MAGIC_ADD}',
+        passCurrent,
+        returnVar,
+        password,
+        fileName,
+        fileHex
+        });
+        });
         </script>`;
     }
 
     protected handleMessage(message: any): void {
-        if (message.command === 'show-warning') {
+        if (message.command === COMMANDS.SHOW_WARNING) {
             showWarning(message.message);
             return;
         }
 
-        if (!checkXmFile()) { return; }
+        if (!checkXmFile()) {
+            return;
+        }
 
-        if (message.command === 'custom-magic-add') {
+        if (message.command === COMMANDS.CUSTOM_MAGIC_ADD) {
             const passwordPart = message.password ? `${message.password}` : '';
-            const output = `自定义魔法=${message.passCurrent}|${message.returnVar}|${passwordPart}|${message.fileName}|${message.fileHex}`;
+            const output = `${XM_KEYWORDS.CUSTOM_MAGIC}=${message.passCurrent}|${message.returnVar}|${passwordPart}|${message.fileName}|${message.fileHex}`;
             insertText(output);
         }
     }
