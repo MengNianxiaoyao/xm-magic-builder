@@ -1,5 +1,12 @@
 import { BaseView } from './baseView';
-import { createTextarea, createButtonRow, checkXmFile, insertText } from '../utils';
+import {
+    createTextarea,
+    createButtonRow,
+    checkXmFile,
+    insertText,
+} from '../utils';
+import { COMMANDS } from '../constants/commands';
+import { XM_KEYWORDS } from '../constants/xmKeywords';
 
 export class IfLoopView extends BaseView {
     getContent(): string {
@@ -13,38 +20,45 @@ export class IfLoopView extends BaseView {
         ]);
 
         return `
-        <div class="container">
-            <div class="input-group">
-                <span class="label">发包参数</span>
-                ${textareaHtml}
-            </div>
-            ${buttonsHeadTail}
-            ${buttonBreak}
-        </div>
-        <script>
-            const vscode = acquireVsCodeApi();
-            document.getElementById('head-btn').addEventListener('click', () => {
-                const packetParam = document.getElementById('packet-param').value;
-                vscode.postMessage({ command: 'if-loop-head', packetParam });
-            });
-            document.getElementById('tail-btn').addEventListener('click', () => {
-                vscode.postMessage({ command: 'if-loop-tail' });
-            });
-            document.getElementById('break-btn').addEventListener('click', () => {
-                vscode.postMessage({ command: 'if-loop-break' });
-            });
-        </script>`;
+    <div class="container">
+    <div class="input-group">
+    <span class="label">发包参数</span>
+    ${textareaHtml}
+    </div>
+    ${buttonsHeadTail}
+    ${buttonBreak}
+    </div>
+    <script>
+    const vscode = acquireVsCodeApi();
+    document.getElementById('head-btn').addEventListener('click', () => {
+    const packetParam = document.getElementById('packet-param').value;
+    vscode.postMessage({ command: '${COMMANDS.IF_LOOP_HEAD}', packetParam });
+    });
+    document.getElementById('tail-btn').addEventListener('click', () => {
+    vscode.postMessage({ command: '${COMMANDS.IF_LOOP_TAIL}' });
+    });
+    document.getElementById('break-btn').addEventListener('click', () => {
+    vscode.postMessage({ command: '${COMMANDS.IF_LOOP_BREAK}' });
+    });
+    </script>`;
     }
 
-    protected handleMessage(message: { command: string; packetParam?: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        packetParam?: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
-        if (message.command === 'if-loop-head') {
-            insertText(`判断循环体=头部|${message.packetParam}`);
-        } else if (message.command === 'if-loop-tail') {
-            insertText('判断循环体=尾部');
-        } else if (message.command === 'if-loop-break') {
-            insertText('判断循环体=跳出循环');
+        if (message.command === COMMANDS.IF_LOOP_HEAD) {
+            insertText(
+                `${XM_KEYWORDS.IF_LOOP}=${XM_KEYWORDS.LOOP_HEAD}|${message.packetParam || ''}`
+            );
+        } else if (message.command === COMMANDS.IF_LOOP_TAIL) {
+            insertText(`${XM_KEYWORDS.IF_LOOP}=${XM_KEYWORDS.LOOP_TAIL}`);
+        } else if (message.command === COMMANDS.IF_LOOP_BREAK) {
+            insertText(`${XM_KEYWORDS.IF_LOOP}=${XM_KEYWORDS.LOOP_BREAK}`);
         }
     }
 }

@@ -1,5 +1,7 @@
 import { BaseView } from './baseView';
 import { createButtonRow, checkXmFile, insertText } from '../utils';
+import { COMMANDS } from '../constants/commands';
+import { XM_KEYWORDS } from '../constants/xmKeywords';
 
 export class AttackLoopView extends BaseView {
     getContent(): string {
@@ -10,26 +12,31 @@ export class AttackLoopView extends BaseView {
 
         return `
         <div class="container">
-            ${buttonsHtml}
+        ${buttonsHtml}
         </div>
         <script>
-            const vscode = acquireVsCodeApi();
-            document.getElementById('head-btn').addEventListener('click', () => {
-                vscode.postMessage({ command: 'attack-loop-head', content: '' });
-            });
-            document.getElementById('tail-btn').addEventListener('click', () => {
-                vscode.postMessage({ command: 'attack-loop-tail', content: '' });
-            });
+        const vscode = acquireVsCodeApi();
+        document.getElementById('head-btn').addEventListener('click', () => {
+        vscode.postMessage({ command: '${COMMANDS.ATTACK_LOOP_HEAD}', content: '' });
+        });
+        document.getElementById('tail-btn').addEventListener('click', () => {
+        vscode.postMessage({ command: '${COMMANDS.ATTACK_LOOP_TAIL}', content: '' });
+        });
         </script>`;
     }
 
-    protected handleMessage(message: { command: string; content: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        content: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
-        if (message.command === 'attack-loop-head') {
-            insertText('出招循环体=头部');
-        } else if (message.command === 'attack-loop-tail') {
-            insertText('出招循环体=尾部');
+        if (message.command === COMMANDS.ATTACK_LOOP_HEAD) {
+            insertText(`${XM_KEYWORDS.ATTACK_LOOP}=${XM_KEYWORDS.LOOP_HEAD}`);
+        } else if (message.command === COMMANDS.ATTACK_LOOP_TAIL) {
+            insertText(`${XM_KEYWORDS.ATTACK_LOOP}=${XM_KEYWORDS.LOOP_TAIL}`);
         }
     }
 }
