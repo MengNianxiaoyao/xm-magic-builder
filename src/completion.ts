@@ -139,7 +139,7 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
         },
         {
             label: '头部',
-            detail: '头部',
+            detail: '出招循环体头部',
             documentation: '出招循环体开始',
         },
         {
@@ -157,12 +157,12 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
         {
             label: '对战胜利头部',
             detail: '胜利头部',
-            documentation: '对战胜利循环开始',
+            documentation: '对战循环体开始(对战胜利)',
         },
         {
             label: '对战胜利尾部\r\n',
             detail: '胜利尾部',
-            documentation: '对战胜利循环结束',
+            documentation: '对战循环体结束(对战胜利)',
         },
         {
             label: '对战循环体=对战未触发头部\r\n\r\n对战循环体=对战未触发尾部',
@@ -172,12 +172,12 @@ const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
         {
             label: '对战未触发头部',
             detail: '未触发头部',
-            documentation: '对战未触发循环开始',
+            documentation: '对战循环体开始(对战未触发)',
         },
         {
             label: '对战未触发尾部\r\n',
             detail: '未触发尾部',
-            documentation: '对战未触发循环结束',
+            documentation: '对战循环体结束(对战未触发)',
         },
     ],
     判断循环体: [
