@@ -1,13 +1,25 @@
 import { BaseView } from './baseView';
-import { createTextInput, createButtonRow, createSelect, checkXmFile, insertText, showWarning } from '../utils';
-import { INTEGER_VAR_VALUES, STRING_VAR_VALUES, NO_CUSTOM_VAR_TYPES } from '../constants';
+import {
+    createTextInput,
+    createButtonRow,
+    createSelect,
+    checkXmFile,
+    insertText,
+    showWarning,
+} from '../utils';
+import {
+    INTEGER_VAR_VALUES,
+    STRING_VAR_VALUES,
+    NO_CUSTOM_VAR_TYPES,
+} from '../constants';
 
 export class VariableView extends BaseView {
     private varType = 'integer';
     private varValue = 'custom';
 
     getContent(): string {
-        const values = this.varType === 'integer' ? INTEGER_VAR_VALUES : STRING_VAR_VALUES;
+        const values =
+            this.varType === 'integer' ? INTEGER_VAR_VALUES : STRING_VAR_VALUES;
         const showCustom = !NO_CUSTOM_VAR_TYPES.includes(this.varValue);
 
         const varNameHtml = createTextInput({ id: 'var-name' });
@@ -25,10 +37,12 @@ export class VariableView extends BaseView {
             { id: 'add-btn', text: '添加变量' },
         ]);
 
-        const customInputSection = showCustom ? `
+        const customInputSection = showCustom
+            ? `
         <div class="input-group" id="custom-value-group">
             ${customValueHtml}
-        </div>` : '';
+        </div>`
+            : '';
 
         return `
         <div class="container">
@@ -119,13 +133,18 @@ export class VariableView extends BaseView {
             return;
         }
 
-        if (!checkXmFile()) { return; }
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'variable-clear') {
             insertText('变量=清空变量');
         } else if (message.command === 'variable-add') {
-            const typeLabel = message.varType === 'integer' ? '整数型' : '文本型';
-            const actualValue = NO_CUSTOM_VAR_TYPES.includes(message.varValue) ? '0' : message.customValue;
+            const typeLabel =
+                message.varType === 'integer' ? '整数型' : '文本型';
+            const actualValue = NO_CUSTOM_VAR_TYPES.includes(message.varValue)
+                ? '0'
+                : message.customValue;
             const output = `变量=${typeLabel}|${message.varName}|${message.varValue}|${actualValue}`;
             insertText(output);
         }

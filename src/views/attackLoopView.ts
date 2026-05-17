@@ -23,8 +23,13 @@ export class AttackLoopView extends BaseView {
         </script>`;
     }
 
-    protected handleMessage(message: { command: string; content: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        content: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'attack-loop-head') {
             insertText('出招循环体=头部');

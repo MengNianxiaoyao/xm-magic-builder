@@ -4,7 +4,9 @@ export function showWelcomePanel(context: vscode.ExtensionContext): void {
     const key = 'xm-magic-builder.welcomed';
     const hasWelcomed = context.globalState.get(key, false);
 
-    if (hasWelcomed) { return; }
+    if (hasWelcomed) {
+        return;
+    }
 
     context.globalState.update(key, true);
 

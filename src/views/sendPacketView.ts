@@ -50,8 +50,13 @@ export class SendPacketView extends BaseView {
         </script>`;
     }
 
-    protected handleMessage(message: { command: string; content: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        content: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'add-delay') {
             insertText(`延时=${message.content}`);

@@ -1,21 +1,46 @@
 import { BaseView } from './baseView';
-import { createTextInput, createButtonRow, createRadioGroup, checkXmFile, insertText } from '../utils';
+import {
+    createTextInput,
+    createButtonRow,
+    createRadioGroup,
+    checkXmFile,
+    insertText,
+} from '../utils';
 
 export class PokemonOperationView extends BaseView {
     getContent(): string {
-        const idInputHtml = createTextInput({ id: 'pokemon-id', type: 'number', value: '5000' });
-        const posInputHtml = createTextInput({ id: 'pokemon-pos', type: 'number', value: '1' });
-        const bagInputHtml = createTextInput({ id: 'bag-ids', value: '3022|3437|3460' });
-        const radioHtml = createRadioGroup('pokemon-op', [
-            { value: 'first', label: '精灵首发', checked: true },
-            { value: 'switch-id', label: '精灵切换-ID' },
-            { value: 'set-bag', label: '设置背包' },
-            { value: 'switch-pos', label: '精灵切换-位置' },
-        ], true, 2);
-        const buttonsHtml = createButtonRow([
-            { id: 'add-btn', text: '添加' },
-            { id: 'restore-btn', text: '还原背包' },
-        ], 2);
+        const idInputHtml = createTextInput({
+            id: 'pokemon-id',
+            type: 'number',
+            value: '5000',
+        });
+        const posInputHtml = createTextInput({
+            id: 'pokemon-pos',
+            type: 'number',
+            value: '1',
+        });
+        const bagInputHtml = createTextInput({
+            id: 'bag-ids',
+            value: '3022|3437|3460',
+        });
+        const radioHtml = createRadioGroup(
+            'pokemon-op',
+            [
+                { value: 'first', label: '精灵首发', checked: true },
+                { value: 'switch-id', label: '精灵切换-ID' },
+                { value: 'set-bag', label: '设置背包' },
+                { value: 'switch-pos', label: '精灵切换-位置' },
+            ],
+            true,
+            2
+        );
+        const buttonsHtml = createButtonRow(
+            [
+                { id: 'add-btn', text: '添加' },
+                { id: 'restore-btn', text: '还原背包' },
+            ],
+            2
+        );
 
         return `
         <div class="container">
@@ -97,8 +122,13 @@ export class PokemonOperationView extends BaseView {
         </script>`;
     }
 
-    protected handleMessage(message: { command: string; content: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        content: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === '精灵首发') {
             insertText(`精灵首发=${message.content}`);

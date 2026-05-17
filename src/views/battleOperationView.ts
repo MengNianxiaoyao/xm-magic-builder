@@ -1,6 +1,13 @@
 import * as vscode from 'vscode';
 import { BaseView } from './baseView';
-import { createTextInput, createButtonRow, createRadioGroup, createSelect, checkXmFile, insertText } from '../utils';
+import {
+    createTextInput,
+    createButtonRow,
+    createRadioGroup,
+    createSelect,
+    checkXmFile,
+    insertText,
+} from '../utils';
 
 export class BattleOperationView extends BaseView {
     getContent(): string {
@@ -17,18 +24,26 @@ export class BattleOperationView extends BaseView {
         const battleIdHtml = createTextInput({ id: 'battle-id' });
         const skillIdHtml = createTextInput({ id: 'skill-id' });
         const itemIdHtml = createTextInput({ id: 'item-id' });
-        const radioHtml = createRadioGroup('battle-op', [
-            { value: 'takeover', label: '接管对战', checked: true },
-            { value: 'skill', label: '使用技能' },
-            { value: 'item', label: '使用道具' },
-            { value: 'pre-battle', label: '战前准备' },
-        ], true, 2);
-        const buttonsHtml = createButtonRow([
-            { id: 'add-btn', text: '添加' },
-            { id: 'retreat-btn', text: '对战撤退' },
-            { id: 'pressure-btn', text: '压血' },
-            { id: 'recover-btn', text: '全精灵恢复' },
-        ], 2);
+        const radioHtml = createRadioGroup(
+            'battle-op',
+            [
+                { value: 'takeover', label: '接管对战', checked: true },
+                { value: 'skill', label: '使用技能' },
+                { value: 'item', label: '使用道具' },
+                { value: 'pre-battle', label: '战前准备' },
+            ],
+            true,
+            2
+        );
+        const buttonsHtml = createButtonRow(
+            [
+                { id: 'add-btn', text: '添加' },
+                { id: 'retreat-btn', text: '对战撤退' },
+                { id: 'pressure-btn', text: '压血' },
+                { id: 'recover-btn', text: '全精灵恢复' },
+            ],
+            2
+        );
 
         return `
     <div class="container">
@@ -123,8 +138,13 @@ export class BattleOperationView extends BaseView {
     </script>`;
     }
 
-    protected handleMessage(message: { command: string; content: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        content: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === '接管对战') {
             insertText(`接管对战=${message.content}`);

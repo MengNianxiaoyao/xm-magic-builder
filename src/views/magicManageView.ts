@@ -1,23 +1,35 @@
 import { BaseView } from './baseView';
-import { createRadioGroup, createTextInput, createCheckboxGroup, checkXmFile, insertTextAtLine } from '../utils';
+import {
+    createRadioGroup,
+    createTextInput,
+    createCheckboxGroup,
+    checkXmFile,
+    insertTextAtLine,
+} from '../utils';
 import { loadMagicManageFromFile } from '../magicManageLoader';
 
 export class MagicManageView extends BaseView {
     public refresh(): void {
-        if (!this.webviewView) { return; }
+        if (!this.webviewView) {
+            return;
+        }
         const data = loadMagicManageFromFile();
         this.webviewView.webview.postMessage({
             command: 'magic-manage-loaded',
-            data
+            data,
         });
     }
 
     getContent(): string {
-        const portLimitHtml = createRadioGroup('port-limit', [
-            { value: '0', label: '不限', checked: true },
-            { value: '1', label: '限Unity端' },
-            { value: '2', label: '限Flash端' },
-        ], true);
+        const portLimitHtml = createRadioGroup(
+            'port-limit',
+            [
+                { value: '0', label: '不限', checked: true },
+                { value: '1', label: '限Unity端' },
+                { value: '2', label: '限Flash端' },
+            ],
+            true
+        );
 
         const versionWrapper = `
         <div class="version-wrapper">
@@ -28,12 +40,23 @@ export class MagicManageView extends BaseView {
 
         const apiParamHtml = createTextInput({ id: 'api-param' });
         const versionCheckHtml = createCheckboxGroup([
-            { id: 'version-check1', label: '当魔法版本小于接口返回的版本号时，禁止运行', checked: true },
-            { id: 'version-check2', label: '当接口参数获取最新版本数据失败时，允许运行' },
+            {
+                id: 'version-check1',
+                label: '当魔法版本小于接口返回的版本号时，禁止运行',
+                checked: true,
+            },
+            {
+                id: 'version-check2',
+                label: '当接口参数获取最新版本数据失败时，允许运行',
+            },
         ]);
         const blacklistHtml = createTextInput({ id: 'blacklist' });
         const appidHtml = createTextInput({ id: 'appid' });
-        const sponsorDaysHtml = createTextInput({ id: 'sponsor-days', value: '1', type: 'number' });
+        const sponsorDaysHtml = createTextInput({
+            id: 'sponsor-days',
+            value: '1',
+            type: 'number',
+        });
 
         return `
         <div class="container">
@@ -132,12 +155,14 @@ export class MagicManageView extends BaseView {
             const data = loadMagicManageFromFile();
             this.webviewView?.webview.postMessage({
                 command: 'magic-manage-loaded',
-                data
+                data,
             });
             return;
         }
 
-        if (!checkXmFile()) { return; }
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'magic-manage') {
             const output = `魔法管理={端口限制=${message.portLimit}|当前版本=${message.versionMajor}.${message.versionMinor}|接口参数=${message.apiParam}|接口类型=0|版本控制1=${message.versionCheck1}|版本控制2=${message.versionCheck2}|本地黑名单=${message.blacklist}|Appid=${message.appid}|赞助免费=${message.sponsorDays}}`;
