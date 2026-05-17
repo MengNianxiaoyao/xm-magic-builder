@@ -1,11 +1,19 @@
 import { BaseView } from './baseView';
-import { createTextInput, createButtonRow, checkXmFile, insertText } from '../utils';
+import {
+    createTextInput,
+    createButtonRow,
+    checkXmFile,
+    insertText,
+} from '../utils';
 
 export class CountLoopView extends BaseView {
     getContent(): string {
         const loopIdHtml = createTextInput({ id: 'loop-id', value: '标识1' });
         const valueHtml = createTextInput({ id: 'value', value: '[j]' });
-        const initValueHtml = createTextInput({ id: 'init-value', value: '[i]' });
+        const initValueHtml = createTextInput({
+            id: 'init-value',
+            value: '[i]',
+        });
         const buttonsHtml = createButtonRow([
             { id: 'head-btn', text: '计次循环体头' },
             { id: 'tail-btn', text: '计次循环体尾' },
@@ -42,11 +50,20 @@ export class CountLoopView extends BaseView {
         </script>`;
     }
 
-    protected handleMessage(message: { command: string; loopId: string; value?: string; init?: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        loopId: string;
+        value?: string;
+        init?: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'count-loop-head') {
-            insertText(`计次循环体=头部|${message.loopId}|${message.value}|${message.init}`);
+            insertText(
+                `计次循环体=头部|${message.loopId}|${message.value}|${message.init}`
+            );
         } else if (message.command === 'count-loop-tail') {
             insertText(`计次循环体=尾部|${message.loopId}`);
         }

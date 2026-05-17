@@ -1,5 +1,10 @@
 import { BaseView } from './baseView';
-import { createTextarea, createButtonRow, checkXmFile, insertText } from '../utils';
+import {
+    createTextarea,
+    createButtonRow,
+    checkXmFile,
+    insertText,
+} from '../utils';
 
 export class IfLoopView extends BaseView {
     getContent(): string {
@@ -36,11 +41,20 @@ export class IfLoopView extends BaseView {
         </script>`;
     }
 
-    protected handleMessage(message: { command: string; packetParam?: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        packetParam?: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'if-loop-head') {
-            insertText(`判断循环体=头部|${message.packetParam}`);
+            if (!message.packetParam) {
+                insertText(`判断循环体=头部`);
+            }else{
+                insertText(`判断循环体=头部|${message.packetParam}`);;
+            }
         } else if (message.command === 'if-loop-tail') {
             insertText('判断循环体=尾部');
         } else if (message.command === 'if-loop-break') {

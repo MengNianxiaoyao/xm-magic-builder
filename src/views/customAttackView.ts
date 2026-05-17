@@ -1,10 +1,21 @@
 import { BaseView } from './baseView';
-import { createTextInput, createButtonRow, createFileImportHtml, createFileImportScript, checkXmFile, insertText, showWarning } from '../utils';
+import {
+    createTextInput,
+    createButtonRow,
+    createFileImportHtml,
+    createFileImportScript,
+    checkXmFile,
+    insertText,
+    showWarning,
+} from '../utils';
 
 export class CustomAttackView extends BaseView {
     getContent(): string {
         const battlePacketHtml = createTextInput({ id: 'battle-packet' });
-        const fileNameHtml = createTextInput({ id: 'file-name', readonly: true });
+        const fileNameHtml = createTextInput({
+            id: 'file-name',
+            readonly: true,
+        });
         const fileInputHtml = createFileImportHtml({
             fileInputId: 'file-input',
             fileNameInputId: 'file-name',
@@ -58,13 +69,15 @@ export class CustomAttackView extends BaseView {
         </script>`;
     }
 
-    protected handleMessage(message: any): void {
+    protected async handleMessage(message: any): Promise<void> {
         if (message.command === 'show-warning') {
             showWarning(message.message);
             return;
         }
 
-        if (!checkXmFile()) { return; }
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'custom-attack-add') {
             const output = `自定义出招=${message.battlePacket}|${message.fileName}|${message.fileHex}`;

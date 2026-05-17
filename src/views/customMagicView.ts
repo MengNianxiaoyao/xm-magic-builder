@@ -1,5 +1,14 @@
 import { BaseView } from './baseView';
-import { createCheckboxGroup, createTextInput, createButtonRow, createFileImportHtml, createFileImportScript, checkXmFile, insertText, showWarning } from '../utils';
+import {
+    createCheckboxGroup,
+    createTextInput,
+    createButtonRow,
+    createFileImportHtml,
+    createFileImportScript,
+    checkXmFile,
+    insertText,
+    showWarning,
+} from '../utils';
 
 export class CustomMagicView extends BaseView {
     getContent(): string {
@@ -9,7 +18,10 @@ export class CustomMagicView extends BaseView {
         ]);
 
         const passwordHtml = createTextInput({ id: 'password' });
-        const fileNameHtml = createTextInput({ id: 'file-name', readonly: true });
+        const fileNameHtml = createTextInput({
+            id: 'file-name',
+            readonly: true,
+        });
         const fileInputHtml = createFileImportHtml({
             fileInputId: 'file-input',
             fileNameInputId: 'file-name',
@@ -68,13 +80,15 @@ export class CustomMagicView extends BaseView {
         </script>`;
     }
 
-    protected handleMessage(message: any): void {
+    protected async handleMessage(message: any): Promise<void> {
         if (message.command === 'show-warning') {
             showWarning(message.message);
             return;
         }
 
-        if (!checkXmFile()) { return; }
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'custom-magic-add') {
             const passwordPart = message.password ? `${message.password}` : '';
