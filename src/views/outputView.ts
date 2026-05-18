@@ -25,8 +25,13 @@ export class OutputView extends BaseView {
         </script>`;
     }
 
-    protected handleMessage(message: { command: string; content: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        content: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'output') {
             insertText(`信息输出=${message.content}`);

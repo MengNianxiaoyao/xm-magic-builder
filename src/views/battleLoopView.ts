@@ -1,5 +1,10 @@
 import { BaseView } from './baseView';
-import { createSelect, createButtonRow, checkXmFile, insertText } from '../utils';
+import {
+    createSelect,
+    createButtonRow,
+    checkXmFile,
+    insertText,
+} from '../utils';
 
 export class BattleLoopView extends BaseView {
     getContent(): string {
@@ -37,8 +42,13 @@ export class BattleLoopView extends BaseView {
     </script>`;
     }
 
-    protected handleMessage(message: { command: string; content: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        content: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'battle-loop-head') {
             insertText(`对战循环体=${message.content}头部`);
