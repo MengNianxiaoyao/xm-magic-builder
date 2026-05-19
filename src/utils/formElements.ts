@@ -115,30 +115,3 @@ export function createSelect(options: {
         .join('');
     return `<select id="${options.id}">${optionsHtml}</select>`;
 }
-
-export function createFolderPathInput(options: {
-    id: string;
-    placeholder?: string;
-    value?: string;
-}): string {
-    return `<input type="text" id="${options.id}" placeholder="${options.placeholder || ''}" value="${options.value || ''}" readonly />`;
-}
-
-export function createFolderSelectButton(options: {
-    id: string;
-    text?: string;
-}): string {
-    return `<button id="${options.id}">${options.text || '选择文件夹'}</button>`;
-}
-
-export function createFolderSelectRow(options: {
-    id: string;
-    placeholder?: string;
-    value?: string;
-    selectButtonId: string;
-}): string {
-    return `<div class="input-row">
-		<input type="text" id="${options.id}" placeholder="${options.placeholder || ''}" value="${options.value || ''}" readonly style="flex: 1;" />
-		<button id="${options.selectButtonId}">选择文件夹</button>
-	</div>`;
-}

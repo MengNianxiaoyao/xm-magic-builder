@@ -333,8 +333,16 @@ const COMPLETION_TRIGGERS = [
 
 // 防抖写入相关变量
 let debounceTimer: NodeJS.Timeout | null = null;
-const DEBOUNCE_DELAY = 500; // 500ms 防抖
+const DEBOUNCE_DELAY = 500;
 const pendingUsageUpdates = new Map<string, number>();
+
+export function disposeCompletion(): void {
+    if (debounceTimer) {
+        clearTimeout(debounceTimer);
+        debounceTimer = null;
+    }
+    pendingUsageUpdates.clear();
+}
 
 function getUsageCount(context: vscode.ExtensionContext): CompletionUsage {
     return context.globalState.get<CompletionUsage>('completionUsage') || {};
@@ -410,7 +418,7 @@ function createCompletionItem(
     c: CompletionInfo,
     keyword: string,
     beforeEq: string,
-    context: vscode.ExtensionContext,
+    _context: vscode.ExtensionContext,
     position: vscode.Position,
     eqIndex: number,
     usage?: CompletionUsage
@@ -439,7 +447,9 @@ function createCompletionItem(
     }
     item.sortText =
         count > 0
-            ? `A${(1000000 - count).toString().padStart(10, '0')}`
+            ? `A${Math.max(0, 1000000 - count)
+                  .toString()
+                  .padStart(10, '0')}`
             : undefined;
     item.command = {
         command: 'xm-magic-builder.recordCompletionUsage',

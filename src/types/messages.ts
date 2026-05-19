@@ -2,33 +2,29 @@
  * WebView 消息类型定义
  * 用于规范 WebView 与扩展间的通信协议
  */
-export interface BaseMessage {
-    command: string;
-    [key: string]: any;
-}
 
 // ===== 发包延时相关消息 =====
-export interface AddDelayMessage extends BaseMessage {
+export interface AddDelayMessage {
     command: 'add-delay';
     content: string;
 }
 
-export interface AddBattleDelayMessage extends BaseMessage {
+export interface AddBattleDelayMessage {
     command: 'add-battle-delay';
     content: string;
 }
 
-export interface AddPacketMessage extends BaseMessage {
+export interface AddPacketMessage {
     command: 'add-packet';
     content: string;
 }
 
 // ===== 变量相关消息 =====
-export interface VariableClearMessage extends BaseMessage {
+export interface VariableClearMessage {
     command: 'variable-clear';
 }
 
-export interface VariableAddMessage extends BaseMessage {
+export interface VariableAddMessage {
     command: 'variable-add';
     varName: string;
     varType: 'integer' | 'string';
@@ -37,7 +33,7 @@ export interface VariableAddMessage extends BaseMessage {
 }
 
 // ===== 魔法管理相关消息 =====
-export interface MagicManageMessage extends BaseMessage {
+export interface MagicManageMessage {
     command: 'magic-manage';
     portLimit: string;
     versionMajor: string;
@@ -50,77 +46,77 @@ export interface MagicManageMessage extends BaseMessage {
     sponsorDays: string;
 }
 
-export interface LoadMagicManageMessage extends BaseMessage {
+export interface LoadMagicManageMessage {
     command: 'load-magic-manage';
 }
 
 // ===== 循环控制相关消息 =====
-export interface IfLoopHeadMessage extends BaseMessage {
+export interface IfLoopHeadMessage {
     command: 'if-loop-head';
     packetParam: string;
 }
 
-export interface IfLoopTailMessage extends BaseMessage {
+export interface IfLoopTailMessage {
     command: 'if-loop-tail';
 }
 
-export interface IfLoopBreakMessage extends BaseMessage {
+export interface IfLoopBreakMessage {
     command: 'if-loop-break';
 }
 
-export interface CountLoopHeadMessage extends BaseMessage {
+export interface CountLoopHeadMessage {
     command: 'count-loop-head';
     loopId: string;
     value: string;
     init: string;
 }
 
-export interface CountLoopTailMessage extends BaseMessage {
+export interface CountLoopTailMessage {
     command: 'count-loop-tail';
     loopId: string;
 }
 
-export interface BattleLoopHeadMessage extends BaseMessage {
+export interface BattleLoopHeadMessage {
     command: 'battle-loop-head';
     content: string;
 }
 
-export interface BattleLoopTailMessage extends BaseMessage {
+export interface BattleLoopTailMessage {
     command: 'battle-loop-tail';
     content: string;
 }
 
-export interface AttackLoopHeadMessage extends BaseMessage {
+export interface AttackLoopHeadMessage {
     command: 'attack-loop-head';
     content: string;
 }
 
-export interface AttackLoopTailMessage extends BaseMessage {
+export interface AttackLoopTailMessage {
     command: 'attack-loop-tail';
     content: string;
 }
 
 // ===== 其他功能消息 =====
-export interface WildPokemonMessage extends BaseMessage {
+export interface WildPokemonMessage {
     command: 'wild-pokemon';
     mapId: string;
     pokemonId: string;
     type: string;
 }
 
-export interface OutputMessage extends BaseMessage {
+export interface OutputMessage {
     command: 'output';
     content: string;
 }
 
-export interface CustomAttackAddMessage extends BaseMessage {
+export interface CustomAttackAddMessage {
     command: 'custom-attack-add';
     battlePacket: string;
     fileName: string;
     fileHex: string;
 }
 
-export interface CustomMagicAddMessage extends BaseMessage {
+export interface CustomMagicAddMessage {
     command: 'custom-magic-add';
     passCurrent: string;
     returnVar: string;
@@ -129,21 +125,21 @@ export interface CustomMagicAddMessage extends BaseMessage {
     fileHex: string;
 }
 
-export interface ShowWarningMessage extends BaseMessage {
+export interface ShowWarningMessage {
     command: 'show-warning';
     message: string;
 }
 
 // ===== 补全统计相关消息 =====
-export interface ResetMessage extends BaseMessage {
+export interface ResetMessage {
     command: 'reset';
 }
 
-export interface LoadMessage extends BaseMessage {
+export interface LoadMessage {
     command: 'load';
 }
 
-export interface RefreshMessage extends BaseMessage {
+export interface RefreshMessage {
     command: 'refresh';
 }
 

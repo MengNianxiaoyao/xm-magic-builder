@@ -14,13 +14,17 @@ import {
 } from '../constants';
 
 export class VariableView extends BaseView {
-    private varType = 'integer';
-    private varValue = 'custom';
+    protected getScriptPaths(): string[] {
+        return ['resources/js/variable.js'];
+    }
+
+    protected getDataScript(): string {
+        return `<script>window.__variableViewData = { integerValues: ${JSON.stringify(INTEGER_VAR_VALUES)}, stringValues: ${JSON.stringify(STRING_VAR_VALUES)}, noCustomTypes: ${JSON.stringify(NO_CUSTOM_VAR_TYPES)} };</script>`;
+    }
 
     getContent(): string {
-        const values =
-            this.varType === 'integer' ? INTEGER_VAR_VALUES : STRING_VAR_VALUES;
-        const showCustom = !NO_CUSTOM_VAR_TYPES.includes(this.varValue);
+        const values = INTEGER_VAR_VALUES;
+        const showCustom = true;
 
         const varNameHtml = createTextInput({ id: 'var-name' });
         const varTypeHtml = createSelect({
@@ -38,10 +42,7 @@ export class VariableView extends BaseView {
         ]);
 
         const customInputSection = showCustom
-            ? `
-        <div class="input-group" id="custom-value-group">
-            ${customValueHtml}
-        </div>`
+            ? `<div class="input-group" id="custom-value-group">${customValueHtml}</div>`
             : '';
 
         return `
@@ -60,71 +61,7 @@ export class VariableView extends BaseView {
             </div>
             ${customInputSection}
             ${buttonsHtml}
-        </div>
-        <script>
-            const vscode = acquireVsCodeApi();
-            
-            const integerValues = ${JSON.stringify(INTEGER_VAR_VALUES)};
-            const stringValues = ${JSON.stringify(STRING_VAR_VALUES)};
-            const noCustomTypes = ${JSON.stringify(NO_CUSTOM_VAR_TYPES)};
-            
-            function updateValueOptions(type) {
-                const valueSelect = document.getElementById('var-value');
-                const options = type === 'integer' ? integerValues : stringValues;
-                valueSelect.innerHTML = options.map(v => '<option value="' + v.value + '">' + v.label + '</option>').join('');
-            }
-            
-            function updateCustomInput(value, type) {
-                const customGroup = document.getElementById('custom-value-group');
-                if (customGroup) {
-                    if (noCustomTypes.includes(value)) {
-                        customGroup.style.display = 'none';
-                    } else {
-                        customGroup.style.display = 'flex';
-                    }
-                }
-            }
-            
-            document.getElementById('var-type').addEventListener('change', (e) => {
-                const type = e.target.value;
-                updateValueOptions(type);
-                updateCustomInput(document.getElementById('var-value').value, type);
-            });
-            
-            document.getElementById('var-value').addEventListener('change', (e) => {
-                updateCustomInput(e.target.value, document.getElementById('var-type').value);
-            });
-            
-            document.getElementById('clear-btn').addEventListener('click', () => {
-                vscode.postMessage({ command: 'variable-clear' });
-            });
-            
-            document.getElementById('add-btn').addEventListener('click', () => {
-                const varName = document.getElementById('var-name').value;
-                const varType = document.getElementById('var-type').value;
-                const varValue = document.getElementById('var-value').value;
-                const customValueInput = document.getElementById('custom-value');
-                const customValue = customValueInput ? customValueInput.value : '';
-                
-                if (!varName) {
-                    vscode.postMessage({ command: 'show-warning', message: '变量名称不得为空！' });
-                    return;
-                }
-                
-                if (!noCustomTypes.includes(varValue) && !customValue) {
-                    vscode.postMessage({ command: 'show-warning', message: '当前类型变量值不得为空！' });
-                    return;
-                }
-                
-                vscode.postMessage({ 
-                    command: 'variable-add', 
-                    varName, 
-                    varType, 
-                    varValue, 
-                    customValue 
-                });
-            });
-        </script>`;
+        </div>`;
     }
 
     protected handleMessage(message: any): void {

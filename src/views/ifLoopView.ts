@@ -1,64 +1,39 @@
-import { BaseView } from './baseView';
-import {
-    createTextarea,
-    createButtonRow,
-    checkXmFile,
-    insertText,
-} from '../utils';
+import { SimpleActionView, ActionItem } from './actions';
+import { createTextarea } from '../utils';
 
-export class IfLoopView extends BaseView {
-    getContent(): string {
-        const textareaHtml = createTextarea({ id: 'packet-param' });
-        const buttonsHeadTail = createButtonRow([
-            { id: 'head-btn', text: '判断循环体头' },
-            { id: 'tail-btn', text: '判断循环体尾' },
-        ]);
-        const buttonBreak = createButtonRow([
-            { id: 'break-btn', text: '跳出循环' },
-        ]);
-
-        return `
-        <div class="container">
-            <div class="input-group">
-                <span class="label">发包参数</span>
-                ${textareaHtml}
-            </div>
-            ${buttonsHeadTail}
-            ${buttonBreak}
-        </div>
-        <script>
-            const vscode = acquireVsCodeApi();
-            document.getElementById('head-btn').addEventListener('click', () => {
-                const packetParam = document.getElementById('packet-param').value;
-                vscode.postMessage({ command: 'if-loop-head', packetParam });
-            });
-            document.getElementById('tail-btn').addEventListener('click', () => {
-                vscode.postMessage({ command: 'if-loop-tail' });
-            });
-            document.getElementById('break-btn').addEventListener('click', () => {
-                vscode.postMessage({ command: 'if-loop-break' });
-            });
-        </script>`;
+export class IfLoopView extends SimpleActionView {
+    protected getActions(): ActionItem[] {
+        return [
+            {
+                id: 'head-btn',
+                text: '判断循环体头',
+                command: 'if-loop-head',
+                inputId: 'packet-param',
+                condition: 'content',
+                elseTemplate: '判断循环体=头部',
+                template: '判断循环体=头部|${content}',
+            },
+            {
+                id: 'tail-btn',
+                text: '判断循环体尾',
+                command: 'if-loop-tail',
+                template: '判断循环体=尾部',
+            },
+            {
+                id: 'break-btn',
+                text: '跳出循环',
+                command: 'if-loop-break',
+                template: '判断循环体=跳出循环',
+            },
+        ];
     }
 
-    protected handleMessage(message: {
-        command: string;
-        packetParam?: string;
-    }): void {
-        if (!checkXmFile()) {
-            return;
-        }
-
-        if (message.command === 'if-loop-head') {
-            if (!message.packetParam) {
-                insertText(`判断循环体=头部`);
-            } else {
-                insertText(`判断循环体=头部|${message.packetParam}`);
-            }
-        } else if (message.command === 'if-loop-tail') {
-            insertText('判断循环体=尾部');
-        } else if (message.command === 'if-loop-break') {
-            insertText('判断循环体=跳出循环');
-        }
+    protected getFormFields(): string {
+        const textareaHtml = createTextarea({ id: 'packet-param' });
+        return `
+        <div class="input-group">
+            <span class="label">发包参数</span>
+            ${textareaHtml}
+        </div>`;
     }
 }

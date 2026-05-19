@@ -9,6 +9,10 @@ import {
 import { loadMagicManageFromFile } from '../magicManageLoader';
 
 export class MagicManageView extends BaseView {
+    protected getScriptPaths(): string[] {
+        return ['resources/js/magicManage.js'];
+    }
+
     public refresh(): void {
         if (!this.webviewView) {
             return;
@@ -89,65 +93,7 @@ export class MagicManageView extends BaseView {
                 ${sponsorDaysHtml}
             </div>
             <button id="add-btn" class="btn-block">添加</button>
-        </div>
-        <script>
-            const vscode = acquireVsCodeApi();
-            
-            function loadFromFile() {
-                vscode.postMessage({ command: 'load-magic-manage' });
-            }
-            
-            function setFormValues(data) {
-                if (!data) {return;}
-                
-                const portRadios = document.querySelectorAll('input[name="port-limit"]');
-                portRadios.forEach(radio => {
-                    radio.checked = radio.value === data.portLimit;
-                });
-                
-                document.getElementById('version-major').value = data.versionMajor;
-                document.getElementById('version-minor').value = data.versionMinor;
-                document.getElementById('api-param').value = data.apiParam || '';
-                document.getElementById('version-check1').checked = data.versionCheck1 === '1';
-                document.getElementById('version-check2').checked = data.versionCheck2 === '1';
-                document.getElementById('blacklist').value = data.blacklist || '';
-                document.getElementById('appid').value = data.appid || '';
-                document.getElementById('sponsor-days').value = data.sponsorDays || '1';
-            }
-            
-            document.getElementById('add-btn').addEventListener('click', () => {
-                const portLimit = document.querySelector('input[name="port-limit"]:checked').value;
-                const versionMajor = document.getElementById('version-major').value;
-                const versionMinor = document.getElementById('version-minor').value;
-                const apiParam = document.getElementById('api-param').value;
-                const versionCheck1 = document.getElementById('version-check1').checked ? '1' : '0';
-                const versionCheck2 = document.getElementById('version-check2').checked ? '1' : '0';
-                const blacklist = document.getElementById('blacklist').value;
-                const appid = document.getElementById('appid').value;
-                const sponsorDays = document.getElementById('sponsor-days').value;
-                
-                vscode.postMessage({
-                    command: 'magic-manage',
-                    portLimit,
-                    versionMajor,
-                    versionMinor,
-                    apiParam,
-                    versionCheck1,
-                    versionCheck2,
-                    blacklist,
-                    appid,
-                    sponsorDays
-                });
-            });
-            
-            window.addEventListener('load', loadFromFile);
-            
-            window.addEventListener('message', (event) => {
-                if (event.data.command === 'magic-manage-loaded') {
-                    setFormValues(event.data.data);
-                }
-            });
-        </script>`;
+        </div>`;
     }
 
     protected handleMessage(message: any): void {
