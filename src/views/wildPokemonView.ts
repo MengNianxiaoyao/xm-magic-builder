@@ -1,17 +1,31 @@
-import { BaseView } from './baseView';
-import { createRadioGroup, createTextInput, createInputRow, checkXmFile, insertText } from '../utils';
+import { SimpleActionView, ActionItem, renderActionButton } from './actions';
+import { createRadioGroup, createTextInput } from '../utils';
 
-export class WildPokemonView extends BaseView {
+export class WildPokemonView extends SimpleActionView {
+    protected getActions(): ActionItem[] {
+        return [
+            {
+                id: 'add-btn',
+                text: '添加',
+                command: 'wild-pokemon',
+                inputs: {
+                    'map-id-input': 'mapId',
+                    'pokemon-id-input': 'pokemonId',
+                },
+                radio: 'wild-type:type',
+                template: '野怪操作-${type}=${mapId}|${pokemonId}',
+            },
+        ];
+    }
+
     getContent(): string {
-        const radioHtml = createRadioGroup('wild-type', [
-            { value: '对战', label: '对战', checked: true },
-            { value: '捕捉', label: '捕捉' },
-        ], true);
-
-        const mapIdHtml = createTextInput({ id: 'map-id-input', value: '0', type: 'number' });
-        const pokemonInputHtml = createInputRow(
-            [{ id: 'pokemon-id-input', type: 'number', value: '0' }],
-            [{ id: 'add-btn', text: '添加' }]
+        const radioHtml = createRadioGroup(
+            'wild-type',
+            [
+                { value: '对战', label: '对战', checked: true },
+                { value: '捕捉', label: '捕捉' },
+            ],
+            true
         );
 
         return `
@@ -19,34 +33,13 @@ export class WildPokemonView extends BaseView {
             ${radioHtml}
             <div class="input-group">
                 <span class="label">地图ID</span>
-                ${mapIdHtml}
+                ${createTextInput({ id: 'map-id-input', value: '0', type: 'number' })}
             </div>
             <div class="input-group">
                 <span class="label">精灵ID</span>
-                ${pokemonInputHtml}
+                ${createTextInput({ id: 'pokemon-id-input', value: '0', type: 'number' })}
             </div>
-        </div>
-        <script>
-            const vscode = acquireVsCodeApi();
-            document.getElementById('add-btn').addEventListener('click', () => {
-                const mapInput = document.getElementById('map-id-input');
-                const pokemonInput = document.getElementById('pokemon-id-input');
-                const radio = document.querySelector('input[name="wild-type"]:checked');
-                vscode.postMessage({ 
-                    command: 'wild-pokemon', 
-                    mapId: mapInput.value,
-                    pokemonId: pokemonInput.value,
-                    type: radio.value 
-                });
-            });
-        </script>`;
-    }
-
-    protected handleMessage(message: { command: string; mapId: string; pokemonId: string; type: string }): void {
-        if (!checkXmFile()) { return; }
-
-        if (message.command === 'wild-pokemon') {
-            insertText(`野怪操作-${message.type}=${message.mapId}|${message.pokemonId}`);
-        }
+            ${renderActionButton(this.getActions()[0])}
+        </div>`;
     }
 }

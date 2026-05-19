@@ -1,7 +1,17 @@
 import { BaseView } from './baseView';
-import { createCheckboxGroup, createTextInput, createButtonRow, createFileImportHtml, createFileImportScript, checkXmFile, insertText, showWarning } from '../utils';
+import {
+    createCheckboxGroup,
+    createTextInput,
+    checkXmFile,
+    insertText,
+    showWarning,
+} from '../utils';
 
 export class CustomMagicView extends BaseView {
+    protected getScriptPaths(): string[] {
+        return ['resources/js/fileImport.js', 'resources/js/customMagic.js'];
+    }
+
     getContent(): string {
         const checkboxHtml = createCheckboxGroup([
             { id: 'pass-current', label: '传入当前魔法变量' },
@@ -9,23 +19,15 @@ export class CustomMagicView extends BaseView {
         ]);
 
         const passwordHtml = createTextInput({ id: 'password' });
-        const fileNameHtml = createTextInput({ id: 'file-name', readonly: true });
-        const fileInputHtml = createFileImportHtml({
-            fileInputId: 'file-input',
-            fileNameInputId: 'file-name',
-            importButtonId: 'import-btn',
-            accept: '.xmgic',
+        const fileNameHtml = createTextInput({
+            id: 'file-name',
+            readonly: true,
         });
-        const buttonsHtml = createButtonRow([
-            { id: 'import-btn', text: '导入魔法' },
-            { id: 'add-btn', text: '添加' },
-        ]);
-        const fileImportScript = createFileImportScript({
-            fileInputId: 'file-input',
-            fileNameInputId: 'file-name',
-            importButtonId: 'import-btn',
-            variableName: 'fileHex',
-        });
+        const buttonsHtml = `
+        <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">
+            <button id="import-btn" class="btn" data-accept=".xmgic">导入魔法</button>
+            <button id="add-btn" class="btn">添加</button>
+        </div>`;
 
         return `
         <div class="container">
@@ -39,42 +41,18 @@ export class CustomMagicView extends BaseView {
                 ${fileNameHtml}
             </div>
             ${buttonsHtml}
-            ${fileInputHtml}
-        </div>
-        <script>
-            const vscode = acquireVsCodeApi();
-            ${fileImportScript}
-
-            document.getElementById('add-btn').addEventListener('click', () => {
-                const passCurrent = document.getElementById('pass-current').checked ? '1' : '0';
-                const returnVar = document.getElementById('return-var').checked ? '1' : '0';
-                const password = document.getElementById('password').value;
-                const fileName = document.getElementById('file-name').value;
-
-                if (!fileName) {
-                    vscode.postMessage({ command: 'show-warning', message: '自定义魔法不得为空!' });
-                    return;
-                }
-
-                vscode.postMessage({
-                    command: 'custom-magic-add',
-                    passCurrent,
-                    returnVar,
-                    password,
-                    fileName,
-                    fileHex
-                });
-            });
-        </script>`;
+        </div>`;
     }
 
-    protected handleMessage(message: any): void {
+    protected async handleMessage(message: any): Promise<void> {
         if (message.command === 'show-warning') {
             showWarning(message.message);
             return;
         }
 
-        if (!checkXmFile()) { return; }
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === 'custom-magic-add') {
             const passwordPart = message.password ? `${message.password}` : '';

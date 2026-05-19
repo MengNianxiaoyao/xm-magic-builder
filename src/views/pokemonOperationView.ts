@@ -1,21 +1,50 @@
 import { BaseView } from './baseView';
-import { createTextInput, createButtonRow, createRadioGroup, checkXmFile, insertText } from '../utils';
+import {
+    createTextInput,
+    createButtonRow,
+    createRadioGroup,
+    checkXmFile,
+    insertText,
+} from '../utils';
 
 export class PokemonOperationView extends BaseView {
+    protected getScriptPaths(): string[] {
+        return ['resources/js/pokemonOperation.js'];
+    }
+
     getContent(): string {
-        const idInputHtml = createTextInput({ id: 'pokemon-id', type: 'number', value: '5000' });
-        const posInputHtml = createTextInput({ id: 'pokemon-pos', type: 'number', value: '1' });
-        const bagInputHtml = createTextInput({ id: 'bag-ids', value: '3022|3437|3460' });
-        const radioHtml = createRadioGroup('pokemon-op', [
-            { value: 'first', label: '精灵首发', checked: true },
-            { value: 'switch-id', label: '精灵切换-ID' },
-            { value: 'set-bag', label: '设置背包' },
-            { value: 'switch-pos', label: '精灵切换-位置' },
-        ], true, 2);
-        const buttonsHtml = createButtonRow([
-            { id: 'add-btn', text: '添加' },
-            { id: 'restore-btn', text: '还原背包' },
-        ], 2);
+        const idInputHtml = createTextInput({
+            id: 'pokemon-id',
+            type: 'number',
+            value: '5000',
+        });
+        const posInputHtml = createTextInput({
+            id: 'pokemon-pos',
+            type: 'number',
+            value: '1',
+        });
+        const bagInputHtml = createTextInput({
+            id: 'bag-ids',
+            value: '3022|3437|3460',
+        });
+        const radioHtml = createRadioGroup(
+            'pokemon-op',
+            [
+                { value: 'first', label: '精灵首发', checked: true },
+                { value: 'switch-id', label: '精灵切换-ID' },
+                { value: 'set-bag', label: '设置背包' },
+                { value: 'switch-pos', label: '精灵切换-位置' },
+            ],
+            true,
+            2
+        );
+        const buttonsHtml = createButtonRow(
+            [
+                { id: 'add-btn', text: '添加' },
+                { id: 'restore-btn', text: '还原背包' },
+            ],
+            2
+        );
 
         return `
         <div class="container">
@@ -33,72 +62,16 @@ export class PokemonOperationView extends BaseView {
                 ${bagInputHtml}
             </div>
             ${buttonsHtml}
-        </div>
-        <script>
-            const vscode = acquireVsCodeApi();
-            
-            function toggleInput() {
-                const op = document.querySelector('input[name="pokemon-op"]:checked').value;
-                const idGroup = document.getElementById('id-input-group');
-                const posGroup = document.getElementById('pos-input-group');
-                const bagGroup = document.getElementById('bag-input-group');
-                
-                idGroup.style.display = 'none';
-                posGroup.style.display = 'none';
-                bagGroup.style.display = 'none';
-                
-                if (op === 'first' || op === 'switch-id') {
-                    idGroup.style.display = 'flex';
-                } else if (op === 'switch-pos') {
-                    posGroup.style.display = 'flex';
-                } else if (op === 'set-bag') {
-                    bagGroup.style.display = 'flex';
-                }
-            }
-            
-            document.querySelectorAll('input[name="pokemon-op"]').forEach(radio => {
-                radio.addEventListener('change', toggleInput);
-            });
-            
-            document.getElementById('add-btn').addEventListener('click', () => {
-                const op = document.querySelector('input[name="pokemon-op"]:checked').value;
-                const idValue = document.getElementById('pokemon-id').value;
-                const posValue = document.getElementById('pokemon-pos').value;
-                const bagValue = document.getElementById('bag-ids').value;
-                
-                let command = '';
-                let content = '';
-                
-                switch (op) {
-                    case 'first':
-                        command = '精灵首发';
-                        content = idValue;
-                        break;
-                    case 'switch-id':
-                        command = '精灵切换-ID';
-                        content = idValue;
-                        break;
-                    case 'switch-pos':
-                        command = '精灵切换-位置';
-                        content = posValue;
-                        break;
-                    case 'set-bag':
-                        command = '设置背包';
-                        content = bagValue;
-                        break;
-                }
-                
-                vscode.postMessage({ command, content });
-            });
-            
-            document.getElementById('restore-btn').addEventListener('click', () => {
-                vscode.postMessage({ command: '设置背包', content: '还原背包' });
-            });
-        </script>`;
+        </div>`;
     }
 
-    protected handleMessage(message: { command: string; content: string }): void {
-        if (!checkXmFile()) { return; }
+    protected handleMessage(message: {
+        command: string;
+        content: string;
+    }): void {
+        if (!checkXmFile()) {
+            return;
+        }
 
         if (message.command === '精灵首发') {
             insertText(`精灵首发=${message.content}`);
