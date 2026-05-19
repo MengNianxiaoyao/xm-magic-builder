@@ -1,4 +1,5 @@
 import { BaseView } from './baseView';
+import { ViewMessage } from '../types/messages';
 import {
     createTextInput,
     createButtonRow,
@@ -65,22 +66,19 @@ export class PokemonOperationView extends BaseView {
         </div>`;
     }
 
-    protected handleMessage(message: {
-        command: string;
-        content: string;
-    }): void {
+    protected handleMessage(message: ViewMessage): void {
         if (!checkXmFile()) {
             return;
         }
 
         if (message.command === '精灵首发') {
-            insertText(`精灵首发=${message.content}`);
+            void insertText(`精灵首发=${message.content}`);
         } else if (message.command === '精灵切换-ID') {
-            insertText(`精灵切换-ID=${message.content}`);
+            void insertText(`精灵切换-ID=${message.content}`);
         } else if (message.command === '精灵切换-位置') {
-            insertText(`精灵切换-位置=${message.content}`);
+            void insertText(`精灵切换-位置=${message.content}`);
         } else if (message.command === '设置背包') {
-            insertText(`设置背包=${message.content}`);
+            void insertText(`设置背包=${message.content}`);
         }
     }
 }

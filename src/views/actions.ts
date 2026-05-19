@@ -39,7 +39,7 @@ export function buildActionAttrs(a: ActionItem): string {
 }
 
 export function renderActionButton(a: ActionItem): string {
-    const cls = a.className || 'btn';
+    const cls = a.className || '';
     return `<button id="${a.id}" class="${cls}" ${buildActionAttrs(a)}>${a.text}</button>`;
 }
 
@@ -77,7 +77,7 @@ export abstract class SimpleActionView extends BaseView {
         </div>`;
     }
 
-    protected handleMessage(message: any): void {
+    protected handleMessage(message: Record<string, string>): void {
         if (!checkXmFile()) {
             return;
         }
@@ -96,7 +96,7 @@ export abstract class SimpleActionView extends BaseView {
                     /\$\{(\w+)\}/g,
                     (_: string, key: string) => message[key] ?? ''
                 );
-                insertText(output);
+                void insertText(output);
                 return;
             }
         }

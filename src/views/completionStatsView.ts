@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { BaseView } from './baseView';
+import { ViewMessage } from '../types/messages';
 
 export class CompletionStatsView extends BaseView {
     protected getScriptPaths(): string[] {
@@ -46,7 +47,7 @@ export class CompletionStatsView extends BaseView {
         </div>`;
     }
 
-    protected handleMessage(message: any): void {
+    protected handleMessage(message: ViewMessage): void {
         if (message.command === 'load' || message.command === 'refresh') {
             this.webviewView?.webview.postMessage({
                 command: 'refresh',
@@ -67,12 +68,19 @@ export class CompletionStatsView extends BaseView {
                     if (result === '确认') {
                         this.context.globalState
                             .update('completionUsage', undefined)
-                            .then(() => {
-                                this.refresh();
-                                vscode.window.showInformationMessage(
-                                    '已清空统计'
-                                );
-                            });
+                            .then(
+                                () => {
+                                    this.refresh();
+                                    vscode.window.showInformationMessage(
+                                        '已清空统计'
+                                    );
+                                },
+                                () => {
+                                    vscode.window.showErrorMessage(
+                                        '清空统计失败'
+                                    );
+                                }
+                            );
                     }
                 });
         }

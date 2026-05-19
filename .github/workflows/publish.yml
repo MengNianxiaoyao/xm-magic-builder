@@ -24,9 +24,11 @@ jobs:
 
     env:
       EXT_VERSION: ""
+      IS_PRELEASE: "false"
 
     outputs:
       version: ${{ env.EXT_VERSION }}
+      isPreRelease: ${{ env.IS_PRELEASE }}
 
     steps:
       - uses: actions/checkout@v6.0.2
@@ -45,6 +47,7 @@ jobs:
       - name: Parse version from package.json
         run: |
           echo "EXT_VERSION=$(node -p -e "require('./package.json').version")" >> $GITHUB_ENV
+          echo "IS_PRELEASE=$(node -p -e "require('./package.json').version.includes('beta')")" >> $GITHUB_ENV
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -53,11 +56,17 @@ jobs:
 
       - run: vsce package
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xm-magic-builder-${{ env.EXT_VERSION }}.vsix
+          path: ./xm-magic-builder-${{ env.EXT_VERSION }}.vsix
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.EXT_VERSION }}
           name: Release ${{ env.EXT_VERSION }}
+          prerelease: ${{ env.IS_PRELEASE == 'true' }}
           files: ./xm-magic-builder-${{ env.EXT_VERSION }}.vsix
 
   publish:
@@ -76,4 +85,5 @@ jobs:
         with:
           pat: ${{ secrets.PUBLISHER_KEY }}
           registryUrl: https://marketplace.visualstudio.com
+          preRelease: ${{ needs.release.outputs.isPreRelease == 'true' }}
           extensionFile: ./xm-magic-builder-${{ needs.release.outputs.version }}.vsix

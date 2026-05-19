@@ -5,6 +5,7 @@ import {
     insertText,
     showWarning,
 } from '../utils';
+import { ViewMessage } from '../types/messages';
 
 export class CustomAttackView extends BaseView {
     protected getScriptPaths(): string[] {
@@ -37,7 +38,7 @@ export class CustomAttackView extends BaseView {
         </div>`;
     }
 
-    protected async handleMessage(message: any): Promise<void> {
+    protected async handleMessage(message: ViewMessage): Promise<void> {
         if (message.command === 'show-warning') {
             showWarning(message.message);
             return;
@@ -49,7 +50,7 @@ export class CustomAttackView extends BaseView {
 
         if (message.command === 'custom-attack-add') {
             const output = `自定义出招=${message.battlePacket}|${message.fileName}|${message.fileHex}`;
-            insertText(output);
+            await insertText(output);
         }
     }
 }

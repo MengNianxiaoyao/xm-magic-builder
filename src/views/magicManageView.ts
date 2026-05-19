@@ -6,6 +6,7 @@ import {
     checkXmFile,
     insertTextAtLine,
 } from '../utils';
+import { ViewMessage } from '../types/messages';
 import { loadMagicManageFromFile } from '../magicManageLoader';
 
 export class MagicManageView extends BaseView {
@@ -96,7 +97,7 @@ export class MagicManageView extends BaseView {
         </div>`;
     }
 
-    protected handleMessage(message: any): void {
+    protected handleMessage(message: ViewMessage): void {
         if (message.command === 'load-magic-manage') {
             const data = loadMagicManageFromFile();
             this.webviewView?.webview.postMessage({
@@ -112,7 +113,7 @@ export class MagicManageView extends BaseView {
 
         if (message.command === 'magic-manage') {
             const output = `魔法管理={端口限制=${message.portLimit}|当前版本=${message.versionMajor}.${message.versionMinor}|接口参数=${message.apiParam}|接口类型=0|版本控制1=${message.versionCheck1}|版本控制2=${message.versionCheck2}|本地黑名单=${message.blacklist}|Appid=${message.appid}|赞助免费=${message.sponsorDays}}`;
-            insertTextAtLine(output, 0);
+            void insertTextAtLine(output, 0);
         }
     }
 }
