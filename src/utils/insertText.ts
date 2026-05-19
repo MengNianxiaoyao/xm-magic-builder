@@ -9,26 +9,35 @@ export function checkXmFile(): boolean {
     return true;
 }
 
-export function insertText(text: string): void {
+export async function insertText(text: string): Promise<boolean> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
-        return;
+        return false;
     }
-    editor.edit((builder) => {
+    const success = await editor.edit((builder) => {
         builder.insert(editor.selection.active, text + '\n');
     });
+    if (!success) {
+        vscode.window.showWarningMessage('文本插入失败');
+    }
+    return success;
 }
 
-export function insertTextAtLine(text: string, lineIndex: number = 0): void {
+export async function insertTextAtLine(text: string, lineIndex: number = 0): Promise<boolean> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
-        return;
+        return false;
+    }
+
+    if (editor.document.lineCount === 0) {
+        vscode.window.showWarningMessage('文本插入失败：文档为空');
+        return false;
     }
 
     const firstLine = editor.document.lineAt(0);
     const isFirstLineMagic = firstLine.text.trim().startsWith('魔法管理=');
 
-    editor.edit((builder) => {
+    const success = await editor.edit((builder) => {
         if (lineIndex === 0 && isFirstLineMagic) {
             const range = new vscode.Range(0, 0, 0, firstLine.text.length);
             builder.replace(range, text);
@@ -37,6 +46,11 @@ export function insertTextAtLine(text: string, lineIndex: number = 0): void {
             builder.insert(pos, text + '\n');
         }
     });
+
+    if (!success) {
+        vscode.window.showWarningMessage('文本插入失败');
+    }
+    return success;
 }
 
 export function showWarning(message: string): void {

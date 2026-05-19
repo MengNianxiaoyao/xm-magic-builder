@@ -7,6 +7,7 @@ import {
     insertText,
     showWarning,
 } from '../utils';
+import { ViewMessage } from '../types/messages';
 import {
     INTEGER_VAR_VALUES,
     STRING_VAR_VALUES,
@@ -64,7 +65,7 @@ export class VariableView extends BaseView {
         </div>`;
     }
 
-    protected handleMessage(message: any): void {
+    protected handleMessage(message: ViewMessage): void {
         if (message.command === 'show-warning') {
             showWarning(message.message);
             return;
@@ -75,7 +76,7 @@ export class VariableView extends BaseView {
         }
 
         if (message.command === 'variable-clear') {
-            insertText('变量=清空变量');
+            void insertText('变量=清空变量');
         } else if (message.command === 'variable-add') {
             const typeLabel =
                 message.varType === 'integer' ? '整数型' : '文本型';
@@ -83,7 +84,7 @@ export class VariableView extends BaseView {
                 ? '0'
                 : message.customValue;
             const output = `变量=${typeLabel}|${message.varName}|${message.varValue}|${actualValue}`;
-            insertText(output);
+            void insertText(output);
         }
     }
 }

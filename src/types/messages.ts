@@ -50,10 +50,52 @@ export interface LoadMagicManageMessage {
     command: 'load-magic-manage';
 }
 
+// ===== 精灵操作相关消息 =====
+export interface PokemonFirstMessage {
+    command: '精灵首发';
+    content: string;
+}
+
+export interface PokemonSwitchIdMessage {
+    command: '精灵切换-ID';
+    content: string;
+}
+
+export interface PokemonSwitchPosMessage {
+    command: '精灵切换-位置';
+    content: string;
+}
+
+export interface PokemonSetBagMessage {
+    command: '设置背包';
+    content: string;
+}
+
+// ===== 对战操作相关消息 =====
+export interface BattleTakeoverMessage {
+    command: '接管对战';
+    content: string;
+}
+
+export interface BattleSkillMessage {
+    command: '使用技能';
+    content: string;
+}
+
+export interface BattleItemMessage {
+    command: '使用道具';
+    content: string;
+}
+
+export interface BattlePreBattleMessage {
+    command: '战前准备';
+    content: string;
+}
+
 // ===== 循环控制相关消息 =====
 export interface IfLoopHeadMessage {
     command: 'if-loop-head';
-    packetParam: string;
+    content: string;
 }
 
 export interface IfLoopTailMessage {
@@ -154,6 +196,14 @@ export type ViewMessage =
     | VariableAddMessage
     | MagicManageMessage
     | LoadMagicManageMessage
+    | PokemonFirstMessage
+    | PokemonSwitchIdMessage
+    | PokemonSwitchPosMessage
+    | PokemonSetBagMessage
+    | BattleTakeoverMessage
+    | BattleSkillMessage
+    | BattleItemMessage
+    | BattlePreBattleMessage
     | IfLoopHeadMessage
     | IfLoopTailMessage
     | IfLoopBreakMessage
@@ -183,6 +233,14 @@ export interface CommandMap {
     'variable-add': VariableAddMessage;
     'magic-manage': MagicManageMessage;
     'load-magic-manage': LoadMagicManageMessage;
+    '精灵首发': PokemonFirstMessage;
+    '精灵切换-ID': PokemonSwitchIdMessage;
+    '精灵切换-位置': PokemonSwitchPosMessage;
+    '设置背包': PokemonSetBagMessage;
+    '接管对战': BattleTakeoverMessage;
+    '使用技能': BattleSkillMessage;
+    '使用道具': BattleItemMessage;
+    '战前准备': BattlePreBattleMessage;
     'if-loop-head': IfLoopHeadMessage;
     'if-loop-tail': IfLoopTailMessage;
     'if-loop-break': IfLoopBreakMessage;

@@ -1,4 +1,5 @@
 import { BaseView } from './baseView';
+import { ViewMessage } from '../types/messages';
 import {
     createTextInput,
     createButtonRow,
@@ -76,22 +77,19 @@ export class BattleOperationView extends BaseView {
     </div>`;
     }
 
-    protected handleMessage(message: {
-        command: string;
-        content: string;
-    }): void {
+    protected handleMessage(message: ViewMessage): void {
         if (!checkXmFile()) {
             return;
         }
 
         if (message.command === '接管对战') {
-            insertText(`接管对战=${message.content}`);
+            void insertText(`接管对战=${message.content}`);
         } else if (message.command === '使用技能') {
-            insertText(`使用技能=${message.content}`);
+            void insertText(`使用技能=${message.content}`);
         } else if (message.command === '使用道具') {
-            insertText(`使用道具=${message.content}`);
+            void insertText(`使用道具=${message.content}`);
         } else if (message.command === '战前准备') {
-            insertText(`战前准备=${message.content}`);
+            void insertText(`战前准备=${message.content}`);
         }
     }
 }

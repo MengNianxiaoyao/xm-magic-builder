@@ -10,10 +10,14 @@ export function handleError(
     error: Error | unknown,
     options: ErrorOptions
 ): void {
-    const errorStr = error instanceof Error ? error.message : String(error);
+    const errorObj = error instanceof Error ? error : new Error(String(error));
+    const errorStr = errorObj.message || String(error);
     const context = `[${options.view}${options.command ? `/${options.command}` : ''}]`;
 
     console.error(`${context} 错误：${errorStr}`);
+    if (errorObj.stack) {
+        console.error(errorObj.stack);
+    }
 
     if (options.showMessage !== false) {
         vscode.window.showErrorMessage(`${options.view} 操作失败：${errorStr}`);

@@ -6,6 +6,7 @@ import {
     insertText,
     showWarning,
 } from '../utils';
+import { ViewMessage } from '../types/messages';
 
 export class CustomMagicView extends BaseView {
     protected getScriptPaths(): string[] {
@@ -44,7 +45,7 @@ export class CustomMagicView extends BaseView {
         </div>`;
     }
 
-    protected async handleMessage(message: any): Promise<void> {
+    protected async handleMessage(message: ViewMessage): Promise<void> {
         if (message.command === 'show-warning') {
             showWarning(message.message);
             return;
@@ -57,7 +58,7 @@ export class CustomMagicView extends BaseView {
         if (message.command === 'custom-magic-add') {
             const passwordPart = message.password ? `${message.password}` : '';
             const output = `自定义魔法=${message.passCurrent}|${message.returnVar}|${passwordPart}|${message.fileName}|${message.fileHex}`;
-            insertText(output);
+            await insertText(output);
         }
     }
 }
