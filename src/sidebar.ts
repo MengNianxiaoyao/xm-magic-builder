@@ -19,7 +19,10 @@ type ViewCtor = new (context: vscode.ExtensionContext) => BaseView;
 
 const VIEW_REGISTRY: Array<{ id: string; Provider: ViewCtor }> = [
     { id: 'xm-magic-builder.send-packet', Provider: SendPacketView },
-    { id: 'xm-magic-builder.pokemon-operation', Provider: PokemonOperationView },
+    {
+        id: 'xm-magic-builder.pokemon-operation',
+        Provider: PokemonOperationView,
+    },
     { id: 'xm-magic-builder.battle-operation', Provider: BattleOperationView },
     { id: 'xm-magic-builder.attack-loop', Provider: AttackLoopView },
     { id: 'xm-magic-builder.battle-loop', Provider: BattleLoopView },
@@ -45,8 +48,12 @@ export function registerSidebar(context: vscode.ExtensionContext) {
         );
     }
 
-    const magicManageView = instances.get('xm-magic-builder.magic-manage') as MagicManageView;
-    const completionStatsView = instances.get('xm-magic-builder.completion-stats') as CompletionStatsView;
+    const magicManageView = instances.get(
+        'xm-magic-builder.magic-manage'
+    ) as MagicManageView;
+    const completionStatsView = instances.get(
+        'xm-magic-builder.completion-stats'
+    ) as CompletionStatsView;
 
     context.subscriptions.push(
         vscode.commands.registerCommand(

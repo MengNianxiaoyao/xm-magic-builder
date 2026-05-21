@@ -54,7 +54,11 @@ jobs:
 
       - run: pnpm install -g vsce
 
-      - run: vsce package
+      - if: env.IS_PRELEASE == 'true'
+        run: vsce package --pre-release
+
+      - if: env.IS_PRELEASE == 'false'
+        run: vsce package
 
       - uses: actions/upload-artifact@v4
         with:
