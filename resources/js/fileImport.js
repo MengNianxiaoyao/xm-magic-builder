@@ -32,7 +32,7 @@
             for (var i = 0; i < bytes.length; i++) {
                 hex += bytes[i].toString(16).padStart(2, '0').toUpperCase();
             }
-            window.fileHex = hex.replace(/0+$/, '');
+            window.fileHex = hex;
         };
         reader.onerror = function () {
             console.error('文件读取失败');

@@ -1,12 +1,14 @@
+.github/**
 .vscode/**
 .vscode-test/**
 out/**
 node_modules/**
 src/**
+.editorconfig
 .gitignore
-.yarnrc
+.npmrc
+.prettierrc
 esbuild.js
-vsc-extension-quickstart.md
 **/tsconfig.json
 **/eslint.config.mjs
 **/*.map
