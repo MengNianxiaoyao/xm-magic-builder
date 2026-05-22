@@ -7,7 +7,7 @@ export const customMagicPanel: PanelDescriptor = {
     title: '自定义魔法',
     fields: [],
     actions: [],
-    scripts: ['src/js/fileImport.js', 'src/js/customMagic.js'],
+    scripts: ['resources/js/fileImport.js', 'resources/js/customMagic.js'],
     getHtml() {
         return `<div class="container">
             <div class="checkbox-group">

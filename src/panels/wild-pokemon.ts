@@ -18,7 +18,7 @@ export const wildPokemonPanel: PanelDescriptor = {
             template: '野怪操作-${type}=${mapId}|${pokemonId}',
         },
     ],
-    scripts: ['src/js/simpleAction.js'],
+    scripts: ['resources/js/simpleAction.js'],
     getHtml() {
         const [add] = this.actions;
         return `<div class="container">

@@ -33,5 +33,5 @@ export const ifLoopPanel: PanelDescriptor = {
             template: '判断循环体=跳出循环',
         },
     ],
-    scripts: ['src/js/simpleAction.js'],
+    scripts: ['resources/js/simpleAction.js'],
 };

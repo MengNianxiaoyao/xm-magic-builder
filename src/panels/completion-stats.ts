@@ -6,7 +6,7 @@ export const completionStatsPanel: PanelDescriptor = {
     title: '补全使用统计',
     fields: [],
     actions: [],
-    scripts: ['src/js/completionStats.js'],
+    scripts: ['resources/js/completionStats.js'],
     getHtml() {
         return `<div class="completion-stats-view">
             <div class="stats-header">

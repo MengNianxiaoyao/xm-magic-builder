@@ -7,7 +7,7 @@ export const pokemonOperationPanel: PanelDescriptor = {
     title: '精灵操作',
     fields: [],
     actions: [],
-    scripts: ['src/js/pokemonOperation.js'],
+    scripts: ['resources/js/pokemonOperation.js'],
     getHtml() {
         return `<div class="container">
             <div class="radio-group" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">
