@@ -1,46 +1,49 @@
-const esbuild = require("esbuild");
+const esbuild = require('esbuild');
 
 const production = process.argv.includes('--production');
 const watch = process.argv.includes('--watch');
 
-/**
- * @type {import('esbuild').Plugin}
- */
 const esbuildProblemMatcherPlugin = {
     name: 'esbuild-problem-matcher',
-
     setup(build) {
         build.onStart(() => {
-            console.log('[watch] build started');
+            console.log('[esbuild] build started');
         });
         build.onEnd((result) => {
-            result.errors.forEach(({ text, location }) => {
-                console.error(`✘ [ERROR] ${text}`);
-                console.error(`    ${location.file}:${location.line}:${location.column}:`);
-            });
-            console.log('[watch] build finished');
+            const errors = result.errors || [];
+            const warnings = result.warnings || [];
+            for (const { text, location } of errors) {
+                console.error(`[esbuild] ERROR: ${text}`);
+                if (location) {
+                    console.error(`    at ${location.file}:${location.line}:${location.column}`);
+                }
+            }
+            for (const { text, location } of warnings) {
+                console.warn(`[esbuild] WARN: ${text}`);
+                if (location) {
+                    console.warn(`    at ${location.file}:${location.line}:${location.column}`);
+                }
+            }
+            console.log('[esbuild] build finished');
         });
     },
 };
 
 async function main() {
     const ctx = await esbuild.context({
-        entryPoints: [
-            'src/extension.ts'
-        ],
+        entryPoints: ['src/extension.ts'],
         bundle: true,
         format: 'cjs',
-        minify: production,
-        sourcemap: !production,
-        sourcesContent: false,
         platform: 'node',
+        target: 'node16',
         outfile: 'dist/extension.js',
         external: ['vscode'],
-        logLevel: 'silent',
-        plugins: [
-            /* add to the end of plugins array */
-            esbuildProblemMatcherPlugin,
-        ],
+        minify: production,
+        drop: production ? ['console', 'debugger'] : undefined,
+        sourcemap: !production,
+        sourcesContent: false,
+        logLevel: 'info',
+        plugins: [esbuildProblemMatcherPlugin],
     });
     if (watch) {
         await ctx.watch();
@@ -50,7 +53,7 @@ async function main() {
     }
 }
 
-main().catch(e => {
+main().catch((e) => {
     console.error(e);
     process.exit(1);
 });

@@ -1,7 +1,7 @@
-import { registerSidebar } from './sidebar';
-import { registerCompletionProvider, disposeCompletion } from './completion';
-import { registerFormatter } from './formatter';
-import { showWelcomePanel } from './views/welcomeView';
+import { registerSidebar } from './panel-registry';
+import { registerCompletionProvider, disposeCompletion } from './features/completion/provider';
+import { registerFormatter } from './features/formatter/provider';
+import { showWelcomePanel } from './features/welcome/panel';
 
 export function activate(context: import('vscode').ExtensionContext) {
     registerSidebar(context);

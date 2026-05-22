@@ -46,10 +46,7 @@ const aliasMap: { pattern: RegExp; replacement: string }[] = [
     { pattern: /or/g, replacement: '或' },
 ];
 
-function applyMaps(
-    line: string,
-    maps: { pattern: RegExp; replacement: string }[]
-): string {
+function applyMaps(line: string, maps: { pattern: RegExp; replacement: string }[]): string {
     for (const { pattern, replacement } of maps) {
         line = line.replace(pattern, replacement);
     }
@@ -64,12 +61,7 @@ function convertFullwidth(line: string, preserve: boolean): string {
         }
         return String.fromCharCode(ch);
     });
-    line = applyMaps(
-        line,
-        preserve
-            ? fullwidthMap.filter((e) => !e.preserveInOutput)
-            : fullwidthMap
-    );
+    line = applyMaps(line, preserve ? fullwidthMap.filter((e) => !e.preserveInOutput) : fullwidthMap);
     line = applyMaps(line, aliasMap);
     return line;
 }
@@ -116,10 +108,7 @@ function formatContent(content: string): string {
     const result = lines.map((line) => {
         const trimmed = line.trim();
         const isInfoOutput = trimmed.startsWith('信息输出=');
-        const isKeywordLine =
-            !isInfoOutput &&
-            trimmed !== '' &&
-            keywords.some((kw) => trimmed.startsWith(kw + '='));
+        const isKeywordLine = !isInfoOutput && trimmed !== '' && keywords.some((kw) => trimmed.startsWith(kw + '='));
 
         line = convertFullwidth(line, isInfoOutput);
 
@@ -136,22 +125,16 @@ function formatContent(content: string): string {
 }
 
 export function registerFormatter(context: vscode.ExtensionContext) {
-    const provider = vscode.languages.registerDocumentFormattingEditProvider(
-        'xm',
-        {
-            provideDocumentFormattingEdits(document) {
-                const text = document.getText();
-                const formatted = formatContent(text);
+    const provider = vscode.languages.registerDocumentFormattingEditProvider('xm', {
+        provideDocumentFormattingEdits(document) {
+            const text = document.getText();
+            const formatted = formatContent(text);
 
-                const fullRange = new vscode.Range(
-                    document.positionAt(0),
-                    document.positionAt(text.length)
-                );
+            const fullRange = new vscode.Range(document.positionAt(0), document.positionAt(text.length));
 
-                return [vscode.TextEdit.replace(fullRange, formatted)];
-            },
-        }
-    );
+            return [vscode.TextEdit.replace(fullRange, formatted)];
+        },
+    });
 
     context.subscriptions.push(provider);
 }

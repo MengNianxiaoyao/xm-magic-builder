@@ -6,10 +6,7 @@ export interface ErrorOptions {
     showMessage?: boolean;
 }
 
-export function handleError(
-    error: Error | unknown,
-    options: ErrorOptions
-): void {
+export function handleError(error: unknown, options: ErrorOptions): void {
     const errorObj = error instanceof Error ? error : new Error(String(error));
     const errorStr = errorObj.message || String(error);
     const context = `[${options.view}${options.command ? `/${options.command}` : ''}]`;

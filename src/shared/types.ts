@@ -1,9 +1,51 @@
-/**
- * WebView 消息类型定义
- * 用于规范 WebView 与扩展间的通信协议
- */
+import type * as vscode from 'vscode';
 
-// ===== 发包延时相关消息 =====
+export interface FieldDescriptor {
+    type: 'text' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'html';
+    id: string;
+    label?: string;
+    placeholder?: string;
+    value?: string;
+    readonly?: boolean;
+    rows?: number;
+    options?: { value: string; label: string; checked?: boolean }[];
+    name?: string;
+    columns?: number;
+    html?: string;
+    className?: string;
+    visible?: boolean;
+}
+
+export interface ActionDescriptor {
+    id: string;
+    text: string;
+    command: string;
+    className?: string;
+    inputId?: string;
+    inputs?: Record<string, string>;
+    radio?: string;
+    template?: string;
+    condition?: string;
+    elseTemplate?: string;
+}
+
+export interface PanelDescriptor {
+    id: string;
+    title: string;
+    fields: FieldDescriptor[];
+    actions: ActionDescriptor[];
+    scripts?: string[];
+    dataInject?: () => string;
+    getHtml?: () => string;
+    buttonRowStyle?: string;
+    handleMessage?: (
+        message: Record<string, unknown>,
+        context: vscode.ExtensionContext,
+        webview: vscode.WebviewView
+    ) => void | Promise<void>;
+    onRefresh?: (context: vscode.ExtensionContext) => Record<string, unknown>;
+}
+
 export interface AddDelayMessage {
     command: 'add-delay';
     content: string;
@@ -19,7 +61,6 @@ export interface AddPacketMessage {
     content: string;
 }
 
-// ===== 变量相关消息 =====
 export interface VariableClearMessage {
     command: 'variable-clear';
 }
@@ -32,7 +73,6 @@ export interface VariableAddMessage {
     customValue: string;
 }
 
-// ===== 魔法管理相关消息 =====
 export interface MagicManageMessage {
     command: 'magic-manage';
     portLimit: string;
@@ -50,7 +90,6 @@ export interface LoadMagicManageMessage {
     command: 'load-magic-manage';
 }
 
-// ===== 精灵操作相关消息 =====
 export interface PokemonFirstMessage {
     command: '精灵首发';
     content: string;
@@ -71,7 +110,6 @@ export interface PokemonSetBagMessage {
     content: string;
 }
 
-// ===== 对战操作相关消息 =====
 export interface BattleTakeoverMessage {
     command: '接管对战';
     content: string;
@@ -92,7 +130,6 @@ export interface BattlePreBattleMessage {
     content: string;
 }
 
-// ===== 循环控制相关消息 =====
 export interface IfLoopHeadMessage {
     command: 'if-loop-head';
     content: string;
@@ -138,7 +175,6 @@ export interface AttackLoopTailMessage {
     content: string;
 }
 
-// ===== 其他功能消息 =====
 export interface WildPokemonMessage {
     command: 'wild-pokemon';
     mapId: string;
@@ -172,7 +208,6 @@ export interface ShowWarningMessage {
     message: string;
 }
 
-// ===== 补全统计相关消息 =====
 export interface ResetMessage {
     command: 'reset';
 }
@@ -185,9 +220,6 @@ export interface RefreshMessage {
     command: 'refresh';
 }
 
-/**
- * 所有 WebView 消息类型联合
- */
 export type ViewMessage =
     | AddDelayMessage
     | AddBattleDelayMessage
@@ -222,9 +254,6 @@ export type ViewMessage =
     | LoadMessage
     | RefreshMessage;
 
-/**
- * 命令键值映射（用于类型推导）
- */
 export interface CommandMap {
     'add-delay': AddDelayMessage;
     'add-battle-delay': AddBattleDelayMessage;

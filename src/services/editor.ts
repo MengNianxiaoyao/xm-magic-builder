@@ -23,10 +23,7 @@ export async function insertText(text: string): Promise<boolean> {
     return success;
 }
 
-export async function insertTextAtLine(
-    text: string,
-    lineIndex: number = 0
-): Promise<boolean> {
+export async function insertTextAtLine(text: string, lineIndex: number = 0): Promise<boolean> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         return false;
