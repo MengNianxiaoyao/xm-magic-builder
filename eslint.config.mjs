@@ -4,7 +4,7 @@ import prettierConfig from 'eslint-config-prettier';
 
 export default typescriptEslint.config(
     {
-        ignores: ['dist/**', 'out/**', 'node_modules/**', 'esbuild.js'],
+        ignores: ['dist/**', 'out/**', 'node_modules/**', 'src/js/**', 'esbuild.js'],
     },
     ...typescriptEslint.configs.recommendedTypeChecked,
     {
