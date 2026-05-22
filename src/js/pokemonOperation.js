@@ -1,18 +1,18 @@
 (function () {
-    var vscode = acquireVsCodeApi();
+    const vscode = acquireVsCodeApi();
 
     function getCheckedRadio(name) {
-        var el = document.querySelector('input[name="' + name + '"]:checked');
+        const el = document.querySelector('input[name="' + name + '"]:checked');
         return el ? el.value : null;
     }
 
     function toggleInput() {
-        var op = getCheckedRadio('pokemon-op');
+        const op = getCheckedRadio('pokemon-op');
         if (!op) return;
 
-        var idGroup = document.getElementById('id-input-group');
-        var posGroup = document.getElementById('pos-input-group');
-        var bagGroup = document.getElementById('bag-input-group');
+        const idGroup = document.getElementById('id-input-group');
+        const posGroup = document.getElementById('pos-input-group');
+        const bagGroup = document.getElementById('bag-input-group');
 
         idGroup.style.display = 'none';
         posGroup.style.display = 'none';
@@ -32,14 +32,14 @@
     });
 
     document.getElementById('add-btn').addEventListener('click', function () {
-        var op = getCheckedRadio('pokemon-op');
+        const op = getCheckedRadio('pokemon-op');
         if (!op) return;
-        var idValue = document.getElementById('pokemon-id').value;
-        var posValue = document.getElementById('pokemon-pos').value;
-        var bagValue = document.getElementById('bag-ids').value;
+        const idValue = document.getElementById('pokemon-id').value;
+        const posValue = document.getElementById('pokemon-pos').value;
+        const bagValue = document.getElementById('bag-ids').value;
 
-        var command = '';
-        var content = '';
+        let command = '';
+        let content = '';
 
         switch (op) {
             case 'first':

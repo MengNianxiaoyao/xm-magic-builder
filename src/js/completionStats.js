@@ -1,5 +1,5 @@
 (function () {
-    var vscode = acquireVsCodeApi();
+    const vscode = acquireVsCodeApi();
 
     function escapeHtml(text) {
         return text
@@ -11,19 +11,24 @@
     }
 
     function renderStats(stats, total) {
-        var title = document.querySelector('.title');
+        const title = document.querySelector('.title');
         if (total > 0) {
             title.innerHTML = '补全已使用 <span class="count">' + total + '</span> 次';
         } else {
             title.textContent = '暂无使用记录';
         }
 
-        var statsList = document.querySelector('.stats-list');
+        const statsList = document.querySelector('.stats-list');
         if (stats && stats.length > 0) {
-            var html = '';
-            for (var i = 0; i < stats.length; i++) {
-                var s = stats[i];
-                html += '<div class="stats-item"><span class="stats-key">' + escapeHtml(s.key) + '</span><span class="stats-count">' + s.count + '</span></div>';
+            let html = '';
+            for (let i = 0; i < stats.length; i++) {
+                const s = stats[i];
+                html +=
+                    '<div class="stats-item"><span class="stats-key">' +
+                    escapeHtml(s.key) +
+                    '</span><span class="stats-count">' +
+                    s.count +
+                    '</span></div>';
             }
             statsList.innerHTML = html;
             document.getElementById('resetBtn').disabled = false;

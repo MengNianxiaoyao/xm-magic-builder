@@ -4,9 +4,12 @@ import prettierConfig from 'eslint-config-prettier';
 
 export default typescriptEslint.config(
     {
-        ignores: ['dist/**', 'out/**', 'node_modules/**', 'src/js/**', 'esbuild.js'],
+        ignores: ['dist/**', 'out/**', 'node_modules/**', 'esbuild.js'],
     },
-    ...typescriptEslint.configs.recommendedTypeChecked,
+    ...typescriptEslint.configs.recommendedTypeChecked.map((config) => ({
+        ...config,
+        files: ['**/*.ts'],
+    })),
     {
         files: ['**/*.ts'],
         plugins: {
@@ -37,6 +40,32 @@ export default typescriptEslint.config(
             '@typescript-eslint/only-throw-error': 'error',
             'curly': 'error',
             'eqeqeq': 'error',
+            'prefer-const': 'error',
+            'prettier/prettier': 'error',
+        },
+    },
+    {
+        files: ['resources/js/**/*.js'],
+        plugins: {
+            prettier,
+        },
+        languageOptions: {
+            ecmaVersion: 2020,
+            sourceType: 'script',
+            globals: {
+                acquireVsCodeApi: 'readonly',
+                console: 'readonly',
+                window: 'readonly',
+                document: 'readonly',
+                FileReader: 'readonly',
+                Uint8Array: 'readonly',
+            },
+        },
+        rules: {
+            'curly': 'error',
+            'eqeqeq': 'error',
+            'no-var': 'error',
+            'no-undef': 'error',
             'prefer-const': 'error',
             'prettier/prettier': 'error',
         },

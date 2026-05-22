@@ -1,9 +1,9 @@
 (function () {
-    var vscode = acquireVsCodeApi();
+    const vscode = acquireVsCodeApi();
 
     document.getElementById('add-btn').addEventListener('click', function () {
-        var battlePacket = document.getElementById('battle-packet').value;
-        var fileName = document.getElementById('file-name').value;
+        const battlePacket = document.getElementById('battle-packet').value;
+        const fileName = document.getElementById('file-name').value;
 
         if (!battlePacket || !fileName) {
             vscode.postMessage({ command: 'show-warning', message: '对战包/对战方案不得为空!' });
@@ -14,7 +14,7 @@
             command: 'custom-attack-add',
             battlePacket: battlePacket,
             fileName: fileName,
-            fileHex: window.fileHex || ''
+            fileHex: window.fileHex || '',
         });
     });
 })();

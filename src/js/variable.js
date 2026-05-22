@@ -1,21 +1,23 @@
 (function () {
-    var vscode = acquireVsCodeApi();
+    const vscode = acquireVsCodeApi();
 
-    var data = window.__variableViewData;
-    var integerValues = data.integerValues;
-    var stringValues = data.stringValues;
-    var noCustomTypes = data.noCustomTypes;
+    const data = window.__variableViewData;
+    const integerValues = data.integerValues;
+    const stringValues = data.stringValues;
+    const noCustomTypes = data.noCustomTypes;
 
     function updateValueOptions(type) {
-        var valueSelect = document.getElementById('var-value');
-        var options = type === 'integer' ? integerValues : stringValues;
-        valueSelect.innerHTML = options.map(function (v) {
-            return '<option value="' + v.value + '">' + v.label + '</option>';
-        }).join('');
+        const valueSelect = document.getElementById('var-value');
+        const options = type === 'integer' ? integerValues : stringValues;
+        valueSelect.innerHTML = options
+            .map(function (v) {
+                return '<option value="' + v.value + '">' + v.label + '</option>';
+            })
+            .join('');
     }
 
     function updateCustomInput(value, type) {
-        var customGroup = document.getElementById('custom-value-group');
+        const customGroup = document.getElementById('custom-value-group');
         if (customGroup) {
             if (noCustomTypes.indexOf(value) !== -1) {
                 customGroup.style.display = 'none';
@@ -26,7 +28,7 @@
     }
 
     document.getElementById('var-type').addEventListener('change', function (e) {
-        var type = e.target.value;
+        const type = e.target.value;
         updateValueOptions(type);
         updateCustomInput(document.getElementById('var-value').value, type);
     });
@@ -40,11 +42,11 @@
     });
 
     document.getElementById('add-btn').addEventListener('click', function () {
-        var varName = document.getElementById('var-name').value;
-        var varType = document.getElementById('var-type').value;
-        var varValue = document.getElementById('var-value').value;
-        var customValueInput = document.getElementById('custom-value');
-        var customValue = customValueInput ? customValueInput.value : '';
+        const varName = document.getElementById('var-name').value;
+        const varType = document.getElementById('var-type').value;
+        const varValue = document.getElementById('var-value').value;
+        const customValueInput = document.getElementById('custom-value');
+        const customValue = customValueInput ? customValueInput.value : '';
 
         if (!varName) {
             vscode.postMessage({ command: 'show-warning', message: '变量名称不得为空！' });
@@ -61,7 +63,7 @@
             varName: varName,
             varType: varType,
             varValue: varValue,
-            customValue: customValue
+            customValue: customValue,
         });
     });
 })();

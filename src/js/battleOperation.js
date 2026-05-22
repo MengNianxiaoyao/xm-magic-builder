@@ -1,13 +1,13 @@
 (function () {
-    var vscode = acquireVsCodeApi();
+    const vscode = acquireVsCodeApi();
 
     function getCheckedRadio(name) {
-        var el = document.querySelector('input[name="' + name + '"]:checked');
+        const el = document.querySelector('input[name="' + name + '"]:checked');
         return el ? el.value : null;
     }
 
     function toggleInput() {
-        var op = getCheckedRadio('battle-op');
+        const op = getCheckedRadio('battle-op');
         if (!op) return;
 
         document.getElementById('takeover-group').style.display = 'none';
@@ -31,10 +31,10 @@
     });
 
     document.getElementById('add-btn').addEventListener('click', function () {
-        var op = getCheckedRadio('battle-op');
+        const op = getCheckedRadio('battle-op');
         if (!op) return;
-        var command = '';
-        var content = '';
+        let command = '';
+        let content = '';
 
         switch (op) {
             case 'takeover':
