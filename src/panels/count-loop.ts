@@ -45,5 +45,5 @@ export const countLoopPanel: PanelDescriptor = {
             template: '计次循环体=尾部|${loopId}',
         },
     ],
-    scripts: ['resources/js/simpleAction.js'],
+    scripts: ['src/js/simpleAction.js'],
 };

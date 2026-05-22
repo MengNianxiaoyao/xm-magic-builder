@@ -18,5 +18,5 @@ export const attackLoopPanel: PanelDescriptor = {
             template: '出招循环体=尾部',
         },
     ],
-    scripts: ['resources/js/simpleAction.js'],
+    scripts: ['src/js/simpleAction.js'],
 };

@@ -7,7 +7,7 @@ export const customAttackPanel: PanelDescriptor = {
     title: '自定义出招',
     fields: [],
     actions: [],
-    scripts: ['resources/js/fileImport.js', 'resources/js/customAttack.js'],
+    scripts: ['src/js/fileImport.js', 'src/js/customAttack.js'],
     getHtml() {
         return `<div class="container">
             <div class="input-group">

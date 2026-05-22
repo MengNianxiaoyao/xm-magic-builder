@@ -8,7 +8,7 @@ export const variablePanel: PanelDescriptor = {
     title: '变量',
     fields: [],
     actions: [],
-    scripts: ['resources/js/variable.js'],
+    scripts: ['src/js/variable.js'],
     dataInject() {
         return `<script>window.__variableViewData = { integerValues: ${JSON.stringify(INTEGER_VAR_VALUES)}, stringValues: ${JSON.stringify(STRING_VAR_VALUES)}, noCustomTypes: ${JSON.stringify(NO_CUSTOM_VAR_TYPES)} };</script>`;
     },

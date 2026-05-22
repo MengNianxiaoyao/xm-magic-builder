@@ -21,6 +21,6 @@ export const outputPanel: PanelDescriptor = {
             className: 'btn-block',
         },
     ],
-    scripts: ['resources/js/simpleAction.js'],
+    scripts: ['src/js/simpleAction.js'],
     buttonRowStyle: '',
 };
