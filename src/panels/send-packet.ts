@@ -28,7 +28,7 @@ export const sendPacketPanel: PanelDescriptor = {
             template: '对战延时=${content}',
         },
     ],
-    scripts: ['src/js/simpleAction.js'],
+    scripts: ['resources/js/simpleAction.js'],
     getHtml() {
         const [pkt, delay, battleDelay] = this.actions;
         return `<div class="container">

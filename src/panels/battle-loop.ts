@@ -30,5 +30,5 @@ export const battleLoopPanel: PanelDescriptor = {
             template: '对战循环体=${content}尾部',
         },
     ],
-    scripts: ['src/js/simpleAction.js'],
+    scripts: ['resources/js/simpleAction.js'],
 };

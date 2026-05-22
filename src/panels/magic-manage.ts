@@ -8,7 +8,7 @@ export const magicManagePanel: PanelDescriptor = {
     title: '魔法管理',
     fields: [],
     actions: [],
-    scripts: ['src/js/magicManage.js'],
+    scripts: ['resources/js/magicManage.js'],
     getHtml() {
         return `<div class="container">
             <div class="input-group">
