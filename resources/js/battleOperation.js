@@ -1,13 +1,8 @@
 (function () {
     const vscode = acquireVsCodeApi();
 
-    function getCheckedRadio(name) {
-        const el = document.querySelector('input[name="' + name + '"]:checked');
-        return el ? el.value : null;
-    }
-
     function toggleInput() {
-        const op = getCheckedRadio('battle-op');
+        const op = __xmUtils.getCheckedRadio('battle-op');
         if (!op) return;
 
         document.getElementById('takeover-group').style.display = 'none';
@@ -31,10 +26,9 @@
     });
 
     document.getElementById('add-btn').addEventListener('click', function () {
-        const op = getCheckedRadio('battle-op');
+        const op = __xmUtils.getCheckedRadio('battle-op');
         if (!op) return;
-        let command = '';
-        let content = '';
+        let command, content;
 
         switch (op) {
             case 'takeover':

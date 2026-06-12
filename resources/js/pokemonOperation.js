@@ -1,13 +1,8 @@
 (function () {
     const vscode = acquireVsCodeApi();
 
-    function getCheckedRadio(name) {
-        const el = document.querySelector('input[name="' + name + '"]:checked');
-        return el ? el.value : null;
-    }
-
     function toggleInput() {
-        const op = getCheckedRadio('pokemon-op');
+        const op = __xmUtils.getCheckedRadio('pokemon-op');
         if (!op) return;
 
         const idGroup = document.getElementById('id-input-group');
@@ -32,14 +27,13 @@
     });
 
     document.getElementById('add-btn').addEventListener('click', function () {
-        const op = getCheckedRadio('pokemon-op');
+        const op = __xmUtils.getCheckedRadio('pokemon-op');
         if (!op) return;
         const idValue = document.getElementById('pokemon-id').value;
         const posValue = document.getElementById('pokemon-pos').value;
         const bagValue = document.getElementById('bag-ids').value;
 
-        let command = '';
-        let content = '';
+        let command, content;
 
         switch (op) {
             case 'first':

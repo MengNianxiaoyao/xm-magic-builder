@@ -1,40 +1,36 @@
 (function () {
     const vscode = acquireVsCodeApi();
 
-    function escapeHtml(text) {
-        return text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
-    }
-
     function renderStats(stats, total) {
         const title = document.querySelector('.title');
+        const countSpan = '<span class="count">' + total + '</span>';
         if (total > 0) {
-            title.innerHTML = '补全已使用 <span class="count">' + total + '</span> 次';
+            title.innerHTML = '补全已使用 ' + countSpan + ' 次';
         } else {
             title.textContent = '暂无使用记录';
         }
 
         const statsList = document.querySelector('.stats-list');
+        const resetBtn = document.getElementById('resetBtn');
         if (stats && stats.length > 0) {
             let html = '';
             for (let i = 0; i < stats.length; i++) {
                 const s = stats[i];
                 html +=
-                    '<div class="stats-item"><span class="stats-key">' +
-                    escapeHtml(s.key) +
-                    '</span><span class="stats-count">' +
+                    '<div class="stats-item">' +
+                    '<span class="stats-key">' +
+                    __xmUtils.escapeHtml(s.key) +
+                    '</span>' +
+                    '<span class="stats-count">' +
                     s.count +
-                    '</span></div>';
+                    '</span>' +
+                    '</div>';
             }
             statsList.innerHTML = html;
-            document.getElementById('resetBtn').disabled = false;
+            resetBtn.disabled = false;
         } else {
             statsList.innerHTML = '';
-            document.getElementById('resetBtn').disabled = true;
+            resetBtn.disabled = true;
         }
     }
 
