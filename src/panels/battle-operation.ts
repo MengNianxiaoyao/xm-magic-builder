@@ -7,7 +7,7 @@ export const battleOperationPanel: PanelDescriptor = {
     title: '对战操作',
     fields: [],
     actions: [],
-    scripts: ['resources/js/battleOperation.js'],
+    scripts: ['resources/js/utils.js', 'resources/js/battleOperation.js'],
     getHtml() {
         return `<div class="container">
             <div class="radio-group" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">

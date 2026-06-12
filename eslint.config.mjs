@@ -59,6 +59,8 @@ export default typescriptEslint.config(
                 document: 'readonly',
                 FileReader: 'readonly',
                 Uint8Array: 'readonly',
+                __xmUtils: 'readonly',
+                __xmFileImport: 'readonly',
             },
         },
         rules: {
