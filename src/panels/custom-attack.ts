@@ -15,12 +15,18 @@ export const customAttackPanel: PanelDescriptor = {
                 <input type="text" id="battle-packet" />
             </div>
             <div class="input-group">
+                <span class="label">变量名称</span>
+                <input type="text" id="var-name" />
+            </div>
+            <div class="input-group">
                 <span class="label">自定义出招</span>
                 <input type="text" id="file-name" readonly />
             </div>
             <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">
                 <button id="import-btn" class="btn" data-accept=".xmcus">导入对战方案</button>
-                <button id="add-btn" class="btn">添加</button>
+                <button id="add-btn" class="btn">添加出招</button>
+                <button id="add-var-btn" class="btn">添加出招变量</button>
+                <button id="use-var-btn" class="btn">使用出招变量</button>
             </div>
         </div>`;
     },
@@ -41,6 +47,12 @@ export const customAttackPanel: PanelDescriptor = {
 
         if (msg.command === 'custom-attack-add') {
             const output = `自定义出招=${msg.battlePacket}|${msg.fileName}|${msg.fileHex}`;
+            await insertText(output);
+        } else if (msg.command === 'custom-attack-var-add') {
+            const output = `变量=文本型|${msg.varName}|自定义文本|${msg.fileHex}`;
+            await insertText(output);
+        } else if (msg.command === 'custom-attack-use-var') {
+            const output = `自定义出招=${msg.battlePacket}|${msg.varName}.xmcus|[${msg.varName}]`;
             await insertText(output);
         }
     },
