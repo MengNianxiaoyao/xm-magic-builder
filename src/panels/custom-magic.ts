@@ -25,12 +25,18 @@ export const customMagicPanel: PanelDescriptor = {
                 <input type="text" id="password" />
             </div>
             <div class="input-group">
+                <span class="label">变量名称</span>
+                <input type="text" id="var-name" />
+            </div>
+            <div class="input-group">
                 <span class="label">自定义魔法</span>
                 <input type="text" id="file-name" readonly />
             </div>
             <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">
                 <button id="import-btn" class="btn" data-accept=".xmgic">导入魔法</button>
-                <button id="add-btn" class="btn">添加</button>
+                <button id="add-btn" class="btn">添加魔法</button>
+                <button id="add-var-btn" class="btn">添加魔法变量</button>
+                <button id="use-var-btn" class="btn">使用魔法变量</button>
             </div>
         </div>`;
     },
@@ -52,6 +58,13 @@ export const customMagicPanel: PanelDescriptor = {
         if (msg.command === 'custom-magic-add') {
             const passwordPart = msg.password ? `${msg.password}` : '';
             const output = `自定义魔法=${msg.passCurrent}|${msg.returnVar}|${passwordPart}|${msg.fileName}|${msg.fileHex}`;
+            await insertText(output);
+        } else if (msg.command === 'custom-magic-var-add') {
+            const output = `变量=文本型|${msg.varName}|自定义文本|${msg.fileHex}`;
+            await insertText(output);
+        } else if (msg.command === 'custom-magic-use-var') {
+            const passwordPart = msg.password ? `${msg.password}` : '';
+            const output = `自定义魔法=${msg.passCurrent}|${msg.returnVar}|${passwordPart}|${msg.varName}.xmgic|[${msg.varName}]`;
             await insertText(output);
         }
     },
