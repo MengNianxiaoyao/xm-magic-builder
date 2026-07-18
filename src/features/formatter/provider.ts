@@ -81,6 +81,15 @@ function convertBracketsInInfoOutput(line: string): string {
     });
 }
 
+function ensurePipeDelimited(line: string): string {
+    line = line.replace(/且/g, '|且|');
+    line = line.replace(/或/g, '|或|');
+    line = line.replace(/\|+/g, '|');
+    line = line.replace(/}(?=\{)/g, '}|');
+    line = line.replace(/\|+\r?$/, '');
+    return line;
+}
+
 function formatContent(content: string): string {
     const lines = content.split('\n');
     const keywords = [
@@ -111,6 +120,9 @@ function formatContent(content: string): string {
         const isKeywordLine = !isInfoOutput && trimmed !== '' && keywords.some((kw) => trimmed.startsWith(kw + '='));
 
         line = convertFullwidth(line, isInfoOutput);
+        if (trimmed.startsWith('判断循环体=')) {
+            line = ensurePipeDelimited(line);
+        }
 
         if (isInfoOutput) {
             line = convertBracketsInInfoOutput(line);
