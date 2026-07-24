@@ -224,6 +224,19 @@ button:active {
     transform: scale(0.98);
 }
 
+.value-description {
+    font-size: 12px;
+    color: var(--text-color);
+    background: var(--input-bg);
+    padding: 6px 10px;
+    border-radius: 3px;
+    border-left: 2px solid var(--btn-bg);
+    min-height: 1.4em;
+    line-height: 1.5;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
 .placeholder {
     color: var(--placeholder-color);
     font-style: italic;

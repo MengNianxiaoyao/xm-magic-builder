@@ -16,6 +16,18 @@
             .join('');
     }
 
+    function updateDescription(value, type) {
+        const values = type === 'integer' ? integerValues : stringValues;
+        let found = null;
+        for (let i = 0; i < values.length; i++) {
+            if (values[i].value === value) {
+                found = values[i];
+                break;
+            }
+        }
+        document.getElementById('value-desc').textContent = found ? found.description : '';
+    }
+
     function updateCustomInput(value, type) {
         const customGroup = document.getElementById('custom-value-group');
         if (customGroup) {
@@ -27,15 +39,24 @@
         }
     }
 
+    function onValueOrTypeChange() {
+        const type = document.getElementById('var-type').value;
+        const value = document.getElementById('var-value').value;
+        updateCustomInput(value, type);
+        updateDescription(value, type);
+    }
+
     document.getElementById('var-type').addEventListener('change', function (e) {
         const type = e.target.value;
         updateValueOptions(type);
-        updateCustomInput(document.getElementById('var-value').value, type);
+        onValueOrTypeChange();
     });
 
     document.getElementById('var-value').addEventListener('change', function (e) {
-        updateCustomInput(e.target.value, document.getElementById('var-type').value);
+        onValueOrTypeChange();
     });
+
+    onValueOrTypeChange();
 
     document.getElementById('clear-btn').addEventListener('click', function () {
         vscode.postMessage({ command: 'variable-clear' });

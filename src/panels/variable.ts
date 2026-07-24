@@ -39,6 +39,7 @@ export const variablePanel: PanelDescriptor = {
                 <button id="clear-btn">清空变量</button>
                 <button id="add-btn">添加变量</button>
             </div>
+            <div id="value-desc" class="value-description"></div>
         </div>`;
     },
     handleMessage(message: Record<string, unknown>, _context: vscode.ExtensionContext, _webview: vscode.WebviewView) {

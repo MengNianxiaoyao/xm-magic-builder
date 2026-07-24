@@ -45,6 +45,40 @@
                 }
             ]
         },
+        "numeric-expression": {
+            "name": "constant.numeric.expression.xm",
+            "begin": "#<",
+            "end": ">#",
+            "patterns": [
+                {
+                    "name": "variable.operator.xm",
+                    "match": "[*+\\-/%]"
+                },
+                {
+                    "name": "variable.other.xm",
+                    "match": "\\[([^\\]]+)\\]"
+                },
+                {
+                    "name": "meta.condition-params.xm",
+                    "begin": "\\{",
+                    "end": "\\}",
+                    "patterns": [
+                        {
+                            "name": "keyword.compare-op.xm",
+                            "match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
+                        },
+                        {
+                            "name": "constant.numeric.xm",
+                            "match": "\\d+"
+                        },
+                        {
+                            "name": "variable.other.xm",
+                            "match": "\\[([^\\]]+)\\]"
+                        }
+                    ]
+                }
+            ]
+        },
         "variable-decl": {
             "patterns": [
                 {
@@ -86,15 +120,7 @@
                             }
                         },
                         {
-                            "name": "constant.numeric.expression.xm",
-                            "begin": "#<",
-                            "end": ">#",
-                            "patterns": [
-                                {
-                                    "name": "keyword.operator.xm",
-                                    "match": "[*+\\-/%]"
-                                }
-                            ]
+                            "include": "#numeric-expression"
                         },
                         {
                             "name": "variable.other.xm",
@@ -123,19 +149,7 @@
                     "match": "[0-9a-zA-Z]+"
                 },
                 {
-                    "name": "constant.numeric.expression.xm",
-                    "begin": "#<",
-                    "end": ">#",
-                    "patterns": [
-                        {
-                            "name": "keyword.operator.xm",
-                            "match": "[*+\\-/%]"
-                        },
-                        {
-                            "name": "variable.other.xm",
-                            "match": "\\[([^\\]]+)\\]"
-                        }
-                    ]
+                    "include": "#numeric-expression"
                 },
                 {
                     "name": "meta.condition-params.xm",
