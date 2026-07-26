@@ -176,24 +176,14 @@ export const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
     ],
     判断循环体: [
         {
-            label: '判断循环体=头部\r\n\r\n判断循环体=尾部',
-            detail: '判断循环体',
-            documentation: '创建判断循环体(不含发包参数)',
-        },
-        {
             label: '判断循环体=头部|\r\n\r\n判断循环体=尾部',
             detail: '判断循环体',
-            documentation: '创建判断循环体(含发包参数)',
-        },
-        {
-            label: '头部',
-            detail: '头部',
-            documentation: '判断循环体开始(不含发包参数)',
+            documentation: '创建判断循环体',
         },
         {
             label: '头部|',
             detail: '头部',
-            documentation: '判断循环体开始(含发包参数)',
+            documentation: '判断循环体开始',
         },
         {
             label: '尾部',
