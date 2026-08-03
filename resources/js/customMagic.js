@@ -22,6 +22,31 @@
         });
     });
 
+    document.getElementById('add-plain-btn').addEventListener('click', function () {
+        const passCurrent = document.getElementById('pass-current').checked ? '1' : '0';
+        const returnVar = document.getElementById('return-var').checked ? '1' : '0';
+        const varName = document.getElementById('var-name').value;
+        const plainContent = document.getElementById('plain-content').value;
+
+        if (!varName) {
+            vscode.postMessage({ command: 'show-warning', message: '明文文件名不得为空!' });
+            return;
+        }
+
+        if (!plainContent) {
+            vscode.postMessage({ command: 'show-warning', message: '明文内容不得为空!' });
+            return;
+        }
+
+        vscode.postMessage({
+            command: 'custom-magic-plain-add',
+            passCurrent: passCurrent,
+            returnVar: returnVar,
+            varName: varName,
+            plainContent: plainContent,
+        });
+    });
+
     document.getElementById('add-var-btn').addEventListener('click', function () {
         const varName = document.getElementById('var-name').value;
         const fileName = document.getElementById('file-name').value;
