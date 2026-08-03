@@ -146,6 +146,10 @@
                 },
                 {
                     "name": "keyword.strings.xm",
+                    "match": "明文"
+                },
+                {
+                    "name": "keyword.strings.xm",
                     "match": "[0-9a-zA-Z]+"
                 },
                 {
