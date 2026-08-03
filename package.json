@@ -24,6 +24,9 @@
     ],
     "icon": "resources/icon.png",
     "main": "./dist/extension.js",
+    "vsce": {
+        "dependencies": false
+    },
     "contributes": {
         "commands": [
             {
