@@ -12,7 +12,7 @@
     "bugs": {
         "url": "https://github.com/MengNianxiaoyao/xm-magic-builder/issues"
     },
-    "version": "0.3.7",
+    "version": "0.3.8",
     "engines": {
         "vscode": "^1.118.0"
     },
@@ -52,6 +52,12 @@
                 "configuration": "./language/language-configuration.json"
             }
         ],
+        "configurationDefaults": {
+            "[xm]": {
+                "editor.wordWrap": "off",
+                "editor.maxTokenizationLineLength": 200000
+            }
+        },
         "grammars": [
             {
                 "language": "xm",
