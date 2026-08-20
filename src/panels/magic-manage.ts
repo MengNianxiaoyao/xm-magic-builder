@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import type { PanelDescriptor } from '../shared/types';
 import { checkXmFile, insertTextAtLine } from '../services/editor';
-import { loadMagicManageFromFile } from '../features/magic-manage-loader';
+import { loadMagicManageFromFile, defaultMagicData } from '../features/magic-manage-loader';
 
 export const magicManagePanel: PanelDescriptor = {
     id: 'xm-magic-builder.magic-manage',
@@ -71,7 +71,7 @@ export const magicManagePanel: PanelDescriptor = {
     handleMessage(message: Record<string, unknown>, _context: vscode.ExtensionContext, webview: vscode.WebviewView) {
         const msg = message as Record<string, string>;
         if (msg.command === 'load-magic-manage') {
-            const data = loadMagicManageFromFile();
+            const data = loadMagicManageFromFile() ?? defaultMagicData;
             webview.webview.postMessage({
                 command: 'magic-manage-loaded',
                 data,
@@ -89,7 +89,7 @@ export const magicManagePanel: PanelDescriptor = {
         }
     },
     onRefresh(_context: vscode.ExtensionContext): Record<string, unknown> {
-        const data = loadMagicManageFromFile();
+        const data = loadMagicManageFromFile() ?? defaultMagicData;
         return { command: 'magic-manage-loaded', data };
     },
 };

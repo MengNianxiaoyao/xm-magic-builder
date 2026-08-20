@@ -12,6 +12,18 @@ export interface MagicManageData {
     sponsorDays: string;
 }
 
+export const defaultMagicData: MagicManageData = {
+    portLimit: '0',
+    versionMajor: '0',
+    versionMinor: '1',
+    apiParam: '',
+    versionCheck1: '0',
+    versionCheck2: '0',
+    blacklist: '',
+    appid: '',
+    sponsorDays: '1',
+};
+
 export function parseMagicManage(content: string): MagicManageData | null {
     const match = content.match(/^魔法管理=\{(.+)\}$/);
     if (!match) {
@@ -19,17 +31,7 @@ export function parseMagicManage(content: string): MagicManageData | null {
     }
 
     const pairs = match[1].split('|');
-    const data: MagicManageData = {
-        portLimit: '0',
-        versionMajor: '0',
-        versionMinor: '1',
-        apiParam: '',
-        versionCheck1: '0',
-        versionCheck2: '0',
-        blacklist: '',
-        appid: '',
-        sponsorDays: '1',
-    };
+    const data: MagicManageData = { ...defaultMagicData };
 
     for (const pair of pairs) {
         const [key, value] = pair.split('=');
