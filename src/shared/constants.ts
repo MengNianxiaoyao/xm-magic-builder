@@ -59,7 +59,8 @@ export const INTEGER_VAR_VALUES: VarValueEntry[] = [
     {
         value: '精灵属性查询返回',
         label: '精灵属性查询返回',
-        description: '说明：在大括号内填写要查询的精灵的catchtime和要查询的属性序号，会返回对应的属性数值。例如{ct,21}返回精灵PVE体力数值。属性序号：基础10/PVE20/PVP30+体力1/攻击2/防御3/特攻4/特防5/速度6。',
+        description:
+            '说明：在大括号内填写要查询的精灵的catchtime和要查询的属性序号，会返回对应的属性数值。例如{ct,21}返回精灵PVE体力数值。属性序号：基础10/PVE20/PVP30+体力1/攻击2/防御3/特攻4/特防5/速度6。',
     },
     {
         value: '用户当前超NO状态返回',
