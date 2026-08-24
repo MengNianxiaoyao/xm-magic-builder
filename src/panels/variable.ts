@@ -32,6 +32,29 @@ export const variablePanel: PanelDescriptor = {
                 <span class="label">变量值</span>
                 <select id="var-value">${valueOptionsHtml}</select>
             </div>
+            <div id="sprite-attr-group" style="display: none;">
+                <div class="inline-select-row">
+                    <div class="inline-select-item">
+                        <span class="label">属性类型</span>
+                        <select id="attr-type">
+                            <option value="基础">基础</option>
+                            <option value="PVE">PVE</option>
+                            <option value="PVP">PVP</option>
+                        </select>
+                    </div>
+                    <div class="inline-select-item">
+                        <span class="label">属性值</span>
+                        <select id="attr-value">
+                            <option value="体力">体力</option>
+                            <option value="攻击">攻击</option>
+                            <option value="防御">防御</option>
+                            <option value="特攻">特攻</option>
+                            <option value="特防">特防</option>
+                            <option value="速度">速度</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="input-group" id="custom-value-group">
                 <input type="text" id="custom-value" />
             </div>
@@ -59,7 +82,17 @@ export const variablePanel: PanelDescriptor = {
             const varValue = message.varValue as string;
             const typeLabel = varType === 'integer' ? '整数型' : '文本型';
             const actualValue = NO_CUSTOM_VAR_TYPES.includes(varValue) ? '0' : (message.customValue as string);
-            const output = `变量=${typeLabel}|${message.varName as string}|${varValue}|${actualValue}`;
+            let output: string;
+            if (varValue === '精灵属性查询返回') {
+                const typeBase: Record<string, number> = { 基础: 10, PVE: 20, PVP: 30 };
+                const valueOffset: Record<string, number> = { 体力: 1, 攻击: 2, 防御: 3, 特攻: 4, 特防: 5, 速度: 6 };
+                const attrType = message.attrType as string;
+                const attrValue = message.attrValue as string;
+                const id = (typeBase[attrType] || 0) + (valueOffset[attrValue] || 0);
+                output = `变量=${typeLabel}|${message.varName as string}|${varValue}|{${actualValue},${id}}`;
+            } else {
+                output = `变量=${typeLabel}|${message.varName as string}|${varValue}|${actualValue}`;
+            }
             void insertText(output);
         }
     },
