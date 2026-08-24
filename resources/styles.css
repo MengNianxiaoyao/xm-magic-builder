@@ -44,6 +44,19 @@ body {
     margin-bottom: 0;
 }
 
+.inline-select-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.inline-select-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 .radio-group {
     display: flex;
     flex-direction: column;

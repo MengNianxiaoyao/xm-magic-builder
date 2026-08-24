@@ -37,6 +37,10 @@
                 customGroup.style.display = 'flex';
             }
         }
+        const spriteAttrGroup = document.getElementById('sprite-attr-group');
+        if (spriteAttrGroup) {
+            spriteAttrGroup.style.display = value === '精灵属性查询返回' ? 'block' : 'none';
+        }
     }
 
     function onValueOrTypeChange() {
@@ -79,12 +83,17 @@
             return;
         }
 
+        const attrType = document.getElementById('attr-type') ? document.getElementById('attr-type').value : '';
+        const attrValue = document.getElementById('attr-value') ? document.getElementById('attr-value').value : '';
+
         vscode.postMessage({
             command: 'variable-add',
             varName: varName,
             varType: varType,
             varValue: varValue,
             customValue: customValue,
+            attrType: attrType,
+            attrValue: attrValue,
         });
     });
 })();
