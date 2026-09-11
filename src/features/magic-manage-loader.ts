@@ -17,7 +17,7 @@ export const defaultMagicData: MagicManageData = {
     versionMajor: '0',
     versionMinor: '1',
     apiParam: '',
-    versionCheck1: '0',
+    versionCheck1: '1',
     versionCheck2: '0',
     blacklist: '',
     appid: '',
