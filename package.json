@@ -12,7 +12,7 @@
     "bugs": {
         "url": "https://github.com/MengNianxiaoyao/xm-magic-builder/issues"
     },
-    "version": "0.3.12",
+    "version": "0.3.13",
     "engines": {
         "vscode": "^1.118.0"
     },
@@ -132,13 +132,13 @@
                     "type": "webview"
                 },
                 {
-                    "id": "xm-magic-builder.magic-manage",
-                    "name": "魔法管理",
+                    "id": "xm-magic-builder.custom-magic",
+                    "name": "自定义魔法",
                     "type": "webview"
                 },
                 {
-                    "id": "xm-magic-builder.custom-magic",
-                    "name": "自定义魔法",
+                    "id": "xm-magic-builder.magic-manage",
+                    "name": "魔法管理",
                     "type": "webview"
                 },
                 {

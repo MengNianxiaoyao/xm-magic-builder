@@ -34,14 +34,65 @@
                     "contentName": "meta.magic-manage-params.xm",
                     "patterns": [
                         {
-                            "name": "keyword.magic-manage-key.xm",
-                            "match": "[^=|]+(?==)"
+                            "name": "entity.name.type.xm",
+                            "match": "[^{=|}]+(?==)"
                         },
                         {
                             "name": "string.magic-manage-value.xm",
-                            "match": "(?<==)[^=|}]+"
+                            "match": "(?<==)[^{=|}]+"
+                        },
+                        {
+                            "name": "punctuation.separator.xm",
+                            "match": "[|=]"
                         }
                     ]
+                }
+            ]
+        },
+        "condition-params": {
+            "name": "meta.condition-params.xm",
+            "begin": "\\{",
+            "end": "\\}",
+            "patterns": [
+                {
+                    "name": "keyword.compare-op.xm",
+                    "match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
+                },
+                {
+                    "name": "constant.numeric.xm",
+                    "match": "\\d+"
+                },
+                {
+                    "include": "#variable-ref"
+                }
+            ]
+        },
+        "variable-ref": {
+            "begin": "\\[",
+            "end": "\\]",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.bracket.xm"
+                }
+            },
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.bracket.xm"
+                }
+            },
+            "contentName": "variable.other.xm",
+            "patterns": [
+                {
+                    "name": "string.regexp.xm",
+                    "match": "'[^']*'"
+                },
+                {
+                    "name": "comment.line.xm",
+                    "match": "[*+\\-/%]"
+                },
+                {
+                    "name": "constant.numeric.xm",
+                    "match": "\\d+"
                 }
             ]
         },
@@ -51,31 +102,18 @@
             "end": ">#",
             "patterns": [
                 {
-                    "name": "variable.operator.xm",
+                    "name": "comment.line.xm",
                     "match": "[*+\\-/%]"
                 },
                 {
-                    "name": "variable.other.xm",
-                    "match": "\\[([^\\]]+)\\]"
+                    "name": "constant.numeric.xm",
+                    "match": "\\d+"
                 },
                 {
-                    "name": "meta.condition-params.xm",
-                    "begin": "\\{",
-                    "end": "\\}",
-                    "patterns": [
-                        {
-                            "name": "keyword.compare-op.xm",
-                            "match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
-                        },
-                        {
-                            "name": "constant.numeric.xm",
-                            "match": "\\d+"
-                        },
-                        {
-                            "name": "variable.other.xm",
-                            "match": "\\[([^\\]]+)\\]"
-                        }
-                    ]
+                    "include": "#variable-ref"
+                },
+                {
+                    "include": "#condition-params"
                 }
             ]
         },
@@ -92,11 +130,11 @@
                     },
                     "patterns": [
                         {
-                            "name": "keyword.variable-type.xm",
+                            "name": "entity.name.function.xm",
                             "match": "整数型|文本型"
                         },
                         {
-                            "name": "variable.clear.xm",
+                            "name": "invalid.xm",
                             "match": "清空变量"
                         },
                         {
@@ -123,8 +161,15 @@
                             "include": "#numeric-expression"
                         },
                         {
+                            "include": "#variable-ref"
+                        },
+                        {
                             "name": "variable.other.xm",
-                            "match": "(\\[([^\\]]+)\\])|([0-9a-zA-Z]+)"
+                            "match": "([0-9a-zA-Z]+)"
+                        },
+                        {
+                            "name": "punctuation.separator.xm",
+                            "match": "[|=]"
                         }
                     ]
                 }
@@ -137,16 +182,32 @@
                     "match": "^ *(?:发包|(?:对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|自定义(?:出招|魔法)|野怪操作-(对战|捕捉)|(?:出招|对战|判断|计次)循环体)"
                 },
                 {
-                    "name": "keyword.loop.xm",
+                    "name": "keyword.xm",
                     "match": "(?:判断(?:真|假)\\d*)|跳出循环|(?:对战胜利|对战未触发)?(?:头|尾)部"
                 },
                 {
-                    "name": "keyword.special.xm",
+                    "name": "variable.name.xm",
+                    "match": "(?<=计次循环体=(?:头|尾)部\\|)[^|]+"
+                },
+                {
+                    "name": "support.function.xm",
                     "match": "(?:且|或|forstart|forend|whilestart|whileend|break|if|else|and|or|还原背包|撤退|全精灵恢复|压血|领取[^火]+火)"
                 },
                 {
                     "name": "keyword.strings.xm",
                     "match": "明文"
+                },
+                {
+                    "name": "comment.line.xm",
+                    "match": "[^\\s|=]+\\.(?:xmcus|xmgic|xmagic)\\b"
+                },
+                {
+                    "name": "constant.numeric.xm",
+                    "match": "\\b\\d+\\b"
+                },
+                {
+                    "name": "constant.numeric.hex.xm",
+                    "match": "(?<!\\[)\\b[0-9A-Fa-f]{8,}\\b(?!\\])"
                 },
                 {
                     "name": "keyword.strings.xm",
@@ -156,27 +217,15 @@
                     "include": "#numeric-expression"
                 },
                 {
-                    "name": "meta.condition-params.xm",
-                    "begin": "\\{",
-                    "end": "\\}",
-                    "patterns": [
-                        {
-                            "name": "keyword.compare-op.xm",
-                            "match": "[大小](?:于(?:等于)?)?|(?:十六|二)进制|等于|不等于"
-                        },
-                        {
-                            "name": "constant.numeric.xm",
-                            "match": "\\d+"
-                        },
-                        {
-                            "name": "variable.other.xm",
-                            "match": "\\[([^\\]]+)\\]"
-                        }
-                    ]
+                    "include": "#condition-params"
                 },
                 {
                     "name": "constant.character.escape.xm",
                     "match": "\\\\(r|n)|\\\\r\\\\n"
+                },
+                {
+                    "name": "punctuation.separator.xm",
+                    "match": "[|=：/]"
                 }
             ]
         },
