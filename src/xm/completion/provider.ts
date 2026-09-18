@@ -125,9 +125,9 @@ function calculateInsertText(c: CompletionInfo, keyword: string, beforeEq: strin
 
 function createCompletionItem(
     flat: FlatCompletion,
-    beforeEq: string,
+    insertText: string,
+    rangeStart: number,
     position: vscode.Position,
-    eqIndex: number,
     usage?: CompletionUsage
 ): vscode.CompletionItem {
     const { keyword, c, hasEquals, fullText } = flat;
@@ -140,10 +140,9 @@ function createCompletionItem(
     );
     item.detail = c.detail;
     item.documentation = getDoc(c.documentation);
-    item.insertText = calculateInsertText(c, keyword, beforeEq, hasEquals);
-    if (eqIndex >= 0) {
-        item.range = new vscode.Range(position.line, eqIndex + 1, position.line, position.character);
-    }
+    item.insertText = insertText;
+    item.filterText = fullText;
+    item.range = new vscode.Range(position.line, rangeStart, position.line, position.character);
     item.sortText =
         count > 0
             ? `A${Math.max(0, 1000000 - count)
@@ -162,30 +161,82 @@ function sortByUsage<T>(items: T[], usage: CompletionUsage, getKey: (item: T) =>
     return [...items].sort((a, b) => (usage[getKey(b)] || 0) - (usage[getKey(a)] || 0));
 }
 
+/**
+ * 匹配分：越小越好；-1 表示不匹配。
+ * 前缀 > 连续子串 > 子序列（跳字，如“判循”→“判断循环体”）。
+ */
+function matchScore(query: string, target: string): number {
+    if (query === '') {
+        return 0;
+    }
+    if (target.startsWith(query)) {
+        return 0;
+    }
+    if (target.includes(query)) {
+        return 1;
+    }
+    let ti = 0;
+    let gaps = 0;
+    let first = -1;
+    for (const ch of query) {
+        const found = target.indexOf(ch, ti);
+        if (found === -1) {
+            return -1;
+        }
+        if (first === -1) {
+            first = found;
+        }
+        gaps += found - ti;
+        ti = found + 1;
+    }
+    return 2 + gaps * 0.01 + first * 0.001;
+}
+
 function getMatchedCompletions(currentInput: string): FlatCompletion[] {
-    const result: FlatCompletion[] = [];
-    for (const keyword of KEYWORD_LIST) {
-        if (keyword.includes(currentInput) || currentInput.includes(keyword)) {
-            const list = FLAT_BY_KEYWORD.get(keyword);
-            if (list) {
-                for (let i = 0; i < list.length; i++) {
-                    result.push(list[i]);
+    if (currentInput === '') {
+        return ALL_FLAT;
+    }
+    const scored: { flat: FlatCompletion; score: number }[] = [];
+    for (const flat of ALL_FLAT) {
+        const score = matchScore(currentInput, flat.fullText);
+        if (score >= 0) {
+            scored.push({ flat, score });
+        }
+    }
+    scored.sort((a, b) => a.score - b.score);
+    return scored.map((s) => s.flat);
+}
+
+/** `=` 前关键字：精确命中优先，否则按模糊分排序 */
+function findKeywords(beforeEq: string): { keyword: string; exact: boolean }[] {
+    const exact: string[] = [];
+    const fuzzy: { keyword: string; score: number }[] = [];
+    if (beforeEq !== '') {
+        for (const keyword of KEYWORD_LIST) {
+            if (beforeEq === keyword || beforeEq.endsWith(keyword)) {
+                exact.push(keyword);
+            } else {
+                const score = matchScore(beforeEq, keyword);
+                if (score >= 0) {
+                    fuzzy.push({ keyword, score });
                 }
             }
         }
     }
-    return result;
+    fuzzy.sort((a, b) => a.score - b.score);
+    return [
+        ...exact.map((keyword) => ({ keyword, exact: true })),
+        ...fuzzy.map((f) => ({ keyword: f.keyword, exact: false })),
+    ];
 }
 
 function buildCompletionList(
-    items: FlatCompletion[],
+    items: { flat: FlatCompletion; insertText: string; rangeStart: number }[],
     usage: CompletionUsage,
-    position: vscode.Position,
-    eqIndex: number,
-    beforeEq: string
+    position: vscode.Position
 ): vscode.CompletionItem[] {
-    return sortByUsage(items, usage, ({ keyword, c }) => `${keyword}:${c.label}`).map((flat) =>
-        createCompletionItem(flat, beforeEq, position, eqIndex, usage)
+    return sortByUsage(items, usage, ({ flat }) => `${flat.keyword}:${flat.c.label}`).map(
+        ({ flat, insertText, rangeStart }) => createCompletionItem(flat, insertText, rangeStart, position, usage)
     );
 }
 
@@ -215,26 +266,40 @@ export function registerCompletionProvider(extContext: vscode.ExtensionContext) 
                 const usage = getUsageCount(extContext);
                 const beforeEq = eqIndex !== -1 ? line.substring(0, eqIndex).trim() : '';
 
-                for (const keyword of KEYWORD_LIST) {
-                    if (beforeEq === keyword || beforeEq.endsWith(keyword)) {
-                        const completions = FLAT_BY_KEYWORD.get(keyword);
-                        if (!completions || completions.length === 0) {
-                            return undefined;
-                        }
-                        return new vscode.CompletionList(
-                            buildCompletionList(completions, usage, position, eqIndex, beforeEq),
-                            false
-                        );
-                    }
-                }
-
                 if (eqIndex !== -1) {
-                    return undefined;
+                    const matched = findKeywords(beforeEq);
+                    if (matched.length === 0) {
+                        return undefined;
+                    }
+                    const items: { flat: FlatCompletion; insertText: string; rangeStart: number }[] = [];
+                    for (const { keyword, exact } of matched) {
+                        const completions = FLAT_BY_KEYWORD.get(keyword);
+                        if (!completions) {
+                            continue;
+                        }
+                        for (const flat of completions) {
+                            if (exact) {
+                                items.push({
+                                    flat,
+                                    insertText: calculateInsertText(flat.c, keyword, beforeEq, flat.hasEquals),
+                                    rangeStart: eqIndex + 1,
+                                });
+                            } else {
+                                items.push({ flat, insertText: flat.fullText, rangeStart: eqIndex - beforeEq.length });
+                            }
+                        }
+                    }
+                    return new vscode.CompletionList(buildCompletionList(items, usage, position), true);
                 }
 
                 const currentInput = line.substring(0, cursor).trim();
-                const completions = currentInput === '' ? ALL_FLAT : getMatchedCompletions(currentInput);
-                return new vscode.CompletionList(buildCompletionList(completions, usage, position, eqIndex, ''), false);
+                const rangeStart = cursor - currentInput.length;
+                const items = getMatchedCompletions(currentInput).map((flat) => ({
+                    flat,
+                    insertText: flat.fullText,
+                    rangeStart,
+                }));
+                return new vscode.CompletionList(buildCompletionList(items, usage, position), true);
             },
         },
         ...COMPLETION_TRIGGERS
