@@ -248,7 +248,7 @@ export const KEYWORD_COMPLETIONS: Record<string, CompletionInfo[]> = {
     ],
     计次循环体: [
         {
-            label: '计次循环体=头部|标识1|[j]|[i]\r\n\r\n计次循环体=尾部|[标识1]',
+            label: '计次循环体=头部|标识1|[j]|[i]\r\n\r\n计次循环体=尾部|标识1',
             detail: '计次循环体',
             documentation:
                 '创建计次循环体\r\n\r\n计次循环体=头部|循环标识|指定值|初始值\r\n\r\n计次循环体=尾部|循环标识',
