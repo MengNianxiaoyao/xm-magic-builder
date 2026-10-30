@@ -32,7 +32,8 @@ export const variablePanel: PanelDescriptor = {
                 <span class="label">变量值</span>
                 <select id="var-value">${valueOptionsHtml}</select>
             </div>
-            <div id="sprite-attr-group" style="display: none;">
+            <div id="sprite-attr-group" class="input-group" style="display: none;">
+                <span class="label">精灵属性</span>
                 <div class="inline-select-row">
                     <div class="inline-select-item">
                         <span class="label">属性类型</span>
@@ -56,6 +57,7 @@ export const variablePanel: PanelDescriptor = {
                 </div>
             </div>
             <div class="input-group" id="custom-value-group">
+                <span class="label">自定义值</span>
                 <input type="text" id="custom-value" />
             </div>
             <div class="btn-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">

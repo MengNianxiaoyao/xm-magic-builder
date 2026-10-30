@@ -5,6 +5,9 @@
             "include": "#magic-manage"
         },
         {
+            "include": "#pokemon-training"
+        },
+        {
             "include": "#variable-decl"
         },
         {
@@ -49,8 +52,43 @@
                 }
             ]
         },
-        "condition-params": {
-            "name": "meta.condition-params.xm",
+        "pokemon-training": {
+            "patterns": [
+                {
+                    "name": "meta.pokemon-training.xm",
+                    "begin": "^ *精灵培养",
+                    "end": "$",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.xm"
+                        }
+                    },
+                    "contentName": "meta.pokemon-training-params.xm",
+                    "patterns": [
+                        {
+                            "name": "entity.name.type.xm",
+                            "match": "(?:精灵ct|结果|是否更换|是否强制|等级|技能|学习力|天赋|性格|刻印|抗性|体力上限|战队加成)(?==)"
+                        },
+                        {
+                            "include": "#variable-ref"
+                        },
+                        {
+                            "name": "constant.numeric.xm",
+                            "match": "\\d+"
+                        },
+                        {
+                            "name": "punctuation.bracket.xm",
+                            "match": "[{}]"
+                        },
+                        {
+                            "name": "punctuation.separator.xm",
+                            "match": "[|=]"
+                        }
+                    ]
+                }
+            ]
+        },
+        "condition-params": {            "name": "meta.condition-params.xm",
             "begin": "\\{",
             "end": "\\}",
             "patterns": [
@@ -179,7 +217,7 @@
             "patterns": [
                 {
                     "name": "keyword.control.xm",
-                    "match": "^ *(?:发包|(?:对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置)|设置背包|使用(?:技能|道具)|战前准备|信息输出|自定义(?:出招|魔法)|野怪操作-(对战|捕捉)|(?:出招|对战|判断|计次)循环体)"
+                    "match": "^ *(?:发包|(?:对战)?延时|接管对战|精灵(?:首发|切换-ID|切换-位置|培养)|设置背包|使用(?:技能|道具)|战前准备|信息输出|自定义(?:出招|魔法)|野怪操作-(对战|捕捉)|(?:出招|对战|判断|计次)循环体)"
                 },
                 {
                     "name": "keyword.xm",

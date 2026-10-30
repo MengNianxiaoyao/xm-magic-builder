@@ -19,7 +19,7 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .label {
@@ -34,13 +34,32 @@ body {
 }
 
 .input-group {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 12px;
+    padding: 14px 10px 10px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
 }
 
 .input-group:last-child {
+    margin-bottom: 0;
+}
+
+.input-group > .label:first-child {
+    align-self: flex-start;
+    max-width: calc(100% - 8px);
+    margin-top: -22px;
+    padding: 0 4px;
+    background: var(--bg-color);
+    font-size: 11px;
+    line-height: 16px;
+    overflow-wrap: anywhere;
+}
+
+.input-group > .radio-group:last-child,
+.input-group > .checkbox-group:last-child {
     margin-bottom: 0;
 }
 
@@ -73,8 +92,70 @@ body {
     cursor: pointer;
 }
 
+.radio-label input[type="radio"],
+.checkbox-label input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    flex: none;
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
+    cursor: pointer;
+    transition:
+        border-color 0.15s,
+        background 0.15s;
+}
+
 .radio-label input[type="radio"] {
-    accent-color: var(--btn-bg);
+    border-radius: 50%;
+}
+
+.checkbox-label input[type="checkbox"] {
+    border-radius: 3px;
+    margin-top: 1px;
+}
+
+.radio-label input[type="radio"]:checked {
+    border-color: var(--btn-bg);
+}
+
+.radio-label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--btn-bg);
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+    border-color: var(--btn-bg);
+    background: var(--btn-bg);
+}
+
+.checkbox-label input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 3px;
+    height: 7px;
+    border: solid var(--btn-foreground);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.radio-label input[type="radio"]:focus-visible,
+.checkbox-label input[type="checkbox"]:focus-visible {
+    outline: 1px solid var(--input-focus);
+    outline-offset: 1px;
+}
+
+.radio-label:hover input[type="radio"],
+.checkbox-label:hover input[type="checkbox"] {
+    border-color: var(--input-focus);
 }
 
 .radio-group.inline {
@@ -109,7 +190,8 @@ select option {
 }
 
 textarea {
-    width: 90%;
+    width: 100%;
+    box-sizing: border-box;
     height: 80px;
     padding: 8px 12px;
     background: var(--input-bg);
@@ -158,9 +240,151 @@ textarea::placeholder {
     gap: 8px;
 }
 
+.pt-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 6px 12px;
+}
+
+.pt-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px 8px;
+}
+
+.pt-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.pt-cell .label {
+    flex: none;
+    white-space: nowrap;
+}
+
+.pt-cell input[type="number"] {
+    min-width: 0;
+    padding: 6px 8px;
+}
+
+.pt-row {
+    display: flex;
+    gap: 6px;
+}
+
+.pt-row input[type="number"] {
+    min-width: 0;
+    padding: 6px 8px;
+}
+
+.pt-inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+
+.pt-res-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+}
+
+.pt-res-opts {
+    display: flex;
+    flex: 1 1 150px;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    min-width: 0;
+}
+
+.pt-res-row .radio-label {
+    gap: 4px;
+    font-size: 12px;
+}
+
+.pt-res-label {
+    flex: none;
+    width: 60px;
+    font-size: 12px;
+    color: var(--text-color);
+}
+
+.hint {
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--text-color);
+    opacity: 0.75;
+}
+
+.pt-header {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.pt-header-fields {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.pt-field-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pt-field-row .label {
+    flex: none;
+    white-space: nowrap;
+}
+
+.pt-field-row input {
+    min-width: 0;
+}
+
+.pt-tabs {
+    display: flex;
+    gap: 4px;
+}
+
+.pt-tab {
+    flex: 1;
+    padding: 4px 0;
+    background: transparent;
+    border: 1px solid var(--input-border);
+    border-radius: 2px;
+    color: var(--text-color);
+    font-size: 12px;
+}
+
+.pt-tab:hover {
+    background: var(--input-bg);
+}
+
+.pt-tab.active {
+    background: var(--input-bg);
+    border-color: var(--input-focus);
+}
+
+.pt-tab-panel {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pt-tab-panel.active {
+    display: flex;
+}
+
 .checkbox-label {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
     color: var(--text-color);
     font-size: 12px;
@@ -169,8 +393,13 @@ textarea::placeholder {
 }
 
 .checkbox-label input[type="checkbox"] {
-    accent-color: var(--btn-bg);
-    margin-top: 2px;
+    margin-top: 0;
+}
+
+/* 通用：网格内的单元格与控件统一垂直居中，新增栅格项无需单独适配 */
+.pt-grid > *,
+.pt-grid-3 > * {
+    align-self: center;
 }
 
 .btn-row {

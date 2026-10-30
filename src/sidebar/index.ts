@@ -4,6 +4,7 @@ import { GenericPanelProvider } from '../webview/provider';
 
 import { sendPacketPanel } from './panels/battle/send-packet';
 import { pokemonOperationPanel } from './panels/battle/pokemon-operation';
+import { pokemonTrainingPanel } from './panels/battle/pokemon-training';
 import { battleOperationPanel } from './panels/battle/battle-operation';
 import { attackLoopPanel } from './panels/battle/attack-loop';
 import { battleLoopPanel } from './panels/battle/battle-loop';
@@ -20,6 +21,7 @@ import { completionStatsPanel } from './panels/stats/completion-stats';
 const PANELS: PanelDescriptor[] = [
     sendPacketPanel,
     pokemonOperationPanel,
+    pokemonTrainingPanel,
     battleOperationPanel,
     attackLoopPanel,
     battleLoopPanel,

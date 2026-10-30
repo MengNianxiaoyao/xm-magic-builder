@@ -14,15 +14,18 @@ export const customMagicPanel: PanelDescriptor = {
     scripts: ['resources/js/common/xm-view.js', 'resources/js/panels/custom-magic.js'],
     getHtml() {
         return `<div class="container">
-            <div class="checkbox-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="pass-current" />
-                    <span>传入当前魔法变量</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" id="return-var" />
-                    <span>返回调用魔法变量</span>
-                </label>
+            <div class="input-group">
+                <span class="label">调用选项</span>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="pass-current" />
+                        <span>传入当前魔法变量</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="return-var" />
+                        <span>返回调用魔法变量</span>
+                    </label>
+                </div>
             </div>
             <div class="input-group">
                 <span class="label">魔法密码</span>

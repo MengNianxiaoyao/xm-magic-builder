@@ -9,23 +9,26 @@ export const battleOperationPanel: PanelDescriptor = {
     scripts: ['resources/js/common/xm-view.js', 'resources/js/panels/battle-operation.js'],
     getHtml() {
         return `<div class="container">
-            <div class="radio-group" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">
-                <label class="radio-label">
-                    <input type="radio" name="battle-op" value="takeover" checked />
-                    <span>接管对战</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="battle-op" value="skill" />
-                    <span>使用技能</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="battle-op" value="item" />
-                    <span>使用道具</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="battle-op" value="pre-battle" />
-                    <span>战前准备</span>
-                </label>
+            <div class="input-group">
+                <span class="label">操作类型</span>
+                <div class="radio-group" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">
+                    <label class="radio-label">
+                        <input type="radio" name="battle-op" value="takeover" checked />
+                        <span>接管对战</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="battle-op" value="skill" />
+                        <span>使用技能</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="battle-op" value="item" />
+                        <span>使用道具</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="battle-op" value="pre-battle" />
+                        <span>战前准备</span>
+                    </label>
+                </div>
             </div>
             <div id="takeover-group" class="input-group">
                 <span class="label">对战包</span>

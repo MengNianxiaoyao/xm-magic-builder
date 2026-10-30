@@ -19,6 +19,9 @@ export function consumeWarning(message: Record<string, unknown>): boolean {
  */
 export function keyValueHandler(...commands: string[]): MessageHandler {
     return (message) => {
+        if (consumeWarning(message)) {
+            return;
+        }
         if (!checkXmFile()) {
             return;
         }

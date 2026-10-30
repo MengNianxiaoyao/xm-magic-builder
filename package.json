@@ -12,7 +12,7 @@
     "bugs": {
         "url": "https://github.com/MengNianxiaoyao/xm-magic-builder/issues"
     },
-    "version": "0.3.15",
+    "version": "0.3.16",
     "engines": {
         "vscode": "^1.118.0"
     },
@@ -84,6 +84,11 @@
                 {
                     "id": "xm-magic-builder.pokemon-operation",
                     "name": "精灵操作",
+                    "type": "webview"
+                },
+                {
+                    "id": "xm-magic-builder.pokemon-training",
+                    "name": "精灵培养",
                     "type": "webview"
                 },
                 {
