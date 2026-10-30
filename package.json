@@ -87,6 +87,11 @@
                     "type": "webview"
                 },
                 {
+                    "id": "xm-magic-builder.pokemon-training",
+                    "name": "精灵培养",
+                    "type": "webview"
+                },
+                {
                     "id": "xm-magic-builder.battle-operation",
                     "name": "对战操作",
                     "type": "webview"

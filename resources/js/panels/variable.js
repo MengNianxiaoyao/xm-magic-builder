@@ -39,7 +39,7 @@
         }
         const spriteAttrGroup = document.getElementById('sprite-attr-group');
         if (spriteAttrGroup) {
-            spriteAttrGroup.style.display = value === '精灵属性查询返回' ? 'block' : 'none';
+            spriteAttrGroup.style.display = value === '精灵属性查询返回' ? 'flex' : 'none';
         }
     }
 

@@ -111,5 +111,5 @@ export function renderFieldsWrap(
             return renderFieldWithLabel(f);
         })
         .join('\n');
-    return fieldsHtml + '\n' + renderActionsRow(actions, buttonRowStyle);
+    return `<div class="container">${fieldsHtml}\n${renderActionsRow(actions, buttonRowStyle)}</div>`;
 }

@@ -9,23 +9,26 @@ export const pokemonOperationPanel: PanelDescriptor = {
     scripts: ['resources/js/common/xm-view.js', 'resources/js/panels/pokemon-operation.js'],
     getHtml() {
         return `<div class="container">
-            <div class="radio-group" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">
-                <label class="radio-label">
-                    <input type="radio" name="pokemon-op" value="first" checked />
-                    <span>精灵首发</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="pokemon-op" value="set-bag" />
-                    <span>设置背包</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="pokemon-op" value="switch-id" />
-                    <span>精灵切换-ID</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="pokemon-op" value="switch-pos" />
-                    <span>精灵切换-位置</span>
-                </label>
+            <div class="input-group">
+                <span class="label">操作类型</span>
+                <div class="radio-group" style="display: flex; flex-wrap: wrap; gap: 8px 16px;">
+                    <label class="radio-label">
+                        <input type="radio" name="pokemon-op" value="first" checked />
+                        <span>精灵首发</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="pokemon-op" value="set-bag" />
+                        <span>设置背包</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="pokemon-op" value="switch-id" />
+                        <span>精灵切换-ID</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="pokemon-op" value="switch-pos" />
+                        <span>精灵切换-位置</span>
+                    </label>
+                </div>
             </div>
             <div id="id-input-group" class="input-group">
                 <span class="label">精灵ID</span>

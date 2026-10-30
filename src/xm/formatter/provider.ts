@@ -75,6 +75,58 @@ function convertChineseBrackets(line: string): string {
     return line;
 }
 
+function splitTopLevel(value: string): string[] {
+    const parts: string[] = [];
+    let depth = 0;
+    let start = 0;
+    for (let i = 0; i < value.length; i++) {
+        const ch = value[i];
+        if (ch === '{') {
+            depth++;
+        } else if (ch === '}') {
+            depth--;
+        } else if (ch === '|' && depth === 0) {
+            parts.push(value.slice(start, i));
+            start = i + 1;
+        }
+    }
+    parts.push(value.slice(start));
+    return parts;
+}
+
+function formatTrainingField(field: string): string {
+    const trimmed = field.trim();
+    const eq = trimmed.indexOf('=');
+    if (eq === -1) {
+        return trimmed;
+    }
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (value.startsWith('{') && value.endsWith('}')) {
+        const items = value
+            .slice(1, -1)
+            .split(',')
+            .map((item) => item.trim());
+        value = `{${items.join(',')}}`;
+    }
+    return `${key}=${value}`;
+}
+
+function formatPokemonTraining(line: string): string {
+    const indent = line.match(/^\s*/)?.[0] ?? '';
+    const rest = line.slice(indent.length);
+    const eq = rest.indexOf('=');
+    if (eq === -1) {
+        return line;
+    }
+    const body = rest.slice(eq + 1).trim();
+    const inner = body.startsWith('{') && body.endsWith('}') ? body.slice(1, -1) : body;
+    const fields = splitTopLevel(inner)
+        .map(formatTrainingField)
+        .filter((field) => field !== '');
+    return `${indent}精灵培养={${fields.join('|')}}`;
+}
+
 function convertBracketsInInfoOutput(line: string): string {
     return line.replace(/(\{[^}]*\}|\[[^\]]*\]|#<[^>]*>#)/g, (match) => {
         return convertChineseBrackets(match);
@@ -107,6 +159,7 @@ function formatContent(content: string): string {
         '精灵首发',
         '精灵切换',
         '设置背包',
+        '精灵培养',
         '使用技能',
         '使用道具',
         '战前准备',
@@ -126,13 +179,18 @@ function formatContent(content: string): string {
         const isKeywordLine = !isInfoOutput && trimmed !== '' && keywords.some((kw) => trimmed.startsWith(kw + '='));
 
         line = convertFullwidth(line, isInfoOutput);
+        const convertedTrimmed = line.trim();
+        const isPokemonTraining = /^\s*精灵培养\s*=/.test(convertedTrimmed);
+        if (isPokemonTraining) {
+            line = formatPokemonTraining(line);
+        }
         if (trimmed.startsWith('判断循环体=')) {
             line = ensurePipeDelimited(line);
         }
 
         if (isInfoOutput) {
             line = convertBracketsInInfoOutput(line);
-        } else if (!isKeywordLine) {
+        } else if (!isKeywordLine && !isPokemonTraining) {
             line = convertChineseBrackets(line);
         }
 
