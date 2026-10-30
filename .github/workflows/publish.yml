@@ -52,6 +52,9 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Extract release notes from CHANGELOG
+        run: node scripts/extract-changelog.mjs "$EXT_VERSION" > "$RUNNER_TEMP/release-notes.md"
+
       - run: pnpm install -g vsce
 
       - if: env.IS_PRELEASE == 'true'
@@ -70,6 +73,7 @@ jobs:
         with:
           tag_name: v${{ env.EXT_VERSION }}
           name: Release ${{ env.EXT_VERSION }}
+          body_path: ${{ runner.temp }}/release-notes.md
           prerelease: ${{ env.IS_PRELEASE == 'true' }}
           files: ./xm-magic-builder-${{ env.EXT_VERSION }}.vsix
 
