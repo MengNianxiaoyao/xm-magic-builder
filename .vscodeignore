@@ -14,3 +14,5 @@ esbuild.js
 **/*.map
 **/*.ts
 **/.vscode-test.*
+vite.config.ts
+tsconfig.webview.json

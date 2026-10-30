@@ -132,13 +132,13 @@
                     "type": "webview"
                 },
                 {
-                    "id": "xm-magic-builder.output",
-                    "name": "信息输出",
+                    "id": "xm-magic-builder.custom-magic",
+                    "name": "自定义魔法",
                     "type": "webview"
                 },
                 {
-                    "id": "xm-magic-builder.custom-magic",
-                    "name": "自定义魔法",
+                    "id": "xm-magic-builder.output",
+                    "name": "信息输出",
                     "type": "webview"
                 },
                 {
@@ -170,22 +170,25 @@
     },
     "scripts": {
         "vscode:prepublish": "pnpm run package",
-        "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+        "compile": "pnpm run check-types && pnpm run lint && pnpm run build:webview && node esbuild.js",
         "watch": "npm-run-all -p watch:*",
         "watch:esbuild": "node esbuild.js --watch",
         "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-        "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+        "watch:webview": "vite build --watch",
+        "package": "pnpm run check-types && pnpm run lint && pnpm run build:webview && node esbuild.js --production",
+        "build:webview": "vite build",
         "compile-tests": "tsc -p . --outDir out",
         "watch-tests": "tsc -p . -w --outDir out",
         "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
-        "check-types": "tsc --noEmit",
-        "lint": "eslint src resources/js --fix",
+        "check-types": "tsc --noEmit && vue-tsc --noEmit -p tsconfig.webview.json",
+        "lint": "eslint src --fix",
         "test": "vscode-test"
     },
     "devDependencies": {
         "@types/mocha": "^10.0.10",
         "@types/node": "22.x",
         "@types/vscode": "^1.118.0",
+        "@vitejs/plugin-vue": "6.0.1",
         "@vscode/test-cli": "^0.0.12",
         "@vscode/test-electron": "^2.5.2",
         "esbuild": "^0.27.3",
@@ -195,7 +198,10 @@
         "npm-run-all": "^4.1.5",
         "prettier": "^3.8.3",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.56.1"
+        "typescript-eslint": "^8.56.1",
+        "vite": "7.1.11",
+        "vue": "3.5.13",
+        "vue-tsc": "3.1.1"
     },
     "dependencies": {
         "iconv-lite": "^0.7.3"

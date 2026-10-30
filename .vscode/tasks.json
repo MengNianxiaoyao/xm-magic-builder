@@ -7,7 +7,8 @@
             "label": "watch",
             "dependsOn": [
                 "npm: watch:tsc",
-                "npm: watch:esbuild"
+                "npm: watch:esbuild",
+                "npm: watch:webview"
             ],
             "presentation": {
                 "reveal": "never"
@@ -21,9 +22,41 @@
             "type": "npm",
             "script": "watch:esbuild",
             "group": "build",
-            "problemMatcher": "$tsc-watch",
+            "problemMatcher": {
+                "owner": "esbuild",
+                "pattern": {
+                    "regexp": "^$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "\\[esbuild\\] build started",
+                    "endsPattern": "\\[esbuild\\] build finished"
+                }
+            },
             "isBackground": true,
             "label": "npm: watch:esbuild",
+            "presentation": {
+                "group": "watch",
+                "reveal": "never"
+            }
+        },
+        {
+            "type": "npm",
+            "script": "watch:webview",
+            "group": "build",
+            "problemMatcher": {
+                "owner": "vite",
+                "pattern": {
+                    "regexp": "^$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "building for production",
+                    "endsPattern": "built in \\d+ms"
+                }
+            },
+            "isBackground": true,
+            "label": "npm: watch:webview",
             "presentation": {
                 "group": "watch",
                 "reveal": "never"

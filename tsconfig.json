@@ -19,5 +19,6 @@
         "noUnusedParameters": true,
         "noUnusedLocals": true,
         "skipLibCheck": true
-    }
+    },
+    "include": ["src/backend", "src/shared"]
 }
