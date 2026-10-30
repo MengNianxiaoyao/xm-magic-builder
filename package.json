@@ -13,6 +13,9 @@
         "url": "https://github.com/MengNianxiaoyao/xm-magic-builder/issues"
     },
     "version": "1.0.0",
+    "release": {
+        "preRelease": false
+    },
     "engines": {
         "vscode": "^1.118.0"
     },

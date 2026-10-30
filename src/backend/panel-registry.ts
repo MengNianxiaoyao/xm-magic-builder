@@ -13,9 +13,9 @@ import { wildPokemonPanel } from './panels/wild-pokemon-panel';
 import { variablePanel } from './panels/variable-panel';
 import { ifLoopPanel } from './panels/if-loop-panel';
 import { countLoopPanel } from './panels/count-loop-panel';
+import { customMagicPanel } from './panels/custom-magic-panel';
 import { outputPanel } from './panels/output-panel';
 import { magicManagePanel } from './panels/magic-manage-panel';
-import { customMagicPanel } from './panels/custom-magic-panel';
 import { completionStatsPanel } from './panels/completion-stats-panel';
 
 const PANELS: PanelDescriptor[] = [
