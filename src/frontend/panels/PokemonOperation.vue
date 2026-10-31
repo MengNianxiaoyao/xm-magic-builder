@@ -26,11 +26,11 @@ function add(): void {
 <template>
     <div class="container">
         <FieldGroup label="操作类型">
-            <div class="radio-group pt-inline">
-                <label class="radio-label"><input v-model="op" type="radio" value="first" /><span>精灵首发</span></label>
-                <label class="radio-label"><input v-model="op" type="radio" value="set-bag" /><span>设置背包</span></label>
-                <label class="radio-label"><input v-model="op" type="radio" value="switch-id" /><span>精灵切换-ID</span></label>
-                <label class="radio-label"><input v-model="op" type="radio" value="switch-pos" /><span>精灵切换-位置</span></label>
+            <div class="inline">
+                <label class="choice"><input v-model="op" type="radio" value="first" /><span>精灵首发</span></label>
+                <label class="choice"><input v-model="op" type="radio" value="set-bag" /><span>设置背包</span></label>
+                <label class="choice"><input v-model="op" type="radio" value="switch-id" /><span>精灵切换-ID</span></label>
+                <label class="choice"><input v-model="op" type="radio" value="switch-pos" /><span>精灵切换-位置</span></label>
             </div>
         </FieldGroup>
 

@@ -2,7 +2,7 @@ export const CHANGE_LABELS = ['等级', '技能', '学习力', '天赋', '性格
 export const TEAM_LABELS = ['体力', '攻击', '防御', '特攻', '特防', '速度'];
 export const RESIST_ROWS = ['致命伤害', '固定伤害', '百分比伤害'];
 export const RESIST_OPTIONS = [
-    { value: '0', label: '0不处理' },
+    { value: '0', label: '不处理' },
     { value: '5', label: '5%' },
     { value: '35', label: '35%' },
 ];

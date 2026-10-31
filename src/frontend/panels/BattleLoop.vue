@@ -14,7 +14,7 @@ const condition = ref('对战胜利');
                 <option value="对战未触发">对战未触发</option>
             </select>
         </FieldGroup>
-        <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px">
+        <div class="btn-row">
             <button @click="post({ command: 'battle-loop-head', content: condition })">对战循环体头</button>
             <button @click="post({ command: 'battle-loop-tail', content: condition })">对战循环体尾</button>
         </div>

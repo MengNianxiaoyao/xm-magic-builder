@@ -14,7 +14,19 @@ body {
     padding: 12px;
     margin: 0;
     background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--vscode-font-family);
+    font-size: 13px;
 }
+
+input,
+select,
+textarea,
+button {
+    font-family: inherit;
+}
+
+/* ---------- 布局 ---------- */
 
 .container {
     display: flex;
@@ -22,16 +34,88 @@ body {
     gap: 12px;
 }
 
-.label {
-    font-size: 12px;
-    color: var(--text-color);
-    font-weight: 500;
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
 }
 
-.input-row {
+.row {
     display: flex;
+    gap: 6px;
+    min-width: 0;
+}
+
+.inline,
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+
+.grid-2,
+.grid-3 {
+    display: grid;
+    gap: 6px 8px;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-2 > *,
+.grid-3 > * {
+    align-self: center;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.cell > .label {
+    flex: none;
+    white-space: nowrap;
+}
+
+.cell > .inline {
+    flex: 1;
+    min-width: 0;
+}
+
+.row > * {
+    flex: 1;
+    min-width: 0;
+}
+
+.cell input[type="number"] {
+    min-width: 0;
+    padding: 6px 8px;
+}
+
+.header {
+    display: flex;
+    align-items: stretch;
     gap: 8px;
 }
+
+.header > .stack {
+    flex: 1;
+}
+
+.res-label {
+    flex: none;
+    width: 60px;
+}
+
+/* ---------- 分组卡片与标题 ---------- */
 
 .input-group {
     position: relative;
@@ -43,57 +127,53 @@ body {
     border-radius: 6px;
 }
 
-.input-group:last-child {
-    margin-bottom: 0;
-}
-
 .input-group > .label:first-child {
     align-self: flex-start;
     max-width: calc(100% - 8px);
     margin-top: -22px;
     padding: 0 4px;
     background: var(--bg-color);
-    font-size: 11px;
     line-height: 16px;
     overflow-wrap: anywhere;
 }
 
-.input-group > .radio-group:last-child,
-.input-group > .checkbox-group:last-child {
-    margin-bottom: 0;
+.label,
+.choice,
+.hint {
+    color: var(--text-color);
+    font-size: 12px;
 }
 
-.inline-select-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
+.label {
+    font-weight: 500;
 }
 
-.inline-select-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.hint {
+    line-height: 1.5;
+    opacity: 0.9;
 }
 
-.radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 12px;
+.value-description {
+    background: var(--input-bg);
+    padding: 6px 10px;
+    border-radius: 3px;
+    border-left: 2px solid var(--btn-bg);
+    min-height: 1.4em;
+    margin-top: 4px;
 }
 
-.radio-label {
+/* ---------- 单选 / 复选 ---------- */
+
+.choice {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--text-color);
-    font-size: 13px;
+    line-height: 1.4;
     cursor: pointer;
 }
 
-.radio-label input[type="radio"],
-.checkbox-label input[type="checkbox"] {
+.choice input[type="radio"],
+.choice input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     position: relative;
@@ -109,20 +189,19 @@ body {
         background 0.15s;
 }
 
-.radio-label input[type="radio"] {
+.choice input[type="radio"] {
     border-radius: 50%;
 }
 
-.checkbox-label input[type="checkbox"] {
+.choice input[type="checkbox"] {
     border-radius: 3px;
-    margin-top: 1px;
 }
 
-.radio-label input[type="radio"]:checked {
+.choice input[type="radio"]:checked {
     border-color: var(--btn-bg);
 }
 
-.radio-label input[type="radio"]:checked::after {
+.choice input[type="radio"]:checked::after {
     content: '';
     position: absolute;
     inset: 3px;
@@ -130,12 +209,12 @@ body {
     background: var(--btn-bg);
 }
 
-.checkbox-label input[type="checkbox"]:checked {
+.choice input[type="checkbox"]:checked {
     border-color: var(--btn-bg);
     background: var(--btn-bg);
 }
 
-.checkbox-label input[type="checkbox"]:checked::after {
+.choice input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
     left: 4px;
@@ -147,303 +226,82 @@ body {
     transform: rotate(45deg);
 }
 
-.radio-label input[type="radio"]:focus-visible,
-.checkbox-label input[type="checkbox"]:focus-visible {
+.choice input:focus-visible {
     outline: 1px solid var(--input-focus);
     outline-offset: 1px;
 }
 
-.radio-label:hover input[type="radio"],
-.checkbox-label:hover input[type="checkbox"] {
+.choice:hover input {
     border-color: var(--input-focus);
 }
 
-.radio-group.inline {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-}
+/* ---------- 输入控件 ---------- */
 
-.radio-group.inline .radio-label {
-    flex: 0 0 calc(50% - 8px);
-}
-
-select {
-    flex: 1;
+select,
+textarea,
+input[type="text"],
+input[type="number"] {
     padding: 8px 12px;
     background: var(--input-bg);
     border: 1px solid var(--input-border);
     border-radius: 4px;
-    color: var(--vscode-dropdown-foreground, var(--text-color));
+    color: var(--text-color);
     font-size: 13px;
     outline: none;
-    cursor: pointer;
+    transition: border-color 0.2s;
 }
 
-select:focus {
+select:focus,
+textarea:focus,
+input[type="text"]:focus,
+input[type="number"]:focus {
     border-color: var(--input-focus);
+}
+
+select {
+    flex: 1;
+    cursor: pointer;
 }
 
 select option {
     background: var(--input-bg);
-    color: var(--vscode-dropdown-foreground, var(--text-color));
+    color: var(--text-color);
 }
 
 textarea {
     width: 100%;
     box-sizing: border-box;
     height: 80px;
-    padding: 8px 12px;
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 4px;
-    color: var(--vscode-editor-foreground, var(--text-color));
-    font-size: 13px;
-    outline: none;
     resize: vertical;
-    font-family: inherit;
-}
-
-textarea:focus {
-    border-color: var(--input-focus);
-}
-
-textarea::placeholder {
-    color: var(--placeholder-color);
-}
-
-.btn-block {
-    width: 100%;
-    margin-top: 8px;
-}
-
-.version-input {
-    width: 60px;
-    text-align: center;
-}
-
-.version-wrapper {
-    display: flex;
-    align-items: flex-end;
-    gap: 4px;
-}
-
-.version-dot {
-    color: var(--text-color);
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
-.checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.pt-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 6px 12px;
-}
-
-.pt-grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px 8px;
-}
-
-.pt-cell {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    min-width: 0;
-}
-
-.pt-cell .label {
-    flex: none;
-    white-space: nowrap;
-}
-
-.pt-cell input[type="number"] {
-    min-width: 0;
-    padding: 6px 8px;
-}
-
-.pt-row {
-    display: flex;
-    gap: 6px;
-}
-
-.pt-row input[type="number"] {
-    min-width: 0;
-    padding: 6px 8px;
-}
-
-.pt-inline {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-}
-
-.pt-res-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 4px 8px;
-}
-
-.pt-res-opts {
-    display: flex;
-    flex: 1 1 150px;
-    flex-wrap: wrap;
-    gap: 4px 12px;
-    min-width: 0;
-}
-
-.pt-res-row .radio-label {
-    gap: 4px;
-    font-size: 12px;
-}
-
-.pt-res-label {
-    flex: none;
-    width: 60px;
-    font-size: 12px;
-    color: var(--text-color);
-}
-
-.hint {
-    font-size: 11px;
-    line-height: 1.4;
-    color: var(--text-color);
-    opacity: 0.75;
-}
-
-.pt-header {
-    display: flex;
-    align-items: stretch;
-    gap: 8px;
-}
-
-.pt-header-fields {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
-}
-
-.pt-field-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.pt-field-row .label {
-    flex: none;
-    white-space: nowrap;
-}
-
-.pt-field-row input {
-    min-width: 0;
-}
-
-.pt-tabs {
-    display: flex;
-    gap: 4px;
-}
-
-.pt-tab {
-    flex: 1;
-    padding: 4px 0;
-    background: transparent;
-    border: 1px solid var(--input-border);
-    border-radius: 2px;
-    color: var(--text-color);
-    font-size: 12px;
-}
-
-.pt-tab:hover {
-    background: var(--input-bg);
-}
-
-.pt-tab.active {
-    background: var(--input-bg);
-    border-color: var(--input-focus);
-}
-
-.pt-tab-panel {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.pt-tab-panel.active {
-    display: flex;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-color);
-    font-size: 12px;
-    cursor: pointer;
-    line-height: 1.4;
-}
-
-.checkbox-label input[type="checkbox"] {
-    margin-top: 0;
-}
-
-/* 通用：网格内的单元格与控件统一垂直居中，新增栅格项无需单独适配 */
-.pt-grid > *,
-.pt-grid-3 > * {
-    align-self: center;
-}
-
-.btn-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-}
-
-.btn-row button {
-    flex: 0 0 calc(50% - 8px);
 }
 
 input[type="text"],
 input[type="number"] {
     flex: 1;
-    padding: 8px 12px;
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 4px;
-    color: var(--vscode-editor-foreground, var(--text-color));
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus {
-    border-color: var(--input-focus);
-}
-
-input[type="text"]::placeholder,
-input[type="number"]::placeholder {
+::placeholder {
     color: var(--placeholder-color);
 }
 
 input[type="number"] {
-    -moz-appearance: none;
     appearance: none;
+    -moz-appearance: none;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.input-row {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-block {
+    width: 100%;
 }
 
 button {
@@ -466,25 +324,62 @@ button:active {
     transform: scale(0.98);
 }
 
-.value-description {
-    font-size: 12px;
+/* ---------- 页签 ---------- */
+
+.tabs {
+    display: flex;
+    gap: 4px;
+}
+
+.tab {
+    flex: 1;
+    padding: 4px 0;
+    background: transparent;
+    border: 1px solid var(--input-border);
+    border-radius: 2px;
     color: var(--text-color);
+    font-size: 12px;
+}
+
+.tab:hover {
     background: var(--input-bg);
-    padding: 6px 10px;
-    border-radius: 3px;
-    border-left: 2px solid var(--btn-bg);
-    min-height: 1.4em;
-    line-height: 1.5;
-    opacity: 0.9;
-    margin-top: 4px;
 }
 
-.placeholder {
-    color: var(--placeholder-color);
-    font-style: italic;
+.tab.active {
+    background: var(--input-bg);
+    border-color: var(--input-focus);
 }
 
-/* Completion Stats View */
+.tab-panel {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tab-panel.active {
+    display: flex;
+}
+
+/* ---------- 版本输入 ---------- */
+
+.version-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.version-input {
+    width: 60px;
+    text-align: center;
+}
+
+.version-dot {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+/* ---------- 补全统计 ---------- */
+
 .completion-stats-view {
     padding: 10px;
     display: flex;
@@ -505,7 +400,6 @@ button:active {
 .completion-stats-view .title {
     font-size: 13px;
     font-weight: 600;
-    color: var(--text-color);
 }
 
 .completion-stats-view .title .count {
@@ -532,7 +426,6 @@ button:active {
 }
 
 .completion-stats-view .stats-key {
-    color: var(--text-color);
     font-size: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -550,14 +443,6 @@ button:active {
     font-weight: 600;
     min-width: 24px;
     text-align: center;
-}
-
-.completion-stats-view .empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-color);
-    opacity: 0.6;
-    font-size: 13px;
 }
 
 .completion-stats-view .btn-reset-small {
@@ -579,7 +464,8 @@ button:active {
     cursor: not-allowed;
 }
 
-/* 欢迎页 */
+/* ---------- 欢迎页 ---------- */
+
 .welcome {
     max-width: 780px;
     margin: 0 auto;
@@ -589,11 +475,6 @@ button:active {
     margin: 0;
     font-size: 22px;
     font-weight: 600;
-    color: var(--text-color);
-}
-
-.welcome .input-group > .label:first-child {
-    font-size: 12px;
 }
 
 .welcome p {
@@ -603,9 +484,8 @@ button:active {
 .welcome-list {
     margin: 0;
     padding-left: 20px;
-    font-size: 13px;
-    line-height: 1.9;
-    color: var(--text-color);
+    font-size: 12px;
+    line-height: 1.8;
 }
 
 .welcome .code {
