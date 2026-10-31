@@ -25,11 +25,11 @@ function add(): void {
 <template>
     <div class="container">
         <FieldGroup label="操作类型">
-            <div class="radio-group pt-inline">
-                <label class="radio-label"><input v-model="op" type="radio" value="takeover" /><span>接管对战</span></label>
-                <label class="radio-label"><input v-model="op" type="radio" value="skill" /><span>使用技能</span></label>
-                <label class="radio-label"><input v-model="op" type="radio" value="item" /><span>使用道具</span></label>
-                <label class="radio-label"><input v-model="op" type="radio" value="pre-battle" /><span>战前准备</span></label>
+            <div class="inline">
+                <label class="choice"><input v-model="op" type="radio" value="takeover" /><span>接管对战</span></label>
+                <label class="choice"><input v-model="op" type="radio" value="skill" /><span>使用技能</span></label>
+                <label class="choice"><input v-model="op" type="radio" value="item" /><span>使用道具</span></label>
+                <label class="choice"><input v-model="op" type="radio" value="pre-battle" /><span>战前准备</span></label>
             </div>
         </FieldGroup>
 

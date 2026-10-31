@@ -4,7 +4,7 @@ import { post } from '../vscode-api';
 
 <template>
     <div class="container">
-        <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px">
+        <div class="btn-row">
             <button @click="post({ command: 'attack-loop-head' })">出招循环体头</button>
             <button @click="post({ command: 'attack-loop-tail' })">出招循环体尾</button>
         </div>

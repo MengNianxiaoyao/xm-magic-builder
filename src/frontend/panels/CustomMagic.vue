@@ -67,9 +67,9 @@ function useVar(): void {
 <template>
     <div class="container">
         <FieldGroup label="调用选项">
-            <div class="checkbox-group">
-                <label class="checkbox-label"><input v-model="passCurrent" type="checkbox" /><span>传入当前魔法变量</span></label>
-                <label class="checkbox-label"><input v-model="returnVar" type="checkbox" /><span>返回调用魔法变量</span></label>
+            <div class="stack">
+                <label class="choice"><input v-model="passCurrent" type="checkbox" /><span>传入当前魔法变量</span></label>
+                <label class="choice"><input v-model="returnVar" type="checkbox" /><span>返回调用魔法变量</span></label>
             </div>
         </FieldGroup>
         <FieldGroup label="魔法密码">
@@ -84,7 +84,7 @@ function useVar(): void {
         <FieldGroup label="明文内容">
             <textarea v-model="plainContent" rows="3"></textarea>
         </FieldGroup>
-        <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px">
+        <div class="btn-row">
             <button @click="open">导入魔法</button>
             <button @click="add">添加魔法</button>
             <button @click="addPlain">添加明文</button>

@@ -11,9 +11,9 @@ const pokemonId = ref('0');
 <template>
     <div class="container">
         <FieldGroup label="操作类型">
-            <div class="radio-group pt-inline">
-                <label class="radio-label"><input v-model="wildType" type="radio" value="对战" /><span>对战</span></label>
-                <label class="radio-label"><input v-model="wildType" type="radio" value="捕捉" /><span>捕捉</span></label>
+            <div class="inline">
+                <label class="choice"><input v-model="wildType" type="radio" value="对战" /><span>对战</span></label>
+                <label class="choice"><input v-model="wildType" type="radio" value="捕捉" /><span>捕捉</span></label>
             </div>
         </FieldGroup>
         <FieldGroup label="地图ID">

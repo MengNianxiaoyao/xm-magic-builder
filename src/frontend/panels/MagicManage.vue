@@ -57,8 +57,8 @@ function add(): void {
 <template>
     <div class="container">
         <FieldGroup label="端口限制">
-            <div class="radio-group pt-inline">
-                <label v-for="option in PORT_LIMITS" :key="option.value" class="radio-label">
+            <div class="inline">
+                <label v-for="option in PORT_LIMITS" :key="option.value" class="choice">
                     <input v-model="portLimit" type="radio" :value="option.value" />
                     <span>{{ option.label }}</span>
                 </label>
@@ -75,12 +75,12 @@ function add(): void {
             <input v-model="apiParam" type="text" />
         </FieldGroup>
         <FieldGroup label="版本控制">
-            <div class="checkbox-group">
-                <label class="checkbox-label">
+            <div class="stack">
+                <label class="choice">
                     <input v-model="versionCheck1" type="checkbox" />
                     <span>当魔法版本小于接口返回的版本号时，禁止运行</span>
                 </label>
-                <label class="checkbox-label">
+                <label class="choice">
                     <input v-model="versionCheck2" type="checkbox" />
                     <span>当接口参数获取最新版本数据失败时，允许运行</span>
                 </label>
@@ -93,12 +93,12 @@ function add(): void {
             <input v-model="appid" type="text" />
         </FieldGroup>
         <FieldGroup label="赞助免费时长">
-            <div class="pt-grid-3">
-                <label class="radio-label"><input v-model="sponsorDays" type="radio" value="1" /><span>不限制</span></label>
-                <label class="radio-label"><input v-model="sponsorDays" type="radio" value="30" /><span>月卡</span></label>
-                <label class="radio-label"><input v-model="sponsorDays" type="radio" value="90" /><span>季卡</span></label>
-                <label class="radio-label"><input v-model="sponsorDays" type="radio" value="365" /><span>年卡</span></label>
-                <label class="radio-label"><input v-model="sponsorDays" type="radio" value="0" /><span>禁止</span></label>
+            <div class="grid-3">
+                <label class="choice"><input v-model="sponsorDays" type="radio" value="1" /><span>不限制</span></label>
+                <label class="choice"><input v-model="sponsorDays" type="radio" value="30" /><span>月卡</span></label>
+                <label class="choice"><input v-model="sponsorDays" type="radio" value="90" /><span>季卡</span></label>
+                <label class="choice"><input v-model="sponsorDays" type="radio" value="365" /><span>年卡</span></label>
+                <label class="choice"><input v-model="sponsorDays" type="radio" value="0" /><span>禁止</span></label>
             </div>
         </FieldGroup>
         <button class="btn-block" @click="add">添加</button>

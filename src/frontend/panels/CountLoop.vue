@@ -19,7 +19,7 @@ const init = ref('[i]');
         <FieldGroup label="初始值赋值变量">
             <input v-model="init" type="text" />
         </FieldGroup>
-        <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px">
+        <div class="btn-row">
             <button @click="post({ command: 'count-loop-head', loopId, value, init })">计次循环体头</button>
             <button @click="post({ command: 'count-loop-tail', loopId })">计次循环体尾</button>
         </div>

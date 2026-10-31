@@ -11,7 +11,7 @@ const packetParam = ref('');
         <FieldGroup label="发包参数">
             <textarea v-model="packetParam" rows="3"></textarea>
         </FieldGroup>
-        <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px">
+        <div class="btn-row">
             <button @click="post({ command: 'if-loop-head', content: packetParam })">判断循环体头</button>
             <button @click="post({ command: 'if-loop-tail' })">判断循环体尾</button>
             <button @click="post({ command: 'if-loop-break' })">跳出循环</button>

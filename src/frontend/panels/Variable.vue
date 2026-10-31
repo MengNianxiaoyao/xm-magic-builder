@@ -62,8 +62,8 @@ function add(): void {
             </select>
         </FieldGroup>
         <FieldGroup v-if="showSpriteAttr" label="精灵属性">
-            <div class="inline-select-row">
-                <div class="inline-select-item">
+            <div class="row">
+                <div class="stack">
                     <span class="label">属性类型</span>
                     <select v-model="attrType">
                         <option value="基础">基础</option>
@@ -71,7 +71,7 @@ function add(): void {
                         <option value="PVP">PVP</option>
                     </select>
                 </div>
-                <div class="inline-select-item">
+                <div class="stack">
                     <span class="label">属性值</span>
                     <select v-model="attrValue">
                         <option value="体力">体力</option>
@@ -91,6 +91,6 @@ function add(): void {
             <button @click="post({ command: 'variable-clear' })">清空变量</button>
             <button @click="add">添加变量</button>
         </div>
-        <div class="value-description">{{ description }}</div>
+        <div class="hint value-description">{{ description }}</div>
     </div>
 </template>

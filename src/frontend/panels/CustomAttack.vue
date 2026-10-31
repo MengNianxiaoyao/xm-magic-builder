@@ -57,7 +57,7 @@ function useVar(): void {
         <FieldGroup label="自定义出招">
             <input :value="fileName" type="text" readonly />
         </FieldGroup>
-        <div class="button-row" style="display: flex; flex-wrap: wrap; gap: 8px 16px">
+        <div class="btn-row">
             <button @click="open">导入对战方案</button>
             <button @click="add">添加出招</button>
             <button @click="addVar">添加出招变量</button>
