@@ -1,15 +1,11 @@
 // See https://go.microsoft.com/fwlink/?LinkId=733558
 // for the documentation about the tasks.json format
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
+    "version": "2.0.0",
+    "tasks": [
+        {
             "label": "watch",
-            "dependsOn": [
-                "npm: watch:tsc",
-                "npm: watch:esbuild",
-                "npm: watch:webview"
-            ],
+            "dependsOn": ["pnpm: watch:tsc", "pnpm: watch:esbuild", "pnpm: watch:webview"],
             "presentation": {
                 "reveal": "never"
             },
@@ -19,8 +15,8 @@
             }
         },
         {
-            "type": "npm",
-            "script": "watch:esbuild",
+            "type": "shell",
+            "command": "pnpm run watch:esbuild",
             "group": "build",
             "problemMatcher": {
                 "owner": "esbuild",
@@ -34,15 +30,15 @@
                 }
             },
             "isBackground": true,
-            "label": "npm: watch:esbuild",
+            "label": "pnpm: watch:esbuild",
             "presentation": {
                 "group": "watch",
                 "reveal": "never"
             }
         },
         {
-            "type": "npm",
-            "script": "watch:webview",
+            "type": "shell",
+            "command": "pnpm run watch:webview",
             "group": "build",
             "problemMatcher": {
                 "owner": "vite",
@@ -56,42 +52,40 @@
                 }
             },
             "isBackground": true,
-            "label": "npm: watch:webview",
+            "label": "pnpm: watch:webview",
             "presentation": {
                 "group": "watch",
                 "reveal": "never"
             }
         },
-		{
-            "type": "npm",
-            "script": "watch:tsc",
+        {
+            "type": "shell",
+            "command": "pnpm run watch:tsc",
             "group": "build",
             "problemMatcher": "$tsc-watch",
             "isBackground": true,
-            "label": "npm: watch:tsc",
+            "label": "pnpm: watch:tsc",
             "presentation": {
                 "group": "watch",
                 "reveal": "never"
             }
         },
-		{
-			"type": "npm",
-			"script": "watch-tests",
-			"problemMatcher": "$tsc-watch",
-			"isBackground": true,
-			"presentation": {
-				"reveal": "never",
-				"group": "watchers"
-			},
-			"group": "build"
-		},
-		{
-			"label": "tasks: watch-tests",
-			"dependsOn": [
-				"npm: watch",
-				"npm: watch-tests"
-			],
-			"problemMatcher": []
-		}
-	]
+        {
+            "type": "shell",
+            "command": "pnpm run watch-tests",
+            "problemMatcher": "$tsc-watch",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "never",
+                "group": "watchers"
+            },
+            "group": "build",
+            "label": "pnpm: watch-tests"
+        },
+        {
+            "label": "tasks: watch-tests",
+            "dependsOn": ["watch", "pnpm: watch-tests"],
+            "problemMatcher": []
+        }
+    ]
 }
