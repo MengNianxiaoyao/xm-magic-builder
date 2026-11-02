@@ -237,7 +237,7 @@
                 },
                 {
                     "name": "comment.line.xm",
-                    "match": "[^\\s|=]+\\.(?:xmcus|xmgic|xmagic)\\b"
+                    "match": "[^\\s|=]+\\.(?:xmcus|xmgic)\\b"
                 },
                 {
                     "name": "constant.numeric.xm",

@@ -91,6 +91,8 @@ function add(): void {
             <button @click="post({ command: 'variable-clear' })">清空变量</button>
             <button @click="add">添加变量</button>
         </div>
-        <div class="hint value-description">{{ description }}</div>
+        <FieldGroup label="说明">
+            <div class="hint">{{ description }}</div>
+        </FieldGroup>
     </div>
 </template>

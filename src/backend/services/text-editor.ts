@@ -75,6 +75,45 @@ export function buildInsertPlan(
     return { line: lineIndex, character: charIndex, content: `${text}\n` };
 }
 
+/**
+ * 把内容追加到光标上方最近的“判断循环体=判断真”行末尾（用于且/或）。
+ */
+export async function appendToIfLine(text: string): Promise<boolean> {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return false;
+    }
+
+    const document = editor.document;
+    const isIfTrueLine = (line: number): boolean => /^\s*判断循环体=判断真\d*/.test(document.lineAt(line).text);
+
+    let line = editor.selection.active.line;
+    if (!isIfTrueLine(line)) {
+        line = -1;
+        for (let index = document.lineCount - 1; index >= 0; index -= 1) {
+            if (isIfTrueLine(index)) {
+                line = index;
+                break;
+            }
+        }
+    }
+
+    if (line < 0) {
+        vscode.window.showWarningMessage('请先插入判断真行，再追加且/或');
+        return false;
+    }
+
+    const lineText = document.lineAt(line).text;
+    const success = await editor.edit((builder) => {
+        builder.replace(document.lineAt(line).range, `${lineText}${text}`);
+    });
+
+    if (!success) {
+        vscode.window.showWarningMessage('文本插入失败');
+    }
+    return success;
+}
+
 export async function insertTextAtLine(text: string, lineIndex: number = 0): Promise<boolean> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {

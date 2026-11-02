@@ -51,6 +51,12 @@ export type WebviewMessage =
     | { command: 'if-loop-head'; content: string }
     | { command: 'if-loop-tail' }
     | { command: 'if-loop-break' }
+    | {
+          command: 'if-loop-condition';
+          relation: '判断真' | '且' | '或' | '判断假';
+          level: number;
+          condition: string;
+      }
     | { command: 'count-loop-head'; loopId: string; value: string; init: string }
     | { command: 'count-loop-tail'; loopId: string }
     | { command: 'wild-pokemon'; type: string; mapId: string; pokemonId: string }

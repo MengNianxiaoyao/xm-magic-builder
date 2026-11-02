@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { post } from '../vscode-api';
+import { TEXTS } from '../texts';
 import FieldGroup from '../components/FieldGroup.vue';
 
 const condition = ref('对战胜利');
@@ -18,5 +19,8 @@ const condition = ref('对战胜利');
             <button @click="post({ command: 'battle-loop-head', content: condition })">对战循环体头</button>
             <button @click="post({ command: 'battle-loop-tail', content: condition })">对战循环体尾</button>
         </div>
+        <FieldGroup label="说明">
+            <div class="hint">{{ TEXTS.battleLoop }}</div>
+        </FieldGroup>
     </div>
 </template>

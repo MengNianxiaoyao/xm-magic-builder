@@ -9,6 +9,20 @@ const skillId = ref('');
 const itemId = ref('');
 const fire = ref('绿火');
 
+const battleItems = [
+    { name: '初级体力药剂', id: '300011' },
+    { name: '中级体力药剂', id: '300012' },
+    { name: '高级体力药剂', id: '300013' },
+    { name: '超级体力药剂', id: '300014' },
+    { name: '永寒体力药剂', id: '300079' },
+    { name: '上等体力药剂', id: '300157' },
+    { name: '初级活力药剂', id: '300016' },
+    { name: '中级活力药剂', id: '300017' },
+    { name: '高级活力药剂', id: '300018' },
+    { name: '超级活力药剂', id: '300019' },
+    { name: '全能恢复药剂', id: '300701' },
+];
+
 function add(): void {
     if (op.value === 'takeover') {
         post({ command: '接管对战', content: battleId.value });
@@ -57,5 +71,21 @@ function add(): void {
             <button @click="post({ command: '战前准备', content: '压血' })">压血</button>
             <button @click="post({ command: '战前准备', content: '全精灵恢复' })">全精灵恢复</button>
         </div>
+
+        <FieldGroup v-if="op === 'item'" label="常用对战道具ID">
+            <div class="hint">点击道具可直接填入上方道具ID。</div>
+            <div class="item-list">
+                <button
+                    v-for="item in battleItems"
+                    :key="item.id"
+                    class="item-row"
+                    :class="{ active: itemId === item.id }"
+                    @click="itemId = item.id"
+                >
+                    <span class="item-name">{{ item.name }}</span>
+                    <span class="item-id">{{ item.id }}</span>
+                </button>
+            </div>
+        </FieldGroup>
     </div>
 </template>

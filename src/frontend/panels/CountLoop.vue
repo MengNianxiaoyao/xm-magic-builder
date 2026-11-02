@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { post } from '../vscode-api';
+import { TEXTS } from '../texts';
 import FieldGroup from '../components/FieldGroup.vue';
 
 const loopId = ref('标识1');
@@ -23,5 +24,10 @@ const init = ref('[i]');
             <button @click="post({ command: 'count-loop-head', loopId, value, init })">计次循环体头</button>
             <button @click="post({ command: 'count-loop-tail', loopId })">计次循环体尾</button>
         </div>
+        <FieldGroup label="说明">
+            <div class="hint">{{ TEXTS.countLoop.description }}</div>
+            <pre class="code-block">{{ TEXTS.countLoop.example }}</pre>
+            <div class="hint">{{ TEXTS.countLoop.result }}</div>
+        </FieldGroup>
     </div>
 </template>
