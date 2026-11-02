@@ -12,8 +12,8 @@ export const customAttackPanel: PanelDescriptor = {
     vue: { component: 'custom-attack' },
     async handleMessage(
         message: Record<string, unknown>,
-        context: vscode.ExtensionContext,
-        webview: vscode.WebviewView
+        webview: vscode.WebviewView,
+        context: vscode.ExtensionContext
     ) {
         const msg = message as Record<string, string>;
         if (consumeWarning(message)) {

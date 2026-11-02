@@ -11,6 +11,9 @@
             "include": "#variable-decl"
         },
         {
+            "include": "#custom-file"
+        },
+        {
             "include": "#keywords"
         },
         {
@@ -18,12 +21,51 @@
         }
     ],
     "repository": {
+        "custom-file": {
+            "name": "meta.custom-file.xm",
+            "begin": "^ *(?:自定义出招|自定义魔法)",
+            "end": "$",
+            "beginCaptures": {
+                "0": {
+                    "name": "keyword.control.xm"
+                }
+            },
+            "patterns": [
+                {
+                    "name": "comment.line.xm",
+                    "match": "[^\\s|=.]{1,128}\\.(?:xmcus|xmgic)\\b"
+                },
+                {
+                    "name": "keyword.strings.xm",
+                    "match": "明文"
+                },
+                {
+                    "name": "constant.numeric.hex.xm",
+                    "match": "[0-9A-Fa-f]{8,}"
+                },
+                {
+                    "name": "constant.numeric.xm",
+                    "match": "\\b\\d+\\b"
+                },
+                {
+                    "include": "#variable-ref"
+                },
+                {
+                    "name": "keyword.strings.xm",
+                    "match": "[0-9a-zA-Z]+"
+                },
+                {
+                    "name": "punctuation.separator.xm",
+                    "match": "[|=：/]"
+                }
+            ]
+        },
         "magic-manage": {
             "patterns": [
                 {
                     "name": "meta.magic-manage.xm",
                     "begin": "^ *魔法管理",
-                    "end": "\\}",
+                    "end": "\\}|$",
                     "beginCaptures": {
                         "0": {
                             "name": "keyword.magic-manage-header.xm"
@@ -88,9 +130,10 @@
                 }
             ]
         },
-        "condition-params": {            "name": "meta.condition-params.xm",
+        "condition-params": {
+            "name": "meta.condition-params.xm",
             "begin": "\\{",
-            "end": "\\}",
+            "end": "\\}|$",
             "patterns": [
                 {
                     "name": "keyword.compare-op.xm",
@@ -107,7 +150,7 @@
         },
         "variable-ref": {
             "begin": "\\[",
-            "end": "\\]",
+            "end": "\\]|$",
             "beginCaptures": {
                 "0": {
                     "name": "punctuation.bracket.xm"
@@ -137,7 +180,7 @@
         "numeric-expression": {
             "name": "constant.numeric.expression.xm",
             "begin": "#<",
-            "end": ">#",
+            "end": ">#|$",
             "patterns": [
                 {
                     "name": "comment.line.xm",
@@ -229,7 +272,7 @@
                 },
                 {
                     "name": "support.function.xm",
-                    "match": "(?:且|或|forstart|forend|whilestart|whileend|break|if|else|and|or|还原背包|撤退|全精灵恢复|压血|领取[^火]+火)"
+                    "match": "(?:且|或|forstart|forend|whilestart|whileend|break|if|else|and|or|还原背包|撤退|全精灵恢复|压血|领取(?:绿|蓝|紫|金)火)"
                 },
                 {
                     "name": "keyword.strings.xm",

@@ -117,4 +117,5 @@ export type WebviewMessage =
 export type ExtensionMessage =
     | { command: 'magic-manage-loaded'; data: MagicManageData }
     | { command: 'refresh'; stats: CompletionStat[]; total: number }
-    | { command: 'file-picked'; kind: ImportFileKind; fileName: string; fileHex: string };
+    | { command: 'file-picked'; kind: ImportFileKind; fileName: string; fileHex: string }
+    | { command: 'reset-form' };

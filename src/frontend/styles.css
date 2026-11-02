@@ -541,6 +541,15 @@ button:active {
     margin-right: 10px;
 }
 
+.completion-stats-view .stats-tag {
+    display: inline-block;
+    padding: 0 4px;
+    margin-right: 4px;
+    border-radius: 3px;
+    background: var(--input-border);
+    font-size: 11px;
+}
+
 .completion-stats-view .stats-count {
     color: var(--btn-foreground);
     background: var(--btn-bg);

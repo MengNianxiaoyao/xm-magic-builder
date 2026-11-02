@@ -19,8 +19,8 @@ export interface PanelDescriptor {
     vue: VuePanelDescriptor;
     handleMessage?: (
         message: Record<string, unknown>,
-        context: vscode.ExtensionContext,
-        webview: vscode.WebviewView
+        webview: vscode.WebviewView,
+        context: vscode.ExtensionContext
     ) => void | Promise<void>;
     onRefresh?: (context: vscode.ExtensionContext) => Record<string, unknown>;
 }

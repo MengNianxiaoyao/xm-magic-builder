@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import { post, warn } from '../vscode-api';
+import { computed, ref } from 'vue';
+import { post, usePersistedRefs, warn } from '../vscode-api';
 import FieldGroup from '../components/FieldGroup.vue';
 import {
     INTEGER_VAR_VALUES,
@@ -15,14 +15,16 @@ const customValue = ref('');
 const attrType = ref('基础');
 const attrValue = ref('体力');
 
+usePersistedRefs({ varName, varType, varValue, customValue, attrType, attrValue });
+
 const options = computed(() => (varType.value === 'integer' ? INTEGER_VAR_VALUES : STRING_VAR_VALUES));
 const description = computed(() => options.value.find((item) => item.value === varValue.value)?.description ?? '');
 const showCustom = computed(() => !NO_CUSTOM_VAR_TYPES.includes(varValue.value));
 const showSpriteAttr = computed(() => varValue.value === '精灵属性查询返回');
 
-watch(varType, () => {
+function onTypeChange(): void {
     varValue.value = options.value[0]?.value ?? '';
-});
+}
 
 function add(): void {
     if (!varName.value) {
@@ -51,7 +53,7 @@ function add(): void {
             <input v-model="varName" type="text" />
         </FieldGroup>
         <FieldGroup label="变量类型">
-            <select v-model="varType">
+            <select v-model="varType" @change="onTypeChange">
                 <option value="integer">整数型(长整数)</option>
                 <option value="string">文本型(字符串)</option>
             </select>

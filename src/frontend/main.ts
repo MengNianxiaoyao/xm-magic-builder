@@ -1,5 +1,6 @@
 import './styles.css';
 import { createApp } from 'vue';
+import { onMessage, resetCurrentPanel } from './vscode-api';
 import AttackLoop from './panels/AttackLoop.vue';
 import BattleLoop from './panels/BattleLoop.vue';
 import BattleOperation from './panels/BattleOperation.vue';
@@ -43,3 +44,9 @@ const view = VIEWS[name as keyof typeof VIEWS];
 if (host && view) {
     createApp(view).mount(host);
 }
+
+onMessage((message) => {
+    if (message.command === 'reset-form') {
+        resetCurrentPanel();
+    }
+});

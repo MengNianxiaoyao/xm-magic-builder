@@ -8,7 +8,7 @@ export const magicManagePanel: PanelDescriptor = {
     title: '魔法管理',
     actions: [],
     vue: { component: 'magic-manage' },
-    handleMessage(message: Record<string, unknown>, _context: vscode.ExtensionContext, webview: vscode.WebviewView) {
+    handleMessage(message: Record<string, unknown>, webview: vscode.WebviewView) {
         const msg = message as Record<string, string>;
         if (msg.command === 'load-magic-manage') {
             const data = loadMagicManageFromFile() ?? defaultMagicData;
@@ -28,7 +28,7 @@ export const magicManagePanel: PanelDescriptor = {
             void insertTextAtLine(output, 0);
         }
     },
-    onRefresh(_context: vscode.ExtensionContext): Record<string, unknown> {
+    onRefresh(): Record<string, unknown> {
         const data = loadMagicManageFromFile() ?? defaultMagicData;
         return { command: 'magic-manage-loaded', data };
     },

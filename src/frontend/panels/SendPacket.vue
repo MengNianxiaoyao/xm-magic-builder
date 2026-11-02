@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post } from '../vscode-api';
+import { post, usePersistedRefs } from '../vscode-api';
 import FieldGroup from '../components/FieldGroup.vue';
 
 const packet = ref('');
 const delay = ref(1000);
 const battleDelay = ref(1000);
+
+usePersistedRefs({ packet, delay, battleDelay });
 </script>
 
 <template>

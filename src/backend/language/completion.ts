@@ -54,22 +54,22 @@ function getUsageCached(context: vscode.ExtensionContext): CompletionUsage {
     return cachedUsage;
 }
 
-/** 统计被外部清空时调用，避免内存缓存与存储不一致 */
-export function clearUsageCache(): void {
-    cachedUsage = null;
-}
-
 let debounceTimer: NodeJS.Timeout | null = null;
 const DEBOUNCE_DELAY = 500;
 const pendingUsageUpdates = new Map<string, number>();
 
-export function disposeCompletion(): void {
+/** 丢弃尚未落盘的计数，用于清空统计或停用扩展。 */
+export function discardPendingUsage(): void {
     if (debounceTimer) {
         clearTimeout(debounceTimer);
         debounceTimer = null;
     }
     pendingUsageUpdates.clear();
     cachedUsage = null;
+}
+
+export function disposeCompletion(): void {
+    discardPendingUsage();
 }
 
 function getUsageCount(context: vscode.ExtensionContext): CompletionUsage {
@@ -100,7 +100,7 @@ function recordUsageWithDebounce(context: vscode.ExtensionContext, keyword: stri
                 pendingUsageUpdates.clear();
                 cachedUsage = usage;
 
-                vscode.commands.executeCommand('xm-magic-builder.refreshCompletionStats');
+                vscode.commands.executeCommand('xm-magic-builder.refresh.completion-stats');
             } catch (error) {
                 console.error('写入补全记录失败:', error);
                 pendingUsageUpdates.clear();

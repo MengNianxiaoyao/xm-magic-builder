@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post, warn } from '../vscode-api';
+import { post, usePersistedRefs, warn } from '../vscode-api';
 import { TEXTS } from '../texts';
 import FieldGroup from '../components/FieldGroup.vue';
 
 const wildType = ref('对战');
 const mapId = ref('');
 const pokemonId = ref('');
+
+usePersistedRefs({ wildType, mapId, pokemonId });
 
 function add(): void {
     if (!mapId.value) {
