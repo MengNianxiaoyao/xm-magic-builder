@@ -41,7 +41,7 @@ export const customMagicPanel: PanelDescriptor = {
             await insertText(output);
         } else if (msg.command === 'custom-magic-plain-add') {
             const plainHex = iconv.encode(msg.plainContent, 'gbk').toString('hex').toUpperCase();
-            const output = `自定义魔法=${msg.passCurrent}|${msg.returnVar}|明文|${msg.varName}.xmagic|${MAGIC_PLAIN_PREFIX}${plainHex}`;
+            const output = `自定义魔法=${msg.passCurrent}|${msg.returnVar}|明文|${msg.varName}.xmgic|${MAGIC_PLAIN_PREFIX}${plainHex}`;
             await insertText(output);
         } else if (msg.command === 'custom-magic-var-add') {
             await insertText(buildVariableAdd(msg.varName, msg.fileHex));

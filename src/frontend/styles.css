@@ -151,15 +151,121 @@ button {
 .hint {
     line-height: 1.5;
     opacity: 0.9;
+    white-space: pre-line;
 }
 
-.value-description {
-    background: var(--input-bg);
+.code-block {
+    margin: 0;
     padding: 6px 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-family: var(--vscode-editor-font-family, monospace);
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.if-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.if-field select {
+    width: 100%;
+    flex: none;
+}
+
+.if-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.if-row > .label {
+    flex: none;
+    width: 62px;
+}
+
+.if-row .tiny {
+    width: 56px;
+    flex: none;
+}
+
+.if-row .tiny-select {
+    width: 96px;
+    flex: none;
+}
+
+.tilde {
+    flex: none;
+    color: var(--text-color);
+}
+
+.if-level {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.if-level > .label {
+    flex: none;
+    width: 62px;
+}
+
+.if-level .tiny-select {
+    width: 62px;
+    flex: none;
+}
+
+.if-actions {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.if-actions button {
+    padding: 6px 4px;
+}
+
+.item-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 2px 8px;
+}
+
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px;
+    background: transparent;
+    border: 1px solid transparent;
     border-radius: 3px;
-    border-left: 2px solid var(--btn-bg);
-    min-height: 1.4em;
-    margin-top: 4px;
+    color: var(--text-color);
+    font-size: 12px;
+    text-align: left;
+}
+
+.item-row:hover {
+    background: var(--input-bg);
+    border-color: var(--input-border);
+}
+
+.item-row.active {
+    background: var(--input-bg);
+    border-color: var(--input-focus);
+}
+
+.item-id {
+    flex: none;
+    font-family: var(--vscode-editor-font-family, monospace);
+    opacity: 0.75;
 }
 
 /* ---------- 单选 / 复选 ---------- */
@@ -241,6 +347,7 @@ select,
 textarea,
 input[type="text"],
 input[type="number"] {
+    box-sizing: border-box;
     padding: 8px 12px;
     background: var(--input-bg);
     border: 1px solid var(--input-border);

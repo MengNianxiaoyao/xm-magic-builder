@@ -1,11 +1,24 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post } from '../vscode-api';
+import { post, warn } from '../vscode-api';
+import { TEXTS } from '../texts';
 import FieldGroup from '../components/FieldGroup.vue';
 
 const wildType = ref('对战');
-const mapId = ref('0');
-const pokemonId = ref('0');
+const mapId = ref('');
+const pokemonId = ref('');
+
+function add(): void {
+    if (!mapId.value) {
+        warn('地图ID不得为空！');
+        return;
+    }
+    if (!pokemonId.value) {
+        warn('精灵ID不得为空！');
+        return;
+    }
+    post({ command: 'wild-pokemon', type: wildType.value, mapId: mapId.value, pokemonId: pokemonId.value });
+}
 </script>
 
 <template>
@@ -17,11 +30,14 @@ const pokemonId = ref('0');
             </div>
         </FieldGroup>
         <FieldGroup label="地图ID">
-            <input v-model="mapId" type="number" />
+            <input v-model="mapId" type="number" placeholder="请输入地图ID" />
         </FieldGroup>
         <FieldGroup label="精灵ID">
-            <input v-model="pokemonId" type="number" />
+            <input v-model="pokemonId" type="number" placeholder="请输入精灵ID" />
         </FieldGroup>
-        <button @click="post({ command: 'wild-pokemon', type: wildType, mapId, pokemonId })">添加</button>
+        <button @click="add">添加</button>
+        <FieldGroup label="说明">
+            <div class="hint">{{ TEXTS.wildPokemon }}</div>
+        </FieldGroup>
     </div>
 </template>

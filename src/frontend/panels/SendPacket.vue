@@ -10,7 +10,7 @@ const battleDelay = ref(1000);
 
 <template>
     <div class="container">
-        <FieldGroup label="发包文本">
+        <FieldGroup label="发包文本(可使用字节集参数)">
             <div class="input-row">
                 <input v-model="packet" type="text" />
                 <button @click="post({ command: 'add-packet', content: packet })">添加</button>
