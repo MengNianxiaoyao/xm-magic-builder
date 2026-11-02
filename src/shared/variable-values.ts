@@ -82,8 +82,7 @@ export const INTEGER_VAR_VALUES: VarValueEntry[] = [
     {
         value: '用户当前火焰状态返回',
         label: '用户当前火焰状态返回',
-        description:
-            '有火则返回对应火焰序号，没火返回0。返回6绿火、7蓝火、8紫火、9金火。该语句赋值默认有0.5秒延迟。',
+        description: '有火则返回对应火焰序号，没火返回0。返回6绿火、7蓝火、8紫火、9金火。该语句赋值默认有0.5秒延迟。',
     },
     {
         value: '现行10位时间戳',
