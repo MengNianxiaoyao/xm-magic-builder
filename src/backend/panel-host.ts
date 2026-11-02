@@ -54,7 +54,7 @@ export class PanelHost implements vscode.WebviewViewProvider {
         webviewView.webview.onDidReceiveMessage(async (message: Record<string, unknown>) => {
             try {
                 if (this.panel.handleMessage) {
-                    await this.panel.handleMessage(message, this.context, webviewView);
+                    await this.panel.handleMessage(message, webviewView, this.context);
                 } else {
                     this.handleGenericMessage(message);
                 }
@@ -71,6 +71,18 @@ export class PanelHost implements vscode.WebviewViewProvider {
         if (this.panel.onRefresh && this._view) {
             this._view.webview.postMessage(this.panel.onRefresh(this.context));
         }
+    }
+
+    resetForm(): void {
+        void this._view?.webview.postMessage({ command: 'reset-form' });
+    }
+
+    runTitleAction(): void {
+        if (this.panel.onRefresh) {
+            this.refresh();
+            return;
+        }
+        this.resetForm();
     }
 
     private handleGenericMessage(message: Record<string, unknown>): void {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post, warn } from '../vscode-api';
+import { post, usePersistedRefs, warn } from '../vscode-api';
 import { TEXTS } from '../texts';
 import {
     CHANGE_LABELS,
@@ -34,6 +34,24 @@ const emblemOpen = ref(DEFAULT_STATE.emblemOpen);
 const resist = ref([...DEFAULT_STATE.resist]);
 const hp = ref(DEFAULT_STATE.hp);
 const team = ref([...DEFAULT_STATE.team]);
+
+usePersistedRefs({
+    activeTab,
+    catchtime,
+    result,
+    change,
+    force,
+    level,
+    skills,
+    efforts,
+    talent,
+    character,
+    emblems,
+    emblemOpen,
+    resist,
+    hp,
+    team,
+});
 
 function add(): void {
     const state: PokemonTrainingState = {

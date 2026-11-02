@@ -1,4 +1,3 @@
-import * as vscode from 'vscode';
 import type { PanelDescriptor } from '../panel-types';
 import { appendToIfLine, checkXmFile, insertText } from '../services/text-editor';
 import { consumeWarning } from '../command-template';
@@ -8,11 +7,7 @@ export const ifLoopPanel: PanelDescriptor = {
     title: '判断循环体',
     actions: [],
     vue: { component: 'if-loop' },
-    async handleMessage(
-        message: Record<string, unknown>,
-        _context: vscode.ExtensionContext,
-        _webview: vscode.WebviewView
-    ) {
+    async handleMessage(message: Record<string, unknown>) {
         if (consumeWarning(message)) {
             return;
         }

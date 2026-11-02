@@ -15,8 +15,8 @@ export const customMagicPanel: PanelDescriptor = {
     vue: { component: 'custom-magic' },
     async handleMessage(
         message: Record<string, unknown>,
-        context: vscode.ExtensionContext,
-        webview: vscode.WebviewView
+        webview: vscode.WebviewView,
+        context: vscode.ExtensionContext
     ) {
         const msg = message as Record<string, string>;
         if (consumeWarning(message)) {

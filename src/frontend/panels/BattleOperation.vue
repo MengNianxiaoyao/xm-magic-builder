@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post } from '../vscode-api';
+import { post, usePersistedRefs } from '../vscode-api';
 import FieldGroup from '../components/FieldGroup.vue';
 
 const op = ref('takeover');
@@ -8,6 +8,8 @@ const battleId = ref('');
 const skillId = ref('');
 const itemId = ref('');
 const fire = ref('绿火');
+
+usePersistedRefs({ op, battleId, skillId, itemId, fire });
 
 const battleItems = [
     { name: '初级体力药剂', id: '300011' },

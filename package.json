@@ -33,12 +33,77 @@
     "contributes": {
         "commands": [
             {
-                "command": "xm-magic-builder.refreshMagicManage",
+                "command": "xm-magic-builder.refresh.send-packet",
+                "title": "重置发包延时",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.pokemon-operation",
+                "title": "重置精灵操作",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.pokemon-training",
+                "title": "重置精灵培养",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.battle-operation",
+                "title": "重置对战操作",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.attack-loop",
+                "title": "重置出招循环体",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.battle-loop",
+                "title": "重置对战循环体",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.custom-attack",
+                "title": "重置自定义出招",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.wild-pokemon",
+                "title": "重置野怪操作",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.variable",
+                "title": "重置变量",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.if-loop",
+                "title": "重置判断循环体",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.count-loop",
+                "title": "重置计次循环体",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.output",
+                "title": "重置信息输出",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.custom-magic",
+                "title": "重置自定义魔法",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.refresh.magic-manage",
                 "title": "刷新魔法管理",
                 "icon": "$(refresh)"
             },
             {
-                "command": "xm-magic-builder.refreshCompletionStats",
+                "command": "xm-magic-builder.refresh.completion-stats",
                 "title": "刷新补全统计",
                 "icon": "$(refresh)"
             }
@@ -82,89 +147,169 @@
                 {
                     "id": "xm-magic-builder.send-packet",
                     "name": "发包延时",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(arrow-up)"
                 },
                 {
                     "id": "xm-magic-builder.pokemon-operation",
                     "name": "精灵操作",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(symbol-variable)"
                 },
                 {
                     "id": "xm-magic-builder.pokemon-training",
                     "name": "精灵培养",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(heart)"
                 },
                 {
                     "id": "xm-magic-builder.battle-operation",
                     "name": "对战操作",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(zap)"
                 },
                 {
                     "id": "xm-magic-builder.attack-loop",
                     "name": "出招循环体",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(repeat)"
                 },
                 {
                     "id": "xm-magic-builder.battle-loop",
                     "name": "对战循环体",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(sync)"
                 },
                 {
                     "id": "xm-magic-builder.custom-attack",
                     "name": "自定义出招",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(edit)"
                 },
                 {
                     "id": "xm-magic-builder.wild-pokemon",
                     "name": "野怪操作",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(compass)"
                 },
                 {
                     "id": "xm-magic-builder.variable",
                     "name": "变量",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(symbol-variable)"
                 },
                 {
                     "id": "xm-magic-builder.if-loop",
                     "name": "判断循环体",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(git-branch)"
                 },
                 {
                     "id": "xm-magic-builder.count-loop",
                     "name": "计次循环体",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(list-ordered)"
                 },
                 {
                     "id": "xm-magic-builder.custom-magic",
                     "name": "自定义魔法",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(sparkle)"
                 },
                 {
                     "id": "xm-magic-builder.output",
                     "name": "信息输出",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(output)"
                 },
                 {
                     "id": "xm-magic-builder.magic-manage",
                     "name": "魔法管理",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(settings-gear)"
                 },
                 {
                     "id": "xm-magic-builder.completion-stats",
                     "name": "补全使用统计",
-                    "type": "webview"
+                    "type": "webview",
+                    "icon": "$(graph)"
                 }
             ]
         },
         "menus": {
             "view/title": [
                 {
-                    "command": "xm-magic-builder.refreshMagicManage",
+                    "command": "xm-magic-builder.refresh.send-packet",
+                    "when": "view == xm-magic-builder.send-packet",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.pokemon-operation",
+                    "when": "view == xm-magic-builder.pokemon-operation",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.pokemon-training",
+                    "when": "view == xm-magic-builder.pokemon-training",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.battle-operation",
+                    "when": "view == xm-magic-builder.battle-operation",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.attack-loop",
+                    "when": "view == xm-magic-builder.attack-loop",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.battle-loop",
+                    "when": "view == xm-magic-builder.battle-loop",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.custom-attack",
+                    "when": "view == xm-magic-builder.custom-attack",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.wild-pokemon",
+                    "when": "view == xm-magic-builder.wild-pokemon",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.variable",
+                    "when": "view == xm-magic-builder.variable",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.if-loop",
+                    "when": "view == xm-magic-builder.if-loop",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.count-loop",
+                    "when": "view == xm-magic-builder.count-loop",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.output",
+                    "when": "view == xm-magic-builder.output",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.custom-magic",
+                    "when": "view == xm-magic-builder.custom-magic",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.magic-manage",
                     "when": "view == xm-magic-builder.magic-manage",
                     "group": "navigation"
                 },
                 {
-                    "command": "xm-magic-builder.refreshCompletionStats",
+                    "command": "xm-magic-builder.refresh.completion-stats",
                     "when": "view == xm-magic-builder.completion-stats",
                     "group": "navigation"
                 }

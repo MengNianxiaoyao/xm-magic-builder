@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import type { CompletionStat } from '../../shared/messages';
 import { onMessage, post } from '../vscode-api';
 
 const stats = ref<CompletionStat[]>([]);
 const total = ref(0);
+
+const rows = computed(() =>
+    stats.value.map((stat) => {
+        const index = stat.key.indexOf(':');
+        return {
+            ...stat,
+            keyword: index === -1 ? '' : stat.key.slice(0, index),
+            label: index === -1 ? stat.key : stat.key.slice(index + 1),
+        };
+    })
+);
 
 onMounted(() => post({ command: 'load' }));
 
@@ -25,9 +36,12 @@ onMessage((message) => {
             <button class="btn-reset-small" :disabled="stats.length === 0" @click="post({ command: 'reset' })">清空</button>
         </div>
         <div class="stats-list">
-            <div v-for="stat in stats" :key="stat.key" class="stats-item">
-                <span class="stats-key">{{ stat.key }}</span>
-                <span class="stats-count">{{ stat.count }}</span>
+            <div v-for="row in rows" :key="row.key" class="stats-item" :title="row.key">
+                <span class="stats-key">
+                    <span v-if="row.keyword" class="stats-tag">{{ row.keyword }}</span>
+                    <span class="stats-label">{{ row.label }}</span>
+                </span>
+                <span class="stats-count">{{ row.count }}</span>
             </div>
         </div>
     </div>

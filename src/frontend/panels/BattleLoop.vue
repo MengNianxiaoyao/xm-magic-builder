@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post } from '../vscode-api';
+import { post, usePersistedRefs } from '../vscode-api';
 import { TEXTS } from '../texts';
 import FieldGroup from '../components/FieldGroup.vue';
 
 const condition = ref('对战胜利');
+
+usePersistedRefs({ condition });
 </script>
 
 <template>

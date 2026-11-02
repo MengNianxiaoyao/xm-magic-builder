@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post, warn } from '../vscode-api';
+import { post, usePersistedRefs, warn } from '../vscode-api';
 import { useFileImport } from '../file-import';
 import FieldGroup from '../components/FieldGroup.vue';
 
@@ -10,6 +10,8 @@ const password = ref('');
 const varName = ref('');
 const plainContent = ref('');
 const { fileName, fileHex, open } = useFileImport('custom-magic');
+
+usePersistedRefs({ passCurrent, returnVar, password, varName, plainContent, fileName, fileHex });
 
 function flags(): { passCurrent: string; returnVar: string } {
     return {

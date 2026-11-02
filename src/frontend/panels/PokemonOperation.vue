@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post, warn } from '../vscode-api';
+import { post, usePersistedRefs, warn } from '../vscode-api';
 import { TEXTS } from '../texts';
 import FieldGroup from '../components/FieldGroup.vue';
 
@@ -8,6 +8,8 @@ const op = ref('first');
 const pokemonId = ref('');
 const pokemonPos = ref('1');
 const bagIds = ref('');
+
+usePersistedRefs({ op, pokemonId, pokemonPos, bagIds });
 
 function add(): void {
     if (op.value === 'set-bag') {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
-import { post, warn } from '../vscode-api';
+import { computed, ref } from 'vue';
+import { post, usePersistedRefs, warn } from '../vscode-api';
 import { TEXTS } from '../texts';
 import FieldGroup from '../components/FieldGroup.vue';
 
@@ -48,8 +48,10 @@ function newOperand(): Operand {
     return { index: 1, varName: '', radix: '十六进制', start: 1, end: 1, value: '' };
 }
 
-const left = reactive(newOperand());
-const right = reactive(newOperand());
+const left = ref(newOperand());
+const right = ref(newOperand());
+
+usePersistedRefs({ typeName, operator, level, packetParam, left, right });
 
 const current = computed(() => TYPES.find((item) => item.name === typeName.value) ?? TYPES[0]);
 const leftKind = computed(() => current.value.left);
@@ -95,10 +97,10 @@ function encode(kind: OperandKind, operand: Operand): string {
 
 function addCondition(relation: Relation): void {
     if (relation !== '判断假') {
-        if (!validateOperand(leftKind.value, left, '左侧')) {
+        if (!validateOperand(leftKind.value, left.value, '左侧')) {
             return;
         }
-        if (!validateOperand(rightKind.value, right, '右侧')) {
+        if (!validateOperand(rightKind.value, right.value, '右侧')) {
             return;
         }
     }
@@ -106,7 +108,7 @@ function addCondition(relation: Relation): void {
     const condition =
         relation === '判断假'
             ? ''
-            : `{${encode(leftKind.value, left)},${operator.value},${encode(rightKind.value, right)}}`;
+            : `{${encode(leftKind.value, left.value)},${operator.value},${encode(rightKind.value, right.value)}}`;
 
     post({ command: 'if-loop-condition', relation, level: level.value, condition });
 }

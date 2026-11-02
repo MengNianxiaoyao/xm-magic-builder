@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post } from '../vscode-api';
+import { post, usePersistedRefs } from '../vscode-api';
 import { TEXTS } from '../texts';
 import FieldGroup from '../components/FieldGroup.vue';
 
 const loopId = ref('标识1');
 const value = ref('[j]');
 const init = ref('[i]');
+
+usePersistedRefs({ loopId, value, init });
 </script>
 
 <template>
