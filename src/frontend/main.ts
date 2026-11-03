@@ -8,6 +8,7 @@ import CompletionStats from './panels/CompletionStats.vue';
 import CountLoop from './panels/CountLoop.vue';
 import CustomAttack from './panels/CustomAttack.vue';
 import CustomMagic from './panels/CustomMagic.vue';
+import GameData from './panels/GameData.vue';
 import IfLoop from './panels/IfLoop.vue';
 import MagicManage from './panels/MagicManage.vue';
 import Output from './panels/Output.vue';
@@ -33,6 +34,7 @@ const VIEWS = {
     output: Output,
     'custom-magic': CustomMagic,
     'magic-manage': MagicManage,
+    'game-data': GameData,
     'completion-stats': CompletionStats,
     welcome: Welcome,
 };

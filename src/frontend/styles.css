@@ -580,6 +580,105 @@ button:active {
     cursor: not-allowed;
 }
 
+/* ---------- 数据查询 ---------- */
+
+.game-data-view {
+    height: calc(100vh - 24px);
+    min-height: 0;
+}
+
+.game-data-view > * {
+    flex: none;
+}
+
+.game-data-view > .game-data-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.game-data-view .game-data-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.game-data-view .game-data-status-text {
+    flex: 1;
+    min-width: 0;
+    opacity: 0.85;
+    overflow-wrap: anywhere;
+}
+
+.game-data-view .game-data-status .btn-small {
+    flex: none;
+    padding: 4px 10px;
+    font-size: 11px;
+}
+
+.game-data-view .game-data-tip {
+    font-size: 12px;
+    line-height: 1.5;
+    opacity: 0.85;
+}
+
+.game-data-view .game-data-tip.error {
+    color: var(--vscode-errorForeground, #f48771);
+    opacity: 1;
+}
+
+.game-data-view .game-data-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.game-data-view .game-data-card {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+}
+
+.game-data-view .game-data-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.game-data-view .game-data-name {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.game-data-view .game-data-sub {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.game-data-view .game-data-moves {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.game-data-view .game-data-move {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    padding: 1px 6px;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    font-size: 11px;
+}
+
 /* ---------- 欢迎页 ---------- */
 
 .welcome {

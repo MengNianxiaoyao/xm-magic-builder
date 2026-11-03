@@ -12,7 +12,7 @@
     "bugs": {
         "url": "https://github.com/MengNianxiaoyao/xm-magic-builder/issues"
     },
-    "version": "1.1.1",
+    "version": "1.2.0",
     "release": {
         "preRelease": false
     },
@@ -103,11 +103,31 @@
                 "icon": "$(refresh)"
             },
             {
+                "command": "xm-magic-builder.refresh.game-data",
+                "title": "重置数据查询",
+                "icon": "$(refresh)"
+            },
+            {
                 "command": "xm-magic-builder.refresh.completion-stats",
                 "title": "刷新补全统计",
                 "icon": "$(refresh)"
+            },
+            {
+                "command": "xm-magic-builder.update-game-data",
+                "title": "更新游戏数据",
+                "icon": "$(cloud-download)"
             }
         ],
+        "configuration": {
+            "title": "XMSeer's Builder",
+            "properties": {
+                "xm-magic-builder.gameData.autoUpdate": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "每天自动检查并更新精灵、技能、刻印数据。关闭后锁定当前数据，仍可在“数据查询”面板手动更新。"
+                }
+            }
+        },
         "languages": [
             {
                 "id": "xm",
@@ -229,6 +249,12 @@
                     "icon": "$(settings-gear)"
                 },
                 {
+                    "id": "xm-magic-builder.game-data",
+                    "name": "数据查询",
+                    "type": "webview",
+                    "icon": "$(search)"
+                },
+                {
                     "id": "xm-magic-builder.completion-stats",
                     "name": "补全使用统计",
                     "type": "webview",
@@ -306,6 +332,11 @@
                 {
                     "command": "xm-magic-builder.refresh.magic-manage",
                     "when": "view == xm-magic-builder.magic-manage",
+                    "group": "navigation"
+                },
+                {
+                    "command": "xm-magic-builder.refresh.game-data",
+                    "when": "view == xm-magic-builder.game-data",
                     "group": "navigation"
                 },
                 {
