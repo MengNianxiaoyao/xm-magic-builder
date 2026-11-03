@@ -17,6 +17,7 @@ import { outputPanel } from './panels/output-panel';
 import { magicManagePanel } from './panels/magic-manage-panel';
 import { customMagicPanel } from './panels/custom-magic-panel';
 import { completionStatsPanel } from './panels/completion-stats-panel';
+import { gameDataPanel } from './panels/game-data-panel';
 
 const PANELS: PanelDescriptor[] = [
     sendPacketPanel,
@@ -33,6 +34,7 @@ const PANELS: PanelDescriptor[] = [
     outputPanel,
     customMagicPanel,
     magicManagePanel,
+    gameDataPanel,
     completionStatsPanel,
 ];
 

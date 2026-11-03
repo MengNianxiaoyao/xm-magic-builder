@@ -18,6 +18,43 @@ export interface CompletionStat {
 
 export type ImportFileKind = 'custom-attack' | 'custom-magic';
 
+export type GameDataType = 'monster' | 'mintmark';
+
+export interface GameMoveSummary {
+    id: number;
+    name: string;
+}
+
+export interface GameMonsterSummary {
+    id: number;
+    name: string;
+    moves: GameMoveSummary[];
+}
+
+export interface GameMintmarkSummary {
+    id: number;
+    name: string;
+    effect: string;
+    series: { id: number; name: string } | null;
+}
+
+export interface GameSearchPayload {
+    total: number;
+    monsters: GameMonsterSummary[];
+    mintmarks: GameMintmarkSummary[];
+}
+
+export type GameDataInfoSource = 'bundled' | 'snapshot';
+
+export interface GameDataInfo {
+    source: GameDataInfoSource;
+    updatedAt?: string;
+    monsters: number;
+    mintmarks: number;
+}
+
+export type GameDataUpdateState = 'checking' | 'downloading' | 'latest' | 'updated' | 'error';
+
 export const DEFAULT_MAGIC_MANAGE: MagicManageData = {
     portLimit: '0',
     versionMajor: '0',
@@ -111,6 +148,9 @@ export type WebviewMessage =
       }
     | { command: 'load-magic-manage' }
     | { command: 'pick-file'; kind: ImportFileKind }
+    | { command: 'search-game-data'; kind: GameDataType; query: string }
+    | { command: 'load-game-data-info' }
+    | { command: 'check-game-data'; force: boolean }
     | { command: 'load' }
     | { command: 'reset' };
 
@@ -118,4 +158,9 @@ export type ExtensionMessage =
     | { command: 'magic-manage-loaded'; data: MagicManageData }
     | { command: 'refresh'; stats: CompletionStat[]; total: number }
     | { command: 'file-picked'; kind: ImportFileKind; fileName: string; fileHex: string }
+    | ({ command: 'game-data-result'; kind: GameDataType; query: string } & GameSearchPayload)
+    | { command: 'game-data-error'; message: string }
+    | ({ command: 'game-data-info' } & GameDataInfo)
+    | ({ command: 'game-data-updated' } & GameDataInfo)
+    | { command: 'game-data-status'; state: GameDataUpdateState; message?: string }
     | { command: 'reset-form' };
