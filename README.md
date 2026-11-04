@@ -13,7 +13,7 @@
 
 ## 游戏数据
 
-精灵、技能、刻印数据来自 [SeerAPI/config-sources](https://github.com/SeerAPI/config-sources) 的客户端数据。扩展每天检查一次更新，也可在“数据查询”面板或命令面板手动更新；关闭 `xm-magic-builder.gameData.autoUpdate` 可锁定当前数据。
+精灵、技能、刻印数据来自 [SeerAPI/config-sources](https://github.com/SeerAPI/config-sources)，实际通过 [cnb.cool 镜像](https://cnb.cool/mengnianxiaoyao/seer-config-sources) 读取，镜像每 6 小时与上游同步。扩展每天检查一次更新，也可在“数据查询”面板或命令面板手动更新；关闭 `xm-magic-builder.gameData.autoUpdate` 可锁定当前数据。
 
 `resources/game-data/seed.json` 是随扩展发布的离线初始数据（约 1.44MB）。自动更新下载的新数据写入 `globalStorage`，不会修改扩展安装目录。
 

@@ -30,8 +30,8 @@ export interface GameDataSnapshot {
     classes: Record<string, string>;
     monsters: [number, string, number[]][];
     mintmarks: [number, string, string, number | null][];
-    /** 仅内置 seed 使用：记录生成时各镜像的 ETag，首次检查时可直接判定为最新。 */
-    check?: { host: string; etags: Record<string, string>; rawEtags?: Record<string, string> };
+    /** 仅内置 seed 使用：记录生成时的 ETag，首次检查时可直接判定为最新。 */
+    check?: { host: string; etags: Record<string, string> };
 }
 
 const RESULT_LIMIT = 50;
@@ -74,16 +74,9 @@ export function snapshotUri(context: vscode.ExtensionContext): vscode.Uri {
 
 export async function getSeedCheckState(
     context: vscode.ExtensionContext
-): Promise<{ host: string; etags: Record<string, string>; rawEtags?: Record<string, string> } | undefined> {
+): Promise<{ host: string; etags: Record<string, string> } | undefined> {
     const seed = await readSnapshotFile(seedUri(context), '读取内置数据失败');
-    const check = seed?.check;
-    if (!check) {
-        return undefined;
-    }
-    if (check.host.includes('raw.githubusercontent.com')) {
-        return { host: check.host, etags: {}, rawEtags: check.etags };
-    }
-    return check;
+    return seed?.check;
 }
 
 function seedUri(context: vscode.ExtensionContext): vscode.Uri {
@@ -186,10 +179,7 @@ function isValidSnapshot(value: unknown): value is GameDataSnapshot {
 
     if (
         snapshot.check &&
-        (typeof snapshot.check.host !== 'string' ||
-            !snapshot.check.etags ||
-            typeof snapshot.check.etags !== 'object' ||
-            (snapshot.check.rawEtags && typeof snapshot.check.rawEtags !== 'object'))
+        (typeof snapshot.check.host !== 'string' || !snapshot.check.etags || typeof snapshot.check.etags !== 'object')
     ) {
         return false;
     }
