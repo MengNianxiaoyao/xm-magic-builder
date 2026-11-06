@@ -28,7 +28,9 @@ export interface PokemonTrainingState {
     result: string;
     change: boolean[];
     force: boolean[];
+    /** 选中项：'100'、'1' 或 'custom'；为 custom 时取 customLevel。 */
     level: string;
+    customLevel: number;
     skills: number[];
     efforts: number[];
     talent: number;
@@ -48,6 +50,7 @@ export const DEFAULT_STATE: PokemonTrainingState = {
     change: Array(9).fill(false),
     force: Array(9).fill(true),
     level: '100',
+    customLevel: 100,
     skills: [0, 0, 0, 999999],
     efforts: [0, 0, 0, 0, 0, 0],
     talent: 0,
@@ -76,12 +79,18 @@ export function buildTrainingContent(state: PokemonTrainingState): TrainingResul
         return { ok: false, message: '更换检测至少需要勾选一项！' };
     }
 
+    const custom = state.level === 'custom';
+    const customLevel = toInt(state.customLevel);
+    if (custom && (customLevel < 1 || customLevel > 100)) {
+        return { ok: false, message: '自定义等级需在 1~100 之间！' };
+    }
+
     const values = [
         state.catchtime,
         state.result,
         brace(state.change.map(Number)),
         brace(state.force.map(Number)),
-        state.level,
+        custom ? String(customLevel) : state.level,
         brace(state.skills.map(toInt)),
         brace(state.efforts.map(toInt)),
         String(toInt(state.talent)),

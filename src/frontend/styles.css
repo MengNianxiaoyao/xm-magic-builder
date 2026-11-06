@@ -95,19 +95,53 @@ button {
     min-width: 0;
 }
 
+.field-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
 .cell input[type="number"] {
     min-width: 0;
     padding: 6px 8px;
 }
 
+/* 标签一列、输入框一列，两行共用同一组列宽，输入框右边缘始终对齐；
+   窄到放不下按钮时，按钮浮到右侧，输入框铺满整行并与按钮右侧对齐 */
 .header {
-    display: flex;
-    align-items: stretch;
-    gap: 8px;
+    position: relative;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px 6px;
 }
 
 .header > .stack {
-    flex: 1;
+    display: contents;
+}
+
+.header > .stack .cell {
+    display: contents;
+}
+
+.header > button {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: stretch;
+}
+
+@media (max-width: 300px) {
+    .header {
+        grid-template-columns: max-content minmax(0, 1fr);
+    }
+
+    .header > button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
 }
 
 .res-label {
@@ -402,6 +436,17 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+.level-input {
+    flex: none;
+    width: 80px;
+    text-align: center;
+}
+
+.level-input:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .input-row {
     display: flex;
     gap: 8px;
@@ -409,6 +454,14 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .btn-block {
     width: 100%;
+}
+
+/* 对战方案文件行：文件名输入框 + 导入按钮 */
+.file-pick {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
 }
 
 button {

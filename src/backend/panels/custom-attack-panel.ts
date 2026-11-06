@@ -3,7 +3,7 @@ import type { PanelDescriptor } from '../panel-types';
 import type { ImportFileKind } from '../../shared/messages';
 import { checkXmFile, insertText } from '../services/text-editor';
 import { pickImportFile } from '../services/file-picker';
-import { buildVariableAdd, consumeWarning } from '../command-template';
+import { buildCustomAttackSettings, buildVariableAdd, consumeWarning } from '../command-template';
 
 export const customAttackPanel: PanelDescriptor = {
     id: 'xm-magic-builder.custom-attack',
@@ -40,6 +40,10 @@ export const customAttackPanel: PanelDescriptor = {
         } else if (msg.command === 'custom-attack-use-var') {
             const output = `自定义出招=${msg.battlePacket}|${msg.varName}.xmcus|[${msg.varName}]`;
             await insertText(output);
+        } else if (msg.command === 'custom-attack-settings') {
+            await insertText(
+                buildCustomAttackSettings(msg.disableTeam, msg.disablePreBattle, msg.disableAttack, msg.shieldCts)
+            );
         }
     },
 };

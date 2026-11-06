@@ -25,6 +25,7 @@ const result = ref(DEFAULT_STATE.result);
 const change = ref([...DEFAULT_STATE.change]);
 const force = ref([...DEFAULT_STATE.force]);
 const level = ref(DEFAULT_STATE.level);
+const customLevel = ref(DEFAULT_STATE.customLevel);
 const skills = ref([...DEFAULT_STATE.skills]);
 const efforts = ref([...DEFAULT_STATE.efforts]);
 const talent = ref(DEFAULT_STATE.talent);
@@ -42,6 +43,7 @@ usePersistedRefs({
     change,
     force,
     level,
+    customLevel,
     skills,
     efforts,
     talent,
@@ -60,6 +62,7 @@ function add(): void {
         change: change.value,
         force: force.value,
         level: level.value,
+        customLevel: customLevel.value,
         skills: skills.value,
         efforts: efforts.value,
         talent: talent.value,
@@ -145,6 +148,19 @@ function add(): void {
                         <input v-model="level" type="radio" value="1" />
                         <span>Lv1</span>
                     </label>
+                    <label class="choice">
+                        <input v-model="level" type="radio" value="custom" />
+                        <span>自定义</span>
+                    </label>
+                    <input
+                        v-model.number="customLevel"
+                        class="level-input"
+                        type="number"
+                        min="1"
+                        max="100"
+                        placeholder="1~100"
+                        :disabled="level !== 'custom'"
+                    />
                 </div>
             </div>
             <div class="input-group">

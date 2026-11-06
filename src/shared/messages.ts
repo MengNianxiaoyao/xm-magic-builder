@@ -102,6 +102,13 @@ export type WebviewMessage =
     | { command: 'custom-attack-var-add'; varName: string; fileHex: string }
     | { command: 'custom-attack-use-var'; battlePacket: string; varName: string }
     | {
+          command: 'custom-attack-settings';
+          disableTeam: string;
+          disablePreBattle: string;
+          disableAttack: string;
+          shieldCts: string;
+      }
+    | {
           command: 'custom-magic-add';
           passCurrent: string;
           returnVar: string;
