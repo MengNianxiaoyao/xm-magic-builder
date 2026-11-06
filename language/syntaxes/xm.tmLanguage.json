@@ -36,6 +36,18 @@
                     "match": "[^\\s|=.]{1,128}\\.(?:xmcus|xmgic)\\b"
                 },
                 {
+                    "name": "keyword.other.xm",
+                    "match": "(?<==)设置(?=\\||$)"
+                },
+                {
+                    "name": "entity.name.type.xm",
+                    "match": "(?:禁用阵容套装设置|禁用战前设置|禁用出招设置|阵容设置屏蔽精灵ct数组)(?==)"
+                },
+                {
+                    "name": "punctuation.bracket.xm",
+                    "match": "[{}]"
+                },
+                {
                     "name": "keyword.strings.xm",
                     "match": "明文"
                 },
@@ -56,7 +68,7 @@
                 },
                 {
                     "name": "punctuation.separator.xm",
-                    "match": "[|=：/]"
+                    "match": "[|=：/,]"
                 }
             ]
         },

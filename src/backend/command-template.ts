@@ -38,3 +38,18 @@ export function keyValueHandler(...commands: string[]): MessageHandler {
 export function buildVariableAdd(varName: string, fileHex: string): string {
     return `变量=文本型|${varName}|自定义文本|${fileHex}`;
 }
+
+/**
+ * 自定义出招设置：三个禁用开关 + 阵容设置时要跳过的精灵 catchtime 数组。
+ */
+export function buildCustomAttackSettings(
+    disableTeam: string,
+    disablePreBattle: string,
+    disableAttack: string,
+    shieldCts: string
+): string {
+    return (
+        `自定义出招=设置|{禁用阵容套装设置=${disableTeam}|禁用战前设置=${disablePreBattle}` +
+        `|禁用出招设置=${disableAttack}|阵容设置屏蔽精灵ct数组={${shieldCts}}}`
+    );
+}
