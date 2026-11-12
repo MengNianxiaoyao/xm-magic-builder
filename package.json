@@ -12,7 +12,7 @@
     "bugs": {
         "url": "https://github.com/MengNianxiaoyao/xm-magic-builder/issues"
     },
-    "version": "1.2.2",
+    "version": "1.2.3",
     "release": {
         "preRelease": false
     },
@@ -356,6 +356,7 @@
         "watch:webview": "vite build --watch",
         "package": "pnpm run check-types && pnpm run lint && pnpm run build:webview && node esbuild.js --production",
         "build:webview": "vite build",
+        "build:seed": "node scripts/build-seed.mjs",
         "compile-tests": "tsc -p . --outDir out",
         "watch-tests": "tsc -p . -w --outDir out",
         "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",

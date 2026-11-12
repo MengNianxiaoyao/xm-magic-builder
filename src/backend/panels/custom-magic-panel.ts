@@ -3,7 +3,7 @@ import * as iconv from 'iconv-lite';
 import type { PanelDescriptor } from '../panel-types';
 import type { ImportFileKind } from '../../shared/messages';
 import { checkXmFile, insertText } from '../services/text-editor';
-import { pickImportFile } from '../services/file-picker';
+import { pickImportFile, readPickedHex } from '../services/file-picker';
 import { buildVariableAdd, consumeWarning } from '../command-template';
 
 const MAGIC_PLAIN_PREFIX = '35383444364436313637363936334333463743454334';
@@ -36,15 +36,23 @@ export const customMagicPanel: PanelDescriptor = {
         }
 
         if (msg.command === 'custom-magic-add') {
+            const hex = await readPickedHex(msg.filePath, '魔法');
+            if (hex === undefined) {
+                return;
+            }
             const passwordPart = msg.password ? `${msg.password}` : '';
-            const output = `自定义魔法=${msg.passCurrent}|${msg.returnVar}|${passwordPart}|${msg.fileName}|${msg.fileHex}`;
+            const output = `自定义魔法=${msg.passCurrent}|${msg.returnVar}|${passwordPart}|${msg.fileName}|${hex}`;
             await insertText(output);
         } else if (msg.command === 'custom-magic-plain-add') {
             const plainHex = iconv.encode(msg.plainContent, 'gbk').toString('hex').toUpperCase();
             const output = `自定义魔法=${msg.passCurrent}|${msg.returnVar}|明文|${msg.varName}.xmgic|${MAGIC_PLAIN_PREFIX}${plainHex}`;
             await insertText(output);
         } else if (msg.command === 'custom-magic-var-add') {
-            await insertText(buildVariableAdd(msg.varName, msg.fileHex));
+            const hex = await readPickedHex(msg.filePath, '魔法');
+            if (hex === undefined) {
+                return;
+            }
+            await insertText(buildVariableAdd(msg.varName, hex));
         } else if (msg.command === 'custom-magic-use-var') {
             const passwordPart = msg.password ? `${msg.password}` : '';
             const output = `自定义魔法=${msg.passCurrent}|${msg.returnVar}|${passwordPart}|${msg.varName}.xmgic|[${msg.varName}]`;

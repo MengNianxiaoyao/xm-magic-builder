@@ -11,7 +11,7 @@ const disableTeam = ref(false);
 const disablePreBattle = ref(false);
 const disableAttack = ref(false);
 const shieldCts = ref('');
-const { fileName, fileHex, open } = useFileImport('custom-attack');
+const { fileName, filePath, open } = useFileImport('custom-attack');
 
 usePersistedRefs({
     battlePacket,
@@ -21,7 +21,7 @@ usePersistedRefs({
     disableAttack,
     shieldCts,
     fileName,
-    fileHex,
+    filePath,
 });
 
 function add(): void {
@@ -33,7 +33,7 @@ function add(): void {
         command: 'custom-attack-add',
         battlePacket: battlePacket.value,
         fileName: fileName.value,
-        fileHex: fileHex.value,
+        filePath: filePath.value,
     });
 }
 
@@ -46,7 +46,7 @@ function addVar(): void {
         warn('请先导入对战方案!');
         return;
     }
-    post({ command: 'custom-attack-var-add', varName: varName.value, fileHex: fileHex.value });
+    post({ command: 'custom-attack-var-add', varName: varName.value, filePath: filePath.value });
 }
 
 function useVar(): void {

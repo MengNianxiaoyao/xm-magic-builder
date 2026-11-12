@@ -85,6 +85,9 @@ const CNB_CONFIG = `${CNB_BASE}/seer-config-sources/-/git/raw/main`;
 /** 补丁放同一个仓库的独立分支：同步流水线只重写 main，不会动这个分支。 */
 const CNB_PATCH = `${CNB_BASE}/seer-config-sources/-/git/raw/patch-sources`;
 
+/** 数据地址同时给 scripts/build-seed.mjs 用，避免脚本里再抄一份。 */
+export const GAME_DATA_SOURCES = { config: CNB_CONFIG, patch: CNB_PATCH };
+
 /**
  * 唯一的镜像：cnb.cool 每 6 小时从 GitHub 同步一次，ETag 是内容哈希，可直接判断数据是否变化。
  * 检查状态里记录的 host 就是 CNB_CONFIG。

@@ -9,9 +9,9 @@ const returnVar = ref(false);
 const password = ref('');
 const varName = ref('');
 const plainContent = ref('');
-const { fileName, fileHex, open } = useFileImport('custom-magic');
+const { fileName, filePath, open } = useFileImport('custom-magic');
 
-usePersistedRefs({ passCurrent, returnVar, password, varName, plainContent, fileName, fileHex });
+usePersistedRefs({ passCurrent, returnVar, password, varName, plainContent, fileName, filePath });
 
 function flags(): { passCurrent: string; returnVar: string } {
     return {
@@ -25,7 +25,7 @@ function add(): void {
         warn('自定义魔法不得为空!');
         return;
     }
-    post({ command: 'custom-magic-add', ...flags(), password: password.value, fileName: fileName.value, fileHex: fileHex.value });
+    post({ command: 'custom-magic-add', ...flags(), password: password.value, fileName: fileName.value, filePath: filePath.value });
 }
 
 function addPlain(): void {
@@ -54,7 +54,7 @@ function addVar(): void {
         warn('请先导入魔法!');
         return;
     }
-    post({ command: 'custom-magic-var-add', varName: varName.value, fileHex: fileHex.value });
+    post({ command: 'custom-magic-var-add', varName: varName.value, filePath: filePath.value });
 }
 
 function useVar(): void {

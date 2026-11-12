@@ -98,8 +98,8 @@ export type WebviewMessage =
     | { command: 'count-loop-tail'; loopId: string }
     | { command: 'wild-pokemon'; type: string; mapId: string; pokemonId: string }
     | { command: 'output'; content: string }
-    | { command: 'custom-attack-add'; battlePacket: string; fileName: string; fileHex: string }
-    | { command: 'custom-attack-var-add'; varName: string; fileHex: string }
+    | { command: 'custom-attack-add'; battlePacket: string; fileName: string; filePath: string }
+    | { command: 'custom-attack-var-add'; varName: string; filePath: string }
     | { command: 'custom-attack-use-var'; battlePacket: string; varName: string }
     | {
           command: 'custom-attack-settings';
@@ -114,7 +114,7 @@ export type WebviewMessage =
           returnVar: string;
           password: string;
           fileName: string;
-          fileHex: string;
+          filePath: string;
       }
     | {
           command: 'custom-magic-plain-add';
@@ -123,7 +123,7 @@ export type WebviewMessage =
           varName: string;
           plainContent: string;
       }
-    | { command: 'custom-magic-var-add'; varName: string; fileHex: string }
+    | { command: 'custom-magic-var-add'; varName: string; filePath: string }
     | {
           command: 'custom-magic-use-var';
           passCurrent: string;
@@ -164,7 +164,7 @@ export type WebviewMessage =
 export type ExtensionMessage =
     | { command: 'magic-manage-loaded'; data: MagicManageData }
     | { command: 'refresh'; stats: CompletionStat[]; total: number }
-    | { command: 'file-picked'; kind: ImportFileKind; fileName: string; fileHex: string }
+    | { command: 'file-picked'; kind: ImportFileKind; fileName: string; filePath: string }
     | ({ command: 'game-data-result'; kind: GameDataType; query: string } & GameSearchPayload)
     | { command: 'game-data-error'; message: string }
     | ({ command: 'game-data-info' } & GameDataInfo)
