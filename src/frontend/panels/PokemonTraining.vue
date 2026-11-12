@@ -114,131 +114,133 @@ function add(): void {
             </button>
         </div>
 
-        <div v-if="activeTab === 'settings'" class="tab-panel active">
-            <div class="input-group">
-                <span class="label">是否更换</span>
-                <div class="grid-3">
-                    <label v-for="(label, index) in CHANGE_LABELS" :key="label" class="choice">
-                        <input v-model="change[index]" type="checkbox" />
-                        <span>{{ label }}</span>
-                    </label>
-                </div>
-            </div>
-            <div class="input-group">
-                <span class="label">是否强制(无道具培养失败时，不勾选则跳过)</span>
-                <div class="grid-3">
-                    <label v-for="(label, index) in CHANGE_LABELS" :key="label" class="choice">
-                        <input v-model="force[index]" type="checkbox" />
-                        <span>{{ label }}</span>
-                    </label>
-                </div>
-            </div>
-            <div class="hint">{{ TEXTS.pokemonTraining.settings }}</div>
-        </div>
-
-        <div v-if="activeTab === 'page1'" class="tab-panel active">
-            <div class="input-group">
-                <span class="label">等级(消耗累计经验升级/精灵还原药剂Ω重置)</span>
-                <div class="inline">
-                    <label class="choice">
-                        <input v-model="level" type="radio" value="100" />
-                        <span>Lv100</span>
-                    </label>
-                    <label class="choice">
-                        <input v-model="level" type="radio" value="1" />
-                        <span>Lv1</span>
-                    </label>
-                    <label class="choice">
-                        <input v-model="level" type="radio" value="custom" />
-                        <span>自定义</span>
-                    </label>
-                    <input
-                        v-model.number="customLevel"
-                        class="level-input"
-                        type="number"
-                        min="1"
-                        max="100"
-                        placeholder="1~100"
-                        :disabled="level !== 'custom'"
-                    />
-                </div>
-            </div>
-            <div class="input-group">
-                <span class="label">技能</span>
-                <div class="grid-2">
-                    <div v-for="(label, index) in ['技能1:', '技能2:', '技能3:', '技能4:']" :key="label" class="cell">
-                        <span class="label">{{ label }}</span>
-                        <input v-model.number="skills[index]" type="number" />
-                    </div>
-                </div>
-                <div class="hint">{{ TEXTS.pokemonTraining.skills }}</div>
-            </div>
-            <div class="input-group">
-                <span class="label">学习力(消耗累计学习力)</span>
-                <div class="grid-3">
-                    <div v-for="(label, index) in ['体力:', '攻击:', '防御:', '特攻:', '特防:', '速度:']" :key="label" class="cell">
-                        <span class="label">{{ label }}</span>
-                        <input v-model.number="efforts[index]" type="number" />
-                    </div>
-                </div>
-                <div class="hint">{{ TEXTS.pokemonTraining.efforts }}</div>
-            </div>
-        </div>
-
-        <div v-if="activeTab === 'page2'" class="tab-panel active">
-            <div class="input-group">
-                <span class="label">天赋</span>
-                <input v-model.number="talent" type="number" />
-                <div class="hint">{{ TEXTS.pokemonTraining.talent }}</div>
-            </div>
-            <div class="input-group">
-                <span class="label">性格</span>
-                <input v-model="character" type="text" />
-                <div class="hint">{{ TEXTS.pokemonTraining.character }}</div>
-            </div>
-            <div class="input-group">
-                <span class="label">刻印</span>
-                <div class="grid-2">
-                    <div v-for="(label, index) in ['刻印1:', '刻印2:', '刻印3:']" :key="label" class="cell">
-                        <span class="label">{{ label }}</span>
-                        <input v-model.number="emblems[index]" type="number" />
-                    </div>
-                    <label class="choice">
-                        <input v-model="emblemOpen" type="checkbox" />
-                        <span>刻印是否允许开孔</span>
-                    </label>
-                </div>
-                <div class="hint">{{ TEXTS.pokemonTraining.emblems }}</div>
-            </div>
-        </div>
-
-        <div v-if="activeTab === 'page3'" class="tab-panel active">
-            <div class="input-group">
-                <span class="label">抗性(消耗泰坦神石、护佑神石、红宝石)</span>
-                <div v-for="(row, rowIndex) in RESIST_ROWS" :key="row" class="cell">
-                    <span class="label res-label">{{ row }}:</span>
-                    <div class="inline">
-                        <label v-for="option in RESIST_OPTIONS" :key="option.value" class="choice">
-                            <input v-model="resist[rowIndex]" type="radio" :value="option.value" />
-                            <span>{{ option.label }}</span>
+        <div class="tab-scroll">
+            <div v-if="activeTab === 'settings'" class="tab-panel active">
+                <div class="input-group">
+                    <span class="label">是否更换</span>
+                    <div class="grid-3">
+                        <label v-for="(label, index) in CHANGE_LABELS" :key="label" class="choice">
+                            <input v-model="change[index]" type="checkbox" />
+                            <span>{{ label }}</span>
                         </label>
                     </div>
                 </div>
-            </div>
-            <div class="input-group">
-                <span class="label">体力上限</span>
-                <input v-model.number="hp" type="number" />
-                <div class="hint">{{ TEXTS.pokemonTraining.hp }}</div>
-            </div>
-            <div class="input-group">
-                <span class="label">战队加成</span>
-                <div class="grid-3">
-                    <label v-for="(label, index) in TEAM_LABELS" :key="label" class="choice">
-                        <input v-model="team[index]" type="checkbox" />
-                        <span>{{ label }}</span>
-                    </label>
+                <div class="input-group">
+                    <span class="label">是否强制(无道具培养失败时，不勾选则跳过)</span>
+                    <div class="grid-3">
+                        <label v-for="(label, index) in CHANGE_LABELS" :key="label" class="choice">
+                            <input v-model="force[index]" type="checkbox" />
+                            <span>{{ label }}</span>
+                        </label>
+                    </div>
                 </div>
-                <div class="hint">{{ TEXTS.pokemonTraining.team }}</div>
+                <div class="hint">{{ TEXTS.pokemonTraining.settings }}</div>
+            </div>
+
+            <div v-if="activeTab === 'page1'" class="tab-panel active">
+                <div class="input-group">
+                    <span class="label">等级(消耗累计经验升级/精灵还原药剂Ω重置)</span>
+                    <div class="inline">
+                        <label class="choice">
+                            <input v-model="level" type="radio" value="100" />
+                            <span>Lv100</span>
+                        </label>
+                        <label class="choice">
+                            <input v-model="level" type="radio" value="1" />
+                            <span>Lv1</span>
+                        </label>
+                        <label class="choice">
+                            <input v-model="level" type="radio" value="custom" />
+                            <span>自定义</span>
+                        </label>
+                        <input
+                            v-model.number="customLevel"
+                            class="level-input"
+                            type="number"
+                            min="1"
+                            max="100"
+                            placeholder="1~100"
+                            :disabled="level !== 'custom'"
+                        />
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="label">技能</span>
+                    <div class="grid-2">
+                        <div v-for="(label, index) in ['技能1:', '技能2:', '技能3:', '技能4:']" :key="label" class="cell">
+                            <span class="label">{{ label }}</span>
+                            <input v-model.number="skills[index]" type="number" />
+                        </div>
+                    </div>
+                    <div class="hint">{{ TEXTS.pokemonTraining.skills }}</div>
+                </div>
+                <div class="input-group">
+                    <span class="label">学习力(消耗累计学习力)</span>
+                    <div class="grid-3">
+                        <div v-for="(label, index) in ['体力:', '攻击:', '防御:', '特攻:', '特防:', '速度:']" :key="label" class="cell">
+                            <span class="label">{{ label }}</span>
+                            <input v-model.number="efforts[index]" type="number" />
+                        </div>
+                    </div>
+                    <div class="hint">{{ TEXTS.pokemonTraining.efforts }}</div>
+                </div>
+            </div>
+
+            <div v-if="activeTab === 'page2'" class="tab-panel active">
+                <div class="input-group">
+                    <span class="label">天赋</span>
+                    <input v-model.number="talent" type="number" />
+                    <div class="hint">{{ TEXTS.pokemonTraining.talent }}</div>
+                </div>
+                <div class="input-group">
+                    <span class="label">性格</span>
+                    <input v-model="character" type="text" />
+                    <div class="hint">{{ TEXTS.pokemonTraining.character }}</div>
+                </div>
+                <div class="input-group">
+                    <span class="label">刻印</span>
+                    <div class="grid-2">
+                        <div v-for="(label, index) in ['刻印1:', '刻印2:', '刻印3:']" :key="label" class="cell">
+                            <span class="label">{{ label }}</span>
+                            <input v-model.number="emblems[index]" type="number" />
+                        </div>
+                        <label class="choice">
+                            <input v-model="emblemOpen" type="checkbox" />
+                            <span>刻印是否允许开孔</span>
+                        </label>
+                    </div>
+                    <div class="hint">{{ TEXTS.pokemonTraining.emblems }}</div>
+                </div>
+            </div>
+
+            <div v-if="activeTab === 'page3'" class="tab-panel active">
+                <div class="input-group">
+                    <span class="label">抗性(消耗泰坦神石、护佑神石、红宝石)</span>
+                    <div v-for="(row, rowIndex) in RESIST_ROWS" :key="row" class="cell">
+                        <span class="label res-label">{{ row }}:</span>
+                        <div class="inline">
+                            <label v-for="option in RESIST_OPTIONS" :key="option.value" class="choice">
+                                <input v-model="resist[rowIndex]" type="radio" :value="option.value" />
+                                <span>{{ option.label }}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="label">体力上限</span>
+                    <input v-model.number="hp" type="number" />
+                    <div class="hint">{{ TEXTS.pokemonTraining.hp }}</div>
+                </div>
+                <div class="input-group">
+                    <span class="label">战队加成</span>
+                    <div class="grid-3">
+                        <label v-for="(label, index) in TEAM_LABELS" :key="label" class="choice">
+                            <input v-model="team[index]" type="checkbox" />
+                            <span>{{ label }}</span>
+                        </label>
+                    </div>
+                    <div class="hint">{{ TEXTS.pokemonTraining.team }}</div>
+                </div>
             </div>
         </div>
     </div>

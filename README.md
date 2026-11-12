@@ -9,7 +9,7 @@
 
 ## 关于 XMSeer's Builder
 
-功能详细请看 [XM Seer脱机日常使用说明文档](https://www.yuque.com/xinranyimeng-zbrse/nbid0s/xf4ec40lsuwph5l0?singleDoc)
+功能详细请看 [XM Seer脱机日常使用说明文档](https://share.note.youdao.com/s/54tuJqU)
 
 ## 游戏数据
 

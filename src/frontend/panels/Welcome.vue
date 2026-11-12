@@ -24,6 +24,7 @@
                 <li>变量 — 自定义变量与精灵属性查询</li>
                 <li>自定义出招 / 自定义魔法 — 导入与变量复用</li>
                 <li>魔法管理 — 端口、版本、黑名单等全局设置</li>
+                <li>数据查询 - 快速搜索精灵ID、技能ID和刻印ID</li>
             </ul>
         </div>
 
@@ -38,7 +39,7 @@
             <span class="label">功能文档</span>
             <p class="hint">
                 详细说明请看
-                <a href="https://www.yuque.com/xinranyimeng-zbrse/nbid0s/xf4ec40lsuwph5l0?singleDoc">XM Seer 脱机日常使用说明文档</a>。
+                <a href="https://share.note.youdao.com/s/54tuJqU">XM Seer 脱机日常使用说明文档</a>。
             </p>
         </div>
     </div>
