@@ -2,10 +2,11 @@ import * as vscode from 'vscode';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import type { ImportFileKind } from '../../shared/messages';
+import { showWarning } from './text-editor';
 
 export interface PickedFile {
     fileName: string;
-    fileHex: string;
+    filePath: string;
 }
 
 const FILTERS: Record<ImportFileKind, Record<string, string[]>> = {
@@ -44,11 +45,23 @@ export async function pickImportFile(
     }
 
     const fileUri = selection[0];
-    const buffer = await fs.readFile(fileUri.fsPath);
     await context.globalState.update(dirKey, path.dirname(fileUri.fsPath));
 
     return {
         fileName: path.basename(fileUri.fsPath),
-        fileHex: buffer.toString('hex').toUpperCase(),
+        filePath: fileUri.fsPath,
     };
+}
+
+/**
+ * 每次插入时按路径重新读取，导入后文件被修改也能拿到最新内容。
+ * 读取失败返回 undefined，由调用方中止插入。
+ */
+export async function readPickedHex(filePath: string, label: string): Promise<string | undefined> {
+    try {
+        return (await fs.readFile(filePath)).toString('hex').toUpperCase();
+    } catch {
+        showWarning(`无法读取${label}文件，请重新导入。`);
+        return undefined;
+    }
 }

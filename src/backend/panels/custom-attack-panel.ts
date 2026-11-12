@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import type { PanelDescriptor } from '../panel-types';
 import type { ImportFileKind } from '../../shared/messages';
 import { checkXmFile, insertText } from '../services/text-editor';
-import { pickImportFile } from '../services/file-picker';
+import { pickImportFile, readPickedHex } from '../services/file-picker';
 import { buildCustomAttackSettings, buildVariableAdd, consumeWarning } from '../command-template';
 
 export const customAttackPanel: PanelDescriptor = {
@@ -33,10 +33,18 @@ export const customAttackPanel: PanelDescriptor = {
         }
 
         if (msg.command === 'custom-attack-add') {
-            const output = `自定义出招=${msg.battlePacket}|${msg.fileName}|${msg.fileHex}`;
+            const hex = await readPickedHex(msg.filePath, '对战方案');
+            if (hex === undefined) {
+                return;
+            }
+            const output = `自定义出招=${msg.battlePacket}|${msg.fileName}|${hex}`;
             await insertText(output);
         } else if (msg.command === 'custom-attack-var-add') {
-            await insertText(buildVariableAdd(msg.varName, msg.fileHex));
+            const hex = await readPickedHex(msg.filePath, '对战方案');
+            if (hex === undefined) {
+                return;
+            }
+            await insertText(buildVariableAdd(msg.varName, hex));
         } else if (msg.command === 'custom-attack-use-var') {
             const output = `自定义出招=${msg.battlePacket}|${msg.varName}.xmcus|[${msg.varName}]`;
             await insertText(output);
