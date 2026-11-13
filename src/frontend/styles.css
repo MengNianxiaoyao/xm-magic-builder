@@ -520,6 +520,30 @@ button:active {
     display: flex;
 }
 
+/* 精灵培养：顶部说明、添加按钮和页签固定，只有页签下面的内容滚动。
+   只作用于本面板，不改 html/body，其他面板的布局不受影响。 */
+#app[data-panel="pokemon-training"] {
+    position: fixed;
+    inset: 0;
+    box-sizing: border-box;
+    padding: 12px;
+    overflow: hidden;
+}
+
+#app[data-panel="pokemon-training"] > .container {
+    height: 100%;
+    min-height: 0;
+}
+
+.tab-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    /* 分组标题会向上压出边框约 8px，留出空间并抵掉，避免滚动区顶部裁掉第一个标题 */
+    padding-top: 10px;
+    margin-top: -10px;
+}
+
 /* ---------- 版本输入 ---------- */
 
 .version-wrapper {
