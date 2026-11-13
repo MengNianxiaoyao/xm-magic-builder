@@ -92,6 +92,15 @@ async function readOldSeed() {
     }
 }
 
+/** 五个文件的 ETag 全部一致时说明远端数据没变。 */
+function sameEtags(before, after) {
+    if (!before) {
+        return false;
+    }
+    const keys = new Set([...Object.keys(before), ...Object.keys(after)]);
+    return [...keys].every((key) => before[key] === after[key]);
+}
+
 function describeChanges(oldSeed, snapshot) {
     if (!oldSeed) {
         return ['  之前没有内置数据，这是第一次生成'];
@@ -111,6 +120,7 @@ function describeChanges(oldSeed, snapshot) {
 async function main() {
     const { buildGameDataSnapshot, GAME_DATA_SOURCES: sources } = await loadGameDataService();
     const oldSeed = await readOldSeed();
+    const force = process.argv.includes('--force');
 
     console.log('检查数据版本…');
     const etags = {};
@@ -118,6 +128,17 @@ async function main() {
         etags[key] = await headEtag(`${sources.config}/${file}`);
     }
     etags.patch = await headEtag(`${sources.patch}/${PATCH_FILE}`);
+
+    // 数据没变就不重新下载、不改 updatedAt，避免为同样的数据生成一次无意义的改动。
+    if (!force && oldSeed && sameEtags(oldSeed.check?.etags, etags)) {
+        console.log('\n内置数据已是最新（ETag 未变化），跳过下载。');
+        console.log(
+            `  精灵 ${oldSeed.monsters?.length ?? 0} / 刻印 ${oldSeed.mintmarks?.length ?? 0} / ` +
+                `技能 ${Object.keys(oldSeed.skills ?? {}).length}`
+        );
+        console.log('  需要按当前代码重新生成时：pnpm run build:seed -- --force');
+        return;
+    }
 
     console.log('下载数据文件…');
     const raw = {};

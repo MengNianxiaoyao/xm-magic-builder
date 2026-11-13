@@ -85,22 +85,31 @@ function seedUri(context: vscode.ExtensionContext): vscode.Uri {
 
 async function loadIndex(context: vscode.ExtensionContext): Promise<GameDataIndex> {
     const snapshot = await readSnapshotFile(snapshotUri(context), '读取更新快照失败，改用内置数据');
-    if (snapshot) {
-        currentSource = 'snapshot';
-        currentUpdatedAt = snapshot.updatedAt;
-        return snapshotToIndex(snapshot);
-    }
-
     const seed = await readSnapshotFile(seedUri(context), '读取内置数据失败');
-    if (seed) {
+
+    // 扩展升级后内置数据可能比上次下载的快照新，此时应以内置数据为准。
+    const useSeed = seed !== undefined && (snapshot === undefined || newerThan(seed, snapshot));
+    const chosen = useSeed ? seed : snapshot;
+
+    if (!chosen) {
         currentSource = 'bundled';
-        currentUpdatedAt = seed.updatedAt;
-        return snapshotToIndex(seed);
+        currentUpdatedAt = undefined;
+        throw new Error('缺少内置游戏数据（seed.json）');
     }
 
-    currentSource = 'bundled';
-    currentUpdatedAt = undefined;
-    throw new Error('缺少内置游戏数据（seed.json）');
+    currentSource = useSeed ? 'bundled' : 'snapshot';
+    currentUpdatedAt = chosen.updatedAt;
+    return snapshotToIndex(chosen);
+}
+
+/** 按 updatedAt 判断新旧；时间无法解析的一方视为更旧。 */
+function newerThan(candidate: GameDataSnapshot, base: GameDataSnapshot): boolean {
+    const at = Date.parse(candidate.updatedAt);
+    const bt = Date.parse(base.updatedAt);
+    if (Number.isNaN(at)) {
+        return false;
+    }
+    return Number.isNaN(bt) || at > bt;
 }
 
 export async function searchGameData(
