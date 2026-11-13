@@ -145,30 +145,36 @@ async function runUpdate(
     options: { force?: boolean; onStatus?: GameDataStatusListener }
 ): Promise<GameDataUpdateResult> {
     const force = options.force === true;
+    const info = await getGameDataInfo(context);
 
     if (!force && !autoUpdateEnabled()) {
-        return { info: await getGameDataInfo(context), updated: false };
+        return { info, updated: false };
     }
 
     let state = readCheckState(context);
     const primaryComplete = Boolean(state && DATA_ITEMS.every((item) => state?.etags[item.key]));
-    if (!primaryComplete) {
+    // 当前用的是内置数据时，以它自带的 ETag 为比较基准：远端没变就不用再下载一遍，
+    // 否则会出现数据相同、只换个 updatedAt 的快照。
+    if (info.source === 'bundled' || !primaryComplete) {
         const seedCheck = await getSeedCheckState(context);
         if (seedCheck) {
+            const seedFirst = info.source === 'bundled';
             state = {
-                at: 0,
+                at: seedFirst ? (state?.at ?? 0) : 0,
                 host: CNB_CONFIG,
-                etags: { ...seedCheck.etags, ...(state?.etags ?? {}) },
+                etags: seedFirst
+                    ? { ...(state?.etags ?? {}), ...seedCheck.etags }
+                    : { ...seedCheck.etags, ...(state?.etags ?? {}) },
             };
         }
     }
     if (!force && state && Date.now() - state.at < CHECK_INTERVAL) {
-        return { info: await getGameDataInfo(context), updated: false };
+        return { info, updated: false };
     }
 
     const failedAt = context.globalState.get<number>(CHECK_FAILED_KEY);
     if (!force && failedAt && Date.now() - failedAt < CHECK_FAILURE_BACKOFF) {
-        return { info: await getGameDataInfo(context), updated: false };
+        return { info, updated: false };
     }
 
     const controller = new AbortController();
