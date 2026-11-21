@@ -123,6 +123,7 @@ export type WebviewMessage =
           varName: string;
           plainContent: string;
       }
+    | { command: 'custom-magic-plain-decode'; plainContent: string }
     | { command: 'custom-magic-var-add'; varName: string; filePath: string }
     | {
           command: 'custom-magic-use-var';
@@ -165,6 +166,7 @@ export type ExtensionMessage =
     | { command: 'magic-manage-loaded'; data: MagicManageData }
     | { command: 'refresh'; stats: CompletionStat[]; total: number }
     | { command: 'file-picked'; kind: ImportFileKind; fileName: string; filePath: string }
+    | { command: 'custom-magic-plain-decoded'; text: string }
     | ({ command: 'game-data-result'; kind: GameDataType; query: string } & GameSearchPayload)
     | { command: 'game-data-error'; message: string }
     | ({ command: 'game-data-info' } & GameDataInfo)
