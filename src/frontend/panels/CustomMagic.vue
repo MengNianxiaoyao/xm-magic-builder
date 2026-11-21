@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { post, usePersistedRefs, warn } from '../vscode-api';
+import { onMessage, post, usePersistedRefs, warn } from '../vscode-api';
 import { useFileImport } from '../file-import';
+import { TEXTS } from '../texts';
 import FieldGroup from '../components/FieldGroup.vue';
 
 const passCurrent = ref(false);
@@ -12,6 +13,13 @@ const plainContent = ref('');
 const { fileName, filePath, open } = useFileImport('custom-magic');
 
 usePersistedRefs({ passCurrent, returnVar, password, varName, plainContent, fileName, filePath });
+
+// 后端解密完成：原文直接回填到明文输入框，方便查看或再次修改。
+onMessage((message) => {
+    if (message.command === 'custom-magic-plain-decoded') {
+        plainContent.value = message.text;
+    }
+});
 
 function flags(): { passCurrent: string; returnVar: string } {
     return {
@@ -30,7 +38,7 @@ function add(): void {
 
 function addPlain(): void {
     if (!varName.value) {
-        warn('明文文件名不得为空!');
+        warn('明文名称不得为空!');
         return;
     }
     if (!plainContent.value) {
@@ -43,6 +51,14 @@ function addPlain(): void {
         varName: varName.value,
         plainContent: plainContent.value,
     });
+}
+
+function decodePlain(): void {
+    if (!plainContent.value.trim()) {
+        warn('明文数据不得为空!');
+        return;
+    }
+    post({ command: 'custom-magic-plain-decode', plainContent: plainContent.value });
 }
 
 function addVar(): void {
@@ -77,21 +93,29 @@ function useVar(): void {
         <FieldGroup label="魔法密码">
             <input v-model="password" type="text" />
         </FieldGroup>
-        <FieldGroup label="变量名称/明文文件名">
+        <FieldGroup label="变量名称/明文名称">
             <input v-model="varName" type="text" />
+            <div class="grid-2">
+                <button @click="addVar">添加魔法变量</button>
+                <button @click="useVar">使用魔法变量</button>
+            </div>
         </FieldGroup>
         <FieldGroup label="自定义魔法">
-            <input :value="fileName" type="text" readonly />
+            <div class="file-pick">
+                <input :value="fileName" type="text" readonly />
+                <button @click="open">导入</button>
+            </div>
+            <button class="btn-block" @click="add">添加</button>
         </FieldGroup>
         <FieldGroup label="明文内容">
             <textarea v-model="plainContent" rows="3"></textarea>
+            <div class="grid-2">
+                <button @click="addPlain">添加明文</button>
+                <button @click="decodePlain">解密明文</button>
+            </div>
         </FieldGroup>
-        <div class="btn-row">
-            <button @click="open">导入魔法</button>
-            <button @click="add">添加魔法</button>
-            <button @click="addPlain">添加明文</button>
-            <button @click="addVar">添加魔法变量</button>
-            <button @click="useVar">使用魔法变量</button>
-        </div>
+        <FieldGroup label="说明">
+            <div class="hint">{{ TEXTS.customMagic.plain }}</div>
+        </FieldGroup>
     </div>
 </template>
