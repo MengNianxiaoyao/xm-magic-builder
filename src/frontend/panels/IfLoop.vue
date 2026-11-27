@@ -146,7 +146,7 @@ function addCondition(relation: Relation): void {
             </template>
             <div v-else-if="leftKind === 'intVar'" class="if-row">
                 <span class="label">变量:</span>
-                <input v-model="left.varName" type="text" placeholder="例如 [1]" />
+                <input v-model="left.varName" type="text"/>
             </div>
             <div v-else class="if-row">
                 <span class="label">数值:</span>
@@ -177,7 +177,7 @@ function addCondition(relation: Relation): void {
             </template>
             <div v-else-if="rightKind === 'intVar'" class="if-row">
                 <span class="label">变量:</span>
-                <input v-model="right.varName" type="text" placeholder="例如 [1]" />
+                <input v-model="right.varName" type="text"/>
             </div>
             <div v-else class="if-row">
                 <span class="label">数值:</span>
